@@ -27,10 +27,10 @@
                     </div>
                 </div>
                 <div class="col-md-6 pad-3 padding-lg-mob bc-light-grey padding-lg-mob padding-lg-mob-top">
-                    @if (addslashes($_GET['success']))
+                    @if (addslashes($_GET['success'] ?? ''))
                     <div style="color: green">You message has been sent</div>
                     @endif
-                    @if (addslashes($_GET['failed']))
+                    @if (addslashes($_GET['failed'] ?? ''))
                     <div style="color: red">Ups, something went wrong, try sales@traxr.net</div>
                     @endif
                     <h1 class="title align-left">Get in touch</h1>
