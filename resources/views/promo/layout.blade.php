@@ -1,20 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="{!! $page_class ?? '' !!}">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, height=device-height">
-    @sectionMissing('titles')
-    <title>Track and Monitor your Links and Mentions online with Easy planning</title>
-    <meta name="description" content="Finally you you can monitor and track your backlinks and mentions online in one single software with extraordinary planning tools and measuring. Free Trial">
-    <meta name="author" content="">
-    <meta property="og:title" content="Monitor your Links with 100% accuracy 24/7 - get full value of all your links" />
-    <meta property="og:description" content="Use Traxr.net to get full value of your link building efforts. Get full control of all your valuable links" />
-    <meta property="og:image" content="img/social/main.jpg"/>
-    <link rel="canonical" href="https://traxr.net/" />
-    @endif
-    @hasSection('titles')
-        @yield('titles')
-    @endif
     <link rel="apple-touch-icon" sizes="57x57" href="img/fav/apple-icon-57x57.png">
     <link rel="apple-touch-icon" sizes="60x60" href="img/fav/apple-icon-60x60.png">
     <link rel="apple-touch-icon" sizes="72x72" href="img/fav/apple-icon-72x72.png">
@@ -40,6 +28,16 @@
     <link rel="stylesheet" href="assets/css/owl.carousel.min.css">
     <link rel="stylesheet" href="assets/css/owl.theme.default.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    @sectionMissing('titles')
+    <title>Track and Monitor your Links and Mentions online with Easy planning</title>
+    <meta name="description" content="Finally you you can monitor and track your backlinks and mentions online in one single software with extraordinary planning tools and measuring. Free Trial">
+    <meta name="author" content="">
+    <meta property="og:title" content="Monitor your Links with 100% accuracy 24/7 - get full value of all your links" />
+    <meta property="og:description" content="Use Traxr.net to get full value of your link building efforts. Get full control of all your valuable links" />
+    <meta property="og:image" content="img/social/main.jpg"/>
+    <link rel="canonical" href="https://traxr.net/" />
+    @endif
+    @hasSection('titles') @yield('titles') @endif
     <!-- Facebook Pixel Code -->
     <script>
         !function(f,b,e,v,n,t,s)
