@@ -1,14 +1,16 @@
 <?php
 
+namespace App\Entities;
+
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Valuta
+ * Currency
  *
  * @ORM\Table(name="valuta", indexes={@ORM\Index(name="id", columns={"id"})})
  * @ORM\Entity
  */
-class Valuta
+class Currency
 {
     /**
      * @var int
