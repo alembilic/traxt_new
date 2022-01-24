@@ -8,5 +8,5 @@ class Queues extends Enum
 {
     public const ORDERS = 'orders-queue';
     public const IMPORT = 'import-queue';
-    public const EMAILS = 'emails-queue';
+    public const NOTIFICATIONS = 'notifications-queue';
 }
