@@ -1,12 +1,14 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PromoController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
  * Promo site pages
  */
-Route::group(['middleware' => 'throttle:6,1'], function () {
+Route::group([], function () {
     Route::get('/', function () {
         return view('promo.index');
     });
@@ -58,10 +60,31 @@ Route::group(['middleware' => 'throttle:6,1'], function () {
 
     Route::post('sendmail', PromoController::class . '@sendMail');
 
+    Route::group(['prefix' => 'app'], function () {
+        Route::get('login', AuthController::class . '@login')->name('login');
+        Route::post('login', AuthController::class . '@authorize');
+        Route::any('logout', AuthController::class . '@logout')->name('logout');
+    });
 });
 
-Route::group(['prefix' => 'app'], function () {
-    //TODO: implement
+Route::group(['middleware' => ['auth:web'], 'prefix' => 'app'], function () {
+    Route::get('dashboard', AuthController::class . '@dashboard')->name('dashboard');
+//    Route::get('login', [CustomAuthController::class, 'index'])->name('login');
+//    Route::post('custom-login', [CustomAuthController::class, 'customLogin'])->name('login.custom');
+//    Route::get('registration', [CustomAuthController::class, 'registration'])->name('register-user');
+//    Route::post('custom-registration', [CustomAuthController::class, 'customRegistration'])->name('register.custom');
+//    Route::get('signout', [CustomAuthController::class, 'signOut'])->name('signout');
+
+    if (!Auth::check()) {
+        return view('app.login');
+    }
+});
+
+Route::get('app', function () {
+    if (!Auth::check()) {
+        return redirect('/app/login');
+    }
+    return redirect('/app/dashboard');
 });
 
 /*

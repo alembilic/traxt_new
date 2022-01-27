@@ -22,7 +22,10 @@
         "omniphx/forrest": "2.*",
         "scienta/doctrine-json-functions": "^4.3",
         "spatie/data-transfer-object": "^2.8",
-        "spatie/laravel-fractal": "^5.8"
+        "spatie/laravel-fractal": "^5.8",
+        "ext-curl": "*",
+        "ext-json": "*",
+        "ext-soap": "*"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.6",

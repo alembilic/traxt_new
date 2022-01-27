@@ -2,16 +2,21 @@
 
 namespace App\Entities;
 
+use App\Contracts\INotifiable;
+use App\Entities\Helpers\Notifiable;
 use Doctrine\ORM\Mapping as ORM;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
 /**
- * Users
+ * User
  *
  * @ORM\Table(name="users", indexes={@ORM\Index(name="username", columns={"username"})})
  * @ORM\Entity
  */
-class Users
+class User extends Authenticatable implements INotifiable
 {
+    use Notifiable;
+
     /**
      * @var int
      *
@@ -245,5 +250,14 @@ class Users
      */
     private $idBureau = '0';
 
+    public function isSuperAdmin(): bool
+    {
+        //TODO: get this value from db
+        return false;
+    }
 
+    public function getId(): int
+    {
+        return $this->id;
+    }
 }

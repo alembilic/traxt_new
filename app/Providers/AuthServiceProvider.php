@@ -2,8 +2,10 @@
 
 namespace App\Providers;
 
+use App\Auth\XAuthTokenGuard;
+use Illuminate\Contracts\Container\Container;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
-use Illuminate\Support\Facades\Gate;
+use Auth;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -25,6 +27,8 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        //
+        Auth::extend('xAuth', function (Container $container, string $name, array $config) {
+            return new XAuthTokenGuard(Auth::createUserProvider($config['provider']), $container->make('request'));
+        });
     }
 }
