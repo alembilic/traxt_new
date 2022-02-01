@@ -28,5 +28,45 @@ class Configuration
      */
     private $configValue;
 
+    /**
+     * @param string $configName
+     * @param string $configValue
+     */
+    public function __construct(string $configName, string $configValue)
+    {
+        $this->configName = $configName;
+        $this->configValue = $configValue;
+    }
 
+    /**
+     * @return string
+     */
+    public function getConfigName(): string
+    {
+        return $this->configName;
+    }
+
+    /**
+     * @param string $configName
+     */
+    public function setConfigName(string $configName): void
+    {
+        $this->configName = $configName;
+    }
+
+    /**
+     * @return string
+     */
+    public function getConfigValue(): string
+    {
+        return $this->configValue;
+    }
+
+    /**
+     * @param string $configValue
+     */
+    public function setConfigValue(string $configValue): void
+    {
+        $this->configValue = $configValue;
+    }
 }

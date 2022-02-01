@@ -2,6 +2,7 @@
 
 namespace App\Entities;
 
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -22,11 +23,13 @@ class Notifications
     private $id;
 
     /**
-     * @var int
+     * @var User
      *
-     * @ORM\Column(name="user_id", type="integer", nullable=false)
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="notifications")
+     *
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
-    private $userId;
+    private $user;
 
     /**
      * @var string
@@ -36,18 +39,18 @@ class Notifications
     private $message;
 
     /**
-     * @var \DateTime
+     * @var DateTime
      *
      * @ORM\Column(name="stamp", type="datetime", nullable=false)
      */
-    private $stamp;
+    private $createdAt;
 
     /**
      * @var int
      *
      * @ORM\Column(name="id_domain", type="integer", nullable=false)
      */
-    private $idDomain;
+    private $domain;
 
     /**
      * @var int
@@ -64,11 +67,131 @@ class Notifications
     private $title;
 
     /**
-     * @var int
+     * @var bool
      *
-     * @ORM\Column(name="mail", type="integer", nullable=false)
+     * @ORM\Column(name="mail", type="boolean", nullable=false)
      */
-    private $mail = '0';
+    private $mail = false;
+
+    /**
+     * @return int
+     */
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+    /**
+     * @return User
+     */
+    public function getUser(): User
+    {
+        return $this->user;
+    }
+
+    /**
+     * @param User $user
+     */
+    public function setUser(User $user): void
+    {
+        $this->user = $user;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMessage(): string
+    {
+        return $this->message;
+    }
+
+    /**
+     * @param string $message
+     */
+    public function setMessage(string $message): void
+    {
+        $this->message = $message;
+    }
+
+    /**
+     * @return DateTime
+     */
+    public function getCreatedAt(): DateTime
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * @param DateTime $createdAt
+     */
+    public function setCreatedAt(DateTime $createdAt): void
+    {
+        $this->createdAt = $createdAt;
+    }
+
+    /**
+     * @return int
+     */
+    public function getDomain(): int
+    {
+        return $this->domain;
+    }
+
+    /**
+     * @param int $domain
+     */
+    public function setDomain(int $domain): void
+    {
+        $this->domain = $domain;
+    }
+
+    /**
+     * @return int
+     */
+    public function getStatus(): int
+    {
+        return $this->status;
+    }
+
+    /**
+     * @param int $status
+     */
+    public function setStatus(int $status): void
+    {
+        $this->status = $status;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTitle(): string
+    {
+        return $this->title;
+    }
+
+    /**
+     * @param string $title
+     */
+    public function setTitle(string $title): void
+    {
+        $this->title = $title;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isMail(): bool
+    {
+        return $this->mail;
+    }
+
+    /**
+     * @param bool $mail
+     */
+    public function setMail(bool $mail): void
+    {
+        $this->mail = $mail;
+    }
 
 
 }

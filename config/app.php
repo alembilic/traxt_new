@@ -232,4 +232,5 @@ return [
 
     ],
 
+    'web_date_format' => 'M j, Y, g:i a',
 ];
