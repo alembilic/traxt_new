@@ -2,23 +2,28 @@
 
 namespace App\Http\Controllers;
 
+use App\Core\EntityManagerFresher;
 use App\Entities\User;
-use App\Http\Requests\AuthRequest;
-use App\Http\Requests\SignupRequest;
 use App\Notifications\AnonymousNotifiable;
 use App\Notifications\Auth\ResetPassword;
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller as BaseController;
+use Illuminate\Routing\Redirector;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\ValidationException;
 use Session;
 use Auth;
 
 class AuthController extends BaseController
 {
+    use EntityManagerFresher;
+
     public function login(): View
     {
         return view('app.login');
@@ -27,7 +32,7 @@ class AuthController extends BaseController
     /**
      * Authorize user on the site.
      *
-     * @param AuthRequest $request Credentials
+     * @param Request $request Credentials
      *
      * @return Application|Factory|RedirectResponse|View
      */
@@ -55,11 +60,50 @@ class AuthController extends BaseController
         return view('app.signup');
     }
 
-    public function signup(SignupRequest $request)
+    /**
+     * @param Request $request
+     *
+     * @return Application|Factory|View|RedirectResponse|Redirector
+     *
+     * @throws BindingResolutionException
+     * @throws ValidationException
+     */
+    public function signup(Request $request)
     {
-        $validated = $request->validate($request->rules());
+        $rules = [
+            'username' => ['required', 'string'],
+            'firstname' => ['required', 'string'],
+            'lastname' => ['required', 'string'],
+            'company' => ['required', 'string'],
+            'vat_number' => ['required', 'string'],
+            'vat_valid' => ['required', 'string'],
+            'city' => ['required', 'string'],
+            'address' => ['required', 'string'],
+            'land' => ['required', 'string'],
 
-        return view('app.signup', ['formData' => $validated, 'formSubmitted' => true]);
+            'terms' => ['required', 'boolean'],
+
+            'email' => ['required', 'email'],
+            'conf_email' => ['required', 'email'],
+            'password' => ['required', 'max:100', 'min:8'],
+            'conf_password' => ['required', 'max:100', 'min:8'],
+            'plan' => ['string'],
+        ];
+        $validator = Validator::make($request->all(), $rules);
+        if (!$validator->fails()) {
+            $user = new User($validator->validated());
+            $this->getEntityManager()->persist($user);
+            $this->getEntityManager()->flush();
+
+            Auth::attempt($request->only('username', 'password'), true);
+            return redirect('/app/dashboard');
+        }
+
+        return view('app.signup', [
+            'formData' => $request->all(),
+            'formSubmitted' => true,
+            'validationErrors' => $validator->errors() ? $validator->errors()->all() : [],
+        ]);
     }
 
     public function resetPwdForm(): View

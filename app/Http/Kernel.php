@@ -3,9 +3,11 @@
 namespace App\Http;
 
 use App\Http\Middleware\Authenticate;
+use App\Http\Middleware\CheckUserPlan;
 use App\Http\Middleware\EncryptCookies;
 use App\Http\Middleware\PreventRequestsDuringMaintenance;
 use App\Http\Middleware\RedirectIfAuthenticated;
+use App\Http\Middleware\RedirectIfNotAuthorized;
 use App\Http\Middleware\TrimStrings;
 use App\Http\Middleware\TrustProxies;
 use App\Http\Middleware\VerifyAdminAccess;
@@ -87,5 +89,7 @@ class Kernel extends HttpKernel
         'throttle' => ThrottleRequests::class,
         'verified' => EnsureEmailIsVerified::class,
         'verifyAdmin' => VerifyAdminAccess::class,
+        'verifyPlan' => CheckUserPlan::class,
+        'authorizedOnly' => RedirectIfNotAuthorized::class,
     ];
 }

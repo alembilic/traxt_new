@@ -71,7 +71,7 @@
 
                                                             </ul>
                                                         </div>
-                                                        <a class="btn-custom btn-price bc-btn-primary" href="/app/signup.php?plan=ae6379ade7fc410284499a3afceb91a8-1">Sign up for free</a>
+                                                        <a class="btn-custom btn-price bc-btn-primary" href="/app/signup?plan=ae6379ade7fc410284499a3afceb91a8-1">Sign up for free</a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -99,7 +99,7 @@
 
                                                             </ul>
                                                         </div>
-                                                        <a class="btn-custom btn-price bc-btn-primary" href="/app/signup.php?plan=d425b8d61a9ef3a86d89217db6a5d964dh1-1">Sign me up!</a>
+                                                        <a class="btn-custom btn-price bc-btn-primary" href="/app/signup?plan=d425b8d61a9ef3a86d89217db6a5d964dh1-1">Sign me up!</a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -128,7 +128,7 @@
 
                                                             </ul>
                                                         </div>
-                                                        <a class="btn-custom btn-price bc-btn-primary" href="/app/signup.php?plan=5f82f7965d26581dbc685eb840853fee-1">Sign me up!</a>
+                                                        <a class="btn-custom btn-price bc-btn-primary" href="/app/signup?plan=5f82f7965d26581dbc685eb840853fee-1">Sign me up!</a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -157,7 +157,7 @@
 
                                                             </ul>
                                                         </div>
-                                                        <a class="btn-custom btn-price bc-btn-primary" href="/app/signup.php?plan=d18d38a9ffb712cb6435b77dfda8ddbb-1">Sign me up!</a>
+                                                        <a class="btn-custom btn-price bc-btn-primary" href="/app/signup?plan=d18d38a9ffb712cb6435b77dfda8ddbb-1">Sign me up!</a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -195,7 +195,7 @@
 
                                                             </ul>
                                                         </div>
-                                                        <a class="btn-custom btn-price bc-btn-primary" href="/app/signup.php?plan=ae6379ade7fc410284499a3afceb91a8-1">Sign up for free</a>
+                                                        <a class="btn-custom btn-price bc-btn-primary" href="/app/signup?plan=ae6379ade7fc410284499a3afceb91a8-1">Sign up for free</a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -223,7 +223,7 @@
 
                                                             </ul>
                                                         </div>
-                                                        <a class="btn-custom btn-price bc-btn-primary" href="/app/signup.php?plan=d425b8d61a9ef3a86d89217db6a5d964dh1-2">Sign me up!</a>
+                                                        <a class="btn-custom btn-price bc-btn-primary" href="/app/signup?plan=d425b8d61a9ef3a86d89217db6a5d964dh1-2">Sign me up!</a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -252,7 +252,7 @@
 
                                                             </ul>
                                                         </div>
-                                                        <a class="btn-custom btn-price bc-btn-primary" href="/app/signup.php?plan=5f82f7965d26581dbc685eb840853fee-2">Sign me up!</a>
+                                                        <a class="btn-custom btn-price bc-btn-primary" href="/app/signup?plan=5f82f7965d26581dbc685eb840853fee-2">Sign me up!</a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -281,7 +281,7 @@
 
                                                             </ul>
                                                         </div>
-                                                        <a class="btn-custom btn-price bc-btn-primary" href="/app/signup.php?plan=d18d38a9ffb712cb6435b77dfda8ddbb-2">Sign me up!</a>
+                                                        <a class="btn-custom btn-price bc-btn-primary" href="/app/signup?plan=d18d38a9ffb712cb6435b77dfda8ddbb-2">Sign me up!</a>
                                                     </div>
                                                 </div>
                                             </div>
