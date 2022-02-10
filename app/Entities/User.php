@@ -59,6 +59,13 @@ class User extends Authenticatable implements INotifiable
     private ?string $password;
 
     /**
+     * @var string|null
+     *
+     * @ORM\Column(name="api_token", type="string", length=80, nullable=true)
+     */
+    private ?string $apiToken;
+
+    /**
      * @var int
      *
      * @ORM\Column(name="userlevel", type="integer", nullable=false)

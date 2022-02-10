@@ -40,6 +40,10 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+        'api' => [
+            'driver' => 'xAuth',
+            'provider' => 'users',
+        ],
     ],
 
     /*
@@ -60,9 +64,13 @@ return [
     */
 
     'providers' => [
+//        'users' => [
+//            'driver' => 'database',
+//            'table' => 'users',
+//        ],
         'users' => [
-            'driver' => 'database',
-            'table' => 'users',
+            'driver' => 'doctrine',
+            'model' => App\Entities\User::class,
         ],
     ],
 

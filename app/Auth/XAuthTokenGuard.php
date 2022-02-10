@@ -3,6 +3,7 @@
 namespace App\Auth;
 
 use App\Core\EntityManagerFresher;
+use App\Entities\User;
 use Illuminate\Auth\GuardHelpers;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\Guard;
@@ -59,18 +60,13 @@ class XAuthTokenGuard implements Guard
             return null;
         }
 
-        /**
-         * Token instance to get user.
-         *
-         * @var Token $tokenInstance
-         */
-        $tokenInstance = $this->getEntityManager()->getRepository(Token::class)->findOneBy(['token' => $token]);
+        $user = $this->getEntityManager()->getRepository(User::class)->findOneBy(['apiToken' => $token]);
 
-        if (!$tokenInstance) {
+        if (!$user) {
             return null;
         }
 
-        return $this->user = $tokenInstance->getUser();
+        return $this->user = $user;
     }
 
     /**
@@ -85,7 +81,7 @@ class XAuthTokenGuard implements Guard
         }
 
         return (bool)$this->getEntityManager()
-            ->getRepository(Token::class)
-            ->findOneBy(['token' => $credentials[static::HEADER_WITH_TOKEN]]);
+            ->getRepository(User::class)
+            ->findOneBy(['apiToken' => $credentials[static::HEADER_WITH_TOKEN]]);
     }
 }
