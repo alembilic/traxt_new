@@ -7,6 +7,7 @@ use App\Entities\Helpers\Notifiable;
 use Carbon\Carbon;
 use DateTime;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -274,6 +275,20 @@ class User extends Authenticatable implements INotifiable
      * @var Collection<Notifications>
      */
     private $notifications;
+
+    /**
+     * Domains created by this user.
+     *
+     * @ORM\OneToMany(
+     *     targetEntity="Domain",
+     *     mappedBy="createdBy",
+     *     cascade={"persist"},
+     *     indexBy="id"
+     * )
+     *
+     * @var Collection<Domain>
+     */
+    private $domains;
 
     /**
      * @return Collection<Notifications>|Notifications[]
@@ -804,5 +819,13 @@ class User extends Authenticatable implements INotifiable
     public function setIdBureau(int $idBureau): void
     {
         $this->idBureau = $idBureau;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getDomains(): Collection
+    {
+        return $this->domains->matching(Criteria::create()->where(Criteria::expr()->eq('deleted', 0)));
     }
 }

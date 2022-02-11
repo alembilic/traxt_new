@@ -30,4 +30,9 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'dfs' => [
+        'login' => env('BACKLINKS_LOGIN'),
+        'password' => env('BACKLINKS_PASSWORD'),
+    ],
+
 ];
