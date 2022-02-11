@@ -20,7 +20,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-
 Route::get('vat', VatApiController::class . '@index');
 
 //TODO: make this route authorized only
