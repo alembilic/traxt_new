@@ -140,5 +140,147 @@ class Products
      */
     private $bureau = '0';
 
+    /**
+     * @return int
+     */
+    public function getId(): int
+    {
+        return $this->id;
+    }
 
+    /**
+     * @return string
+     */
+    public function getProductname(): string
+    {
+        return $this->productname;
+    }
+
+    /**
+     * @return int
+     */
+    public function getPrice1(): int
+    {
+        return $this->price1;
+    }
+
+    /**
+     * @return string
+     */
+    public function getComment(): string
+    {
+        return $this->comment;
+    }
+
+    /**
+     * @return int
+     */
+    public function getPublic(): int
+    {
+        return $this->public;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMixId(): string
+    {
+        return $this->mixId;
+    }
+
+    /**
+     * @return int
+     */
+    public function getDomains(): int
+    {
+        return $this->domains;
+    }
+
+    /**
+     * @return int
+     */
+    public function getLinks(): int
+    {
+        return $this->links;
+    }
+
+    /**
+     * @return int
+     */
+    public function getRenew1(): int
+    {
+        return $this->renew1;
+    }
+
+    /**
+     * @return int
+     */
+    public function getFreeTrail(): int
+    {
+        return $this->freeTrail;
+    }
+
+    /**
+     * @return int
+     */
+    public function getIndexService(): int
+    {
+        return $this->indexService;
+    }
+
+    /**
+     * @return int
+     */
+    public function getPrice2(): int
+    {
+        return $this->price2;
+    }
+
+    /**
+     * @return int
+     */
+    public function getRenew2(): int
+    {
+        return $this->renew2;
+    }
+
+    /**
+     * @return int
+     */
+    public function getResponsCode()
+    {
+        return $this->responsCode;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getManualUpdate()
+    {
+        return $this->manualUpdate;
+    }
+
+    /**
+     * @return int
+     */
+    public function getRenderService()
+    {
+        return $this->renderService;
+    }
+
+    /**
+     * @return int
+     */
+    public function getCanonical()
+    {
+        return $this->canonical;
+    }
+
+    /**
+     * @return int
+     */
+    public function getBureau()
+    {
+        return $this->bureau;
+    }
 }

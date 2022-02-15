@@ -6,13 +6,16 @@ use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Notifications
+ * Notification
  *
  * @ORM\Table(name="notifications", indexes={@ORM\Index(name="user_id_2", columns={"user_id", "id_domain"}), @ORM\Index(name="user_id", columns={"user_id", "id_domain"})})
  * @ORM\Entity
  */
-class Notifications
+class Notification
 {
+    public const ID = 'id';
+    public const STATUS = 'status';
+
     /**
      * @var int
      *

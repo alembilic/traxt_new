@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DomainApiController;
+use App\Http\Controllers\NotificationsApiController;
 use App\Http\Controllers\VatApiController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -22,8 +23,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::get('vat', VatApiController::class . '@index');
 
-//TODO: make this route authorized only
 Route::group(['middleware' => ['auth:api']], function () {
+    Route::get('notifications', NotificationsApiController::class . '@index');
+    Route::put('notifications/markAsReadAll', NotificationsApiController::class . '@markAsReadAll');
+    Route::put('notifications/{notification}/markAsRead', NotificationsApiController::class . '@markAsRead');
     Route::post('domain/{domain}/importBackLinks', DomainApiController::class . '@importBackLinks');
     Route::get('domain/{domain}/retrieveBackLinks', DomainApiController::class . '@retrieveBackLinks');
 });

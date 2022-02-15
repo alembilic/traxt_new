@@ -1,3 +1,9 @@
+@php
+    /* @var \App\Entities\User $user */
+    $user = \EntityManager::find(\App\Entities\User::class, Auth::user()->getAuthIdentifier());
+    $page = preg_replace('!(\?.*)!i', '', str_replace('/app/', '', $_SERVER['REQUEST_URI']));
+    $isAccount = in_array($page, ['/app/minkonto', '/app/invoices', '/app/myplan']);
+@endphp
 <!DOCTYPE html>
 <html>
 <head>
@@ -80,6 +86,7 @@
 
 <body>
 <script>
+    var apiToken = '{{ $user->getApiToken() }}';
     $(document).ready(function () {
         $(function () {
             $(".tooltips").tooltip();
@@ -105,41 +112,46 @@
         );
         $(".read_info").click(function () {
             var id = $(this).attr('data');
-            $.get("update",
-                {
-                    read_notification: 1,
-                    id: $(this).attr('data')
+            $.ajax({
+                url: '/api/notifications/' + $(this).attr('data') + '/markAsRead',
+                data: {},
+                type: 'PUT',
+                headers: {
+                    'X-Auth-Token': apiToken,
                 },
-                function (data, status) {
-                    $.get("update",
-                        {
-                            getnotificationscount: 1
+                success: function (data) {
+                    $.ajax({
+                        url: '/api/notifications',
+                        headers: {
+                            'X-Auth-Token': apiToken,
                         },
-                        function (data, status) {
-                            $(".notifications_number_span").html(data);
-                        });
-                    //alert($(this).attr('data'));
-                    if (data == 1)
-                        $("#notis_wrap_" + id).hide('fast');
-                    if (data == 'redirect_login')
-                        location.reload();
-                });
+                        success: function (data) {
+                            $(".notifications_number_span").html(data.data.length);
+                        }
+                    });
+
+                    $("#notis_wrap_" + id).hide('fast');
+                },
+                error: function () {
+                    location.reload();
+                }
+            });
         });
         $(".read_all").click(function () {
-            var id = $(this).attr('data');
-            $.get("update",
-                {
-                    read_all: 1
+            $.ajax({
+                url: '/api/notifications/markAsReadAll',
+                type: 'PUT',
+                headers: {
+                    'X-Auth-Token': apiToken,
                 },
-                function (data, status) {
-                    //alert($(this).attr('data'));
-                    if (data == 1) {
-                        $(".messagewrap").hide('fast');
-                        $(".notifications_number_span").html(0);
-                    }
-                    if (data == 'redirect_login')
-                        location.reload();
-                });
+                success: function (data) {
+                    $(".messagewrap").hide('fast');
+                    $(".notifications_number_span").html(0);
+                },
+                error: function () {
+                    location.reload();
+                }
+            });
         });
         $('#lang_picker').change(function () {
             $('#lang_picker_form').submit();
@@ -158,19 +170,9 @@
                     <img src="/img/traxr-logo-dark.svg" class="navigation_logo"/>
                 </a>
             </div>
-        @php
-        $user = \EntityManager::find(\App\Entities\User::class, Auth::user()->getAuthIdentifier());
-        $pageName = preg_replace('!(\?.*)!i', '', $_SERVER['REQUEST_URI']);
-        $isAccount = in_array($pageName, ['/app/minkonto', '/app/invoices', '/app/myplan']);
-
-        /* @var \App\Entities\Products[] $products */
-        $products = \EntityManager::getRepository(\App\Entities\Products::class)->findBy([
-            'mixId' => $user->getPlan(),
-        ]);
-        @endphp
-        <!-- Site Navigation -->
+            <!-- Site Navigation -->
             <ul class="nav">
-                @if(count($products) && current($products)->isBureau())
+                @if($user->getPlan() && $user->getPlan()->getBureau())
                 <li{!! Route::has('managers') ? ' class="active selected"' : '' !!}>
                     <a href="/app/managers"><i class="fas fa-users"></i> <span class="nav-label">Managers</span></a>
                 </li>
@@ -290,20 +292,19 @@
                         </div>
                     </div>
                     <div class="cell">
-                        <img
-                            src="https://www.gravatar.com/avatar/{{ md5(strtolower(trim($user->getEmail()))) }}.jpg"/>
+                        <img src="https://www.gravatar.com/avatar/{{ md5(strtolower(trim($user->getEmail()))) }}.jpg"/>
                         <div class="nametag">
                             {{ $user->getFirstname() ? $user->getFirstname() . ' ' . $user->getLastname() : $user->getEmail() }}
                         </div>
                     </div>
                 </div>
             </div>
-            <h2>{{ ucfirst($pageName) }}</h2>
+            <h2>@yield('pageName')</h2>
             <ol class="breadcrumb">
                 <li>
                     <a href="index">Home</a>
                 </li>
-                <li class="active">{{ ucfirst($pageName) }}</li>
+                <li class="active">@yield('pageName')</li>
             </ol>
         </div>
         <!-- END Title Header -->
@@ -386,6 +387,8 @@
     </div>
     <!-- END Right Sidebar -->
 
+    <!-- Scroll to top -->
+    <a href="#" id="to-top" class="to-top"><i class="fas fa-angle-double-up"></i></a>
     <!-- END Page Content -->
 </div>
 </body>

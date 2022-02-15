@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller as BaseController;
 use SoapClient;
 
-class VatApiController extends BaseController
+class VatApiController extends BaseApiController
 {
     public function index(Request $request): JsonResponse
     {

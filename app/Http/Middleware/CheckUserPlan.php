@@ -29,9 +29,15 @@ class CheckUserPlan
         /* @var User $user */
         $user = $this->getEntityManager()->find(User::class, Auth::user()->__get('id'));
 
-        if ($user->getPlan() === '315e6de73efddbaa5f3d520daf1f8a9e' && !$user->isActivePlan() && $request->path() != 'app/myplanbeta') {
+        if (
+            $user->getPlan() &&
+            $user->getPlan()->getMixId() === '315e6de73efddbaa5f3d520daf1f8a9e' &&
+            !$user->isActivePlan() &&
+            $request->path() != 'app/myplanbeta'
+        ) {
             return redirect('/app/myplanbeta');
         }
+
         if (!$user->isActivePlan() && $request->path() != 'app/myplanbeta') {
             return redirect('/app/plans?cancelpayment=1');
         }

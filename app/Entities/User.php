@@ -3,13 +3,17 @@
 namespace App\Entities;
 
 use App\Contracts\INotifiable;
+use App\Core\EntityManagerFresher;
 use App\Entities\Helpers\Notifiable;
 use Carbon\Carbon;
 use DateTime;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
+use Doctrine\Common\Collections\Selectable;
 use Doctrine\ORM\Mapping as ORM;
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Str;
 
 /**
  * User
@@ -17,10 +21,13 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @ORM\Table(name="users", indexes={@ORM\Index(name="username", columns={"username"})})
  *
  * @ORM\Entity
+ *
+ * @ORM\HasLifecycleCallbacks()
  */
 class User extends Authenticatable implements INotifiable
 {
     use Notifiable;
+    use EntityManagerFresher;
 
     /**
      * @var int
@@ -266,13 +273,13 @@ class User extends Authenticatable implements INotifiable
      * Notifications of this user.
      *
      * @ORM\OneToMany(
-     *     targetEntity="Notifications",
+     *     targetEntity="Notification",
      *     mappedBy="user",
      *     cascade={"persist"},
      *     indexBy="id"
      * )
      *
-     * @var Collection<Notifications>
+     * @var Collection<Notification>|Selectable
      */
     private $notifications;
 
@@ -291,9 +298,9 @@ class User extends Authenticatable implements INotifiable
     private $domains;
 
     /**
-     * @return Collection<Notifications>|Notifications[]
+     * @return Collection<Notification>|Selectable
      */
-    public function getNotifications(): Collection
+    public function getNotifications()
     {
         return $this->notifications;
     }
@@ -630,11 +637,13 @@ class User extends Authenticatable implements INotifiable
     }
 
     /**
-     * @return string
+     * @return Products|null
+     *
+     * @throws BindingResolutionException
      */
-    public function getPlan(): string
+    public function getPlan(): ?Products
     {
-        return $this->plan;
+        return $this->getEntityManager()->getRepository(Products::class)->findOneBy(['mix_id' => $this->plan]);
     }
 
     /**
@@ -820,6 +829,34 @@ class User extends Authenticatable implements INotifiable
     {
         $this->idBureau = $idBureau;
     }
+
+    /**
+     * Returns auth token for api.
+     *
+     * @return string|null
+     *
+     * @throws BindingResolutionException
+     */
+    public function getApiToken(): ?string
+    {
+        //TODO: generate token for all users and remove this code
+        if (!$this->apiToken) {
+            $this->apiToken = Str::random(60);
+            $this->getEntityManager()->persist($this);
+            $this->getEntityManager()->flush();
+        }
+
+        return $this->apiToken;
+    }
+
+    /**
+     * @ORM\PrePersist()
+     */
+    public function createApiToken(): void
+    {
+        $this->apiToken = Str::random(60);
+    }
+
 
     /**
      * @return Collection
