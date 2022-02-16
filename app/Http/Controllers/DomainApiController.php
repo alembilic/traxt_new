@@ -8,13 +8,22 @@ use App\Jobs\ParseBacklinksJob;
 use App\Services\UrlParsers\DataForSeoService;
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 class DomainApiController extends BaseApiController
 {
-    public function importBackLinks(Domain $domain): Response
+    /**
+     * Create backlinks.
+     *
+     * @param Domain $domain Domain Entity
+     * @param Request $request Request
+     *
+     * @return Response
+     */
+    public function importBackLinks(Domain $domain, Request $request): Response
     {
-        dispatch(new ParseBacklinksJob($domain));
+        dispatch_sync(new ParseBacklinksJob($domain, $request->get('links', []), $this->user));
 
         return response()->noContent();
     }
