@@ -82,21 +82,21 @@ class BackLink
     /**
      * @var DateTime
      *
-     * @ORM\Column(name="last_checked", type="datetime", nullable=false, options={"default"="0000-00-00 00:00:00"})
+     * @ORM\Column(name="last_checked", type="datetime", nullable=false)
      */
     private $lastChecked;
 
     /**
      * @var DateTime
      *
-     * @ORM\Column(name="last_found", type="datetime", nullable=false, options={"default"="0000-00-00 00:00:00"})
+     * @ORM\Column(name="last_found", type="datetime", nullable=false)
      */
     private $lastFound;
 
     /**
      * @var DateTime
      *
-     * @ORM\Column(name="first_found", type="datetime", nullable=false, options={"default"="0000-00-00 00:00:00"})
+     * @ORM\Column(name="first_found", type="datetime", nullable=false)
      */
     private $firstFound;
 
@@ -623,15 +623,15 @@ class BackLink
             $this->imgText = $data->imgText ? 1 : 0;
         }
         if (in_array(BackLinksRawData::RESPONSE, $fields)) {
-            $this->response = $data->relSponsored;
+            $this->response = $data->response;
         }
         if (in_array(BackLinksRawData::FIRST_FOUND, $fields)) {
             $this->firstFound = $data->firstFound;
         }
-        if (in_array(BackLinksRawData::FIRST_FOUND, $fields)) {
+        if (in_array(BackLinksRawData::LAST_FOUND, $fields)) {
             $this->lastFound = $data->lastFound;
         }
-        if (in_array(BackLinksRawData::FIRST_FOUND, $fields)) {
+        if (in_array(BackLinksRawData::LAST_CHECKED, $fields)) {
             $this->lastChecked = $data->lastChecked;
         }
         if (in_array(BackLinksRawData::DEST_URL, $fields)) {
@@ -647,7 +647,7 @@ class BackLink
             $this->linkType = (int)$data->linkType;
         }
         if (in_array(BackLinksRawData::STATUS, $fields)) {
-            $this->status = (int)$data->status;
+            $this->status = (int)($data->status ?? 1);
         }
     }
 }

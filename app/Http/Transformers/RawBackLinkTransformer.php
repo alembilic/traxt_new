@@ -11,7 +11,7 @@ use League\Fractal\TransformerAbstract;
 class RawBackLinkTransformer extends TransformerAbstract
 {
     /**
-     * Transforms Back Links Raw Data into appropriate api response.
+     * Transforms Back Link Raw Data into appropriate api response.
      *
      * @param BackLinksRawData $backLink DTO
      *
