@@ -4,10 +4,6 @@ namespace App\Services\UrlParsers;
 
 use App\Dto\BackLinksRawData;
 use Carbon\Carbon;
-use GuzzleHttp\Client;
-use GuzzleHttp\ClientInterface;
-use GuzzleHttp\Exception\GuzzleException;
-use GuzzleHttp\Psr7\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 
@@ -17,22 +13,9 @@ use Illuminate\Support\Facades\Cache;
 class DataForSeoService
 {
     /**
-     * @var ClientInterface|Client
-     */
-    protected ClientInterface $client;
-
-    /**
      * @var string
      */
-    protected string $baseUrl = 'https://api.dataforseo.com/v3/backlinks';
-
-    /**
-     * @param ClientInterface|Client $client
-     */
-    public function __construct(ClientInterface $client)
-    {
-        $this->client = $client;
-    }
+    protected string $baseUrl = 'https://api.dataforseo.com/v3';
 
     /**
      * Returns a list of backlinks.
@@ -40,8 +23,6 @@ class DataForSeoService
      * @param string $path target path
      *
      * @return Collection<BackLinksRawData>
-     *
-     * @throws GuzzleException
      */
     public function getBackLinksByPath(string $path): Collection
     {
@@ -52,17 +33,30 @@ class DataForSeoService
                     'target' => $path,
                     'mode' => 'as_is',
                     'limit' => 200,
+                    'backlinks_status_type' => 'all',
+                    'include_subdomains' => true,
                 ]
             ]);
-            $request = new Request(
-                'POST',
-                $this->baseUrl . '/backlinks/live',
-                $this->getAuthHeaders(),
-                $data
-            );
+            $curl = curl_init();
 
-            $result = (string)$this->client->send($request)->getBody();
-            if ($result) {
+            curl_setopt_array($curl, array(
+                CURLOPT_URL => $this->baseUrl . '/backlinks/backlinks/live',
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => '',
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 0,
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => 'POST',
+                CURLOPT_POSTFIELDS => $data,
+                CURLOPT_HTTPHEADER => $this->getAuthHeaders(),
+            ));
+
+            $result = curl_exec($curl);
+            $responseData = curl_getinfo($curl);
+            curl_close($curl);
+
+            if ($responseData['http_code'] === 200) {
                 Cache::put($path, $result, 3600);
             }
         }
