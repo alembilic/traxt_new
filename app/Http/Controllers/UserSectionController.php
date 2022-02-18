@@ -4,9 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Core\EntityManagerFresher;
 use App\Entities\Currency;
+use App\Entities\Order;
 use App\Entities\User;
+use App\Exceptions\AuthServiceException;
+use App\Exceptions\ServiceException;
+use App\Services\Dinero\DineroService;
+use Doctrine\Common\Collections\Criteria;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
@@ -194,9 +200,38 @@ class UserSectionController extends BaseWebController
         ]);
     }
 
+    /**
+     * Invoices list page.
+     *
+     * @return View
+     */
     public function invoices(): View
     {
-        return view('app.invoices');
+        $criteria = Criteria::create()
+            ->orderBy([Order::ID => 'asc'])
+            ->where(Criteria::expr()->eq(Order::USER, $this->user));
+        $invoices = $this->getRepository(Order::class)->matching($criteria);
+
+        return view('app.invoices', ['invoices' => $invoices]);
+    }
+
+    /**
+     * Download invoice.
+     *
+     * @param string $guid Invoice Id
+     * @param DineroService $dineroService Dinero Service
+     *
+     * @return Response
+     *
+     * @throws AuthServiceException
+     * @throws ServiceException
+     */
+    public function invoiceDetails(string $guid, DineroService $dineroService): Response
+    {
+        return new Response($dineroService->getInvoice($guid), 200, [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => 'attachment;filename=faktura.pdf'
+        ]);
     }
 
     /**

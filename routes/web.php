@@ -47,6 +47,7 @@ Route::group(['middleware' => ['auth:web', 'authorizedOnly', 'verifyPlan'], 'pre
     Route::get('domains', UserSectionController::class . '@domains');
     Route::any('myaccount', UserSectionController::class . '@myAccount');
     Route::get('invoices', UserSectionController::class . '@invoices');
+    Route::get('invoices/{guid}', UserSectionController::class . '@invoiceDetails');
     Route::get('myplan', UserSectionController::class . '@myPlan');
 });
 

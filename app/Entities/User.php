@@ -644,13 +644,13 @@ class User extends Authenticatable implements INotifiable
     }
 
     /**
-     * @return Products|null
+     * @return Product|null
      *
      * @throws BindingResolutionException
      */
-    public function getPlan(): ?Products
+    public function getPlan(): ?Product
     {
-        return $this->getEntityManager()->getRepository(Products::class)->findOneBy(['mixId' => $this->plan]);
+        return $this->getEntityManager()->getRepository(Product::class)->findOneBy(['mixId' => $this->plan]);
     }
 
     /**
