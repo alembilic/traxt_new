@@ -235,4 +235,7 @@ return [
     ],
 
     'web_date_format' => 'M j, Y, g:i a',
+
+    'eu_country_codes' => ['AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DE', 'DK', 'EE', 'EL','ES', 'FI', 'FR', 'GB', 'HU',
+        'IE', 'IT', 'LT', 'LU', 'LV','MT', 'NL', 'PL', 'PT', 'RO', 'SE', 'SI', 'SK'],
 ];

@@ -30,9 +30,8 @@
     </script>
 
     <script>
-        function isEU(countrycode) {
-            var eu_countrycodes = ['AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DE', 'DK', 'EE', 'EL', 'ES', 'FI', 'FR', 'GB', 'HU', 'IE', 'IT', 'LT', 'LU', 'LV', 'MT', 'NL', 'PL', 'PT', 'RO', 'SE', 'SI', 'SK'];
-            return (jQuery.inArray(countrycode, eu_countrycodes));
+        function isEU(countryCode) {
+            return (jQuery.inArray(countryCode, {!! json_encode(config('app.eu_country_codes'))  !!}));
         }
 
         $(document).ready(function () {
@@ -45,8 +44,7 @@
                     $("#vat_number").val(ctry + vat);
                 var up_ctry = ctry.toUpperCase();
                 if (up_ctry !== 'DK') {
-                    $.getJSON("/api/vat?countrycode=" + up_ctry + "&vatno=" + vat, function (data) {
-                        console.log(data.valid + ' ' + data.isEU + ' ' + up_ctry + ' ' + vat);
+                    $.getJSON("/api/vat?countryCode=" + up_ctry + "&vatNo=" + vat, function (data) {
                         if (data.status === 'success' || data.status === 'error') {
                             if (data.valid) {
                                 $("#vat_number").css('border', '1px solid #d9d9d9');
@@ -71,15 +69,10 @@
                 var vat = formvat.substring(3);
                 var up_ctry = ctry.toUpperCase();
                 if (up_ctry !== 'DK') {
-                    $.getJSON("/api/vat?countrycode=" + up_ctry + "&vatno=" + vat, function (data) {
+                    $.getJSON("/api/vat?countryCode=" + up_ctry + "&vatNo=" + vat, function (data) {
                         if (data.status === 'success') {
-                            if (data.valid === 'true') {
-                                if (data.isEU === 'true') {
-                                    $("#vat_valid").val('EU');
-                                } else {
-                                    $("#vat_valid").val('WORLD');
-                                }
-
+                            if (data.valid) {
+                                $("#vat_valid").val(data.isEU ? 'EU' : 'WORLD');
                                 $("#vat_number").css('border', '1px solid #d9d9d9');
                             } else {
                                 $("#vat_valid").val('');

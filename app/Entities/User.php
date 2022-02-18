@@ -74,6 +74,13 @@ class User extends Authenticatable implements INotifiable
     private ?string $apiToken;
 
     /**
+     * @var string|null
+     *
+     * @ORM\Column(name="remember_token", type="string", length=255, nullable=true)
+     */
+    private ?string $rememberToken;
+
+    /**
      * @var int
      *
      * @ORM\Column(name="userlevel", type="integer", nullable=false)
@@ -643,7 +650,7 @@ class User extends Authenticatable implements INotifiable
      */
     public function getPlan(): ?Products
     {
-        return $this->getEntityManager()->getRepository(Products::class)->findOneBy(['mix_id' => $this->plan]);
+        return $this->getEntityManager()->getRepository(Products::class)->findOneBy(['mixId' => $this->plan]);
     }
 
     /**
@@ -857,12 +864,27 @@ class User extends Authenticatable implements INotifiable
         $this->apiToken = Str::random(60);
     }
 
-
     /**
      * @return Collection
      */
     public function getDomains(): Collection
     {
         return $this->domains->matching(Criteria::create()->where(Criteria::expr()->eq('deleted', 0)));
+    }
+
+    public function getValidationRules(): array
+    {
+        return [
+            'username' => ['string'],
+            'firstname' => ['required', 'string'],
+            'lastname' => ['required', 'string'],
+            'company' => ['string'],
+            'vat_number' => ['string'],
+            'vat_valid' => ['string'],
+            'city' => ['string'],
+            'address' => ['string'],
+            'country' => ['required', 'string'],
+            'email' => ['required', 'email'],
+        ];
     }
 }

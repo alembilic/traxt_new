@@ -2,13 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Core\EntityManagerFresher;
+use App\Entities\Currency;
 use App\Entities\User;
 use Illuminate\Contracts\Container\BindingResolutionException;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
 use NumberFormatter;
 
 class UserSectionController extends BaseWebController
 {
+    use EntityManagerFresher;
+
     public function dashboard(): View
     {
         //TODO: move this to a service layer
@@ -117,9 +124,74 @@ class UserSectionController extends BaseWebController
         return view('app.domains');
     }
 
-    public function myAccount(): View
+    /**
+     * User profile page.
+     *
+     * @param Request $request Request Data
+     *
+     * @return View
+     *
+     * @throws BindingResolutionException
+     * @throws ValidationException
+     */
+    public function myAccount(Request $request): View
     {
-        return view('app.my_account', ['user' => $this->user]);
+        $data = [];
+        $rules = array_merge($this->user->getValidationRules(), [
+            'id_valuta_display' => ['integer'],
+        ]);
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($request->getMethod() === 'POST') {
+            if (!$validator->fails()) {
+                $user = $this->user;
+                $data = $validator->validated();
+                if (isset($data['username'])) {
+                    $user->setUsername($data['username']);
+                }
+                if (isset($data['firstname'])) {
+                    $user->setFirstname($data['firstname']);
+                }
+                if (isset($data['lastname'])) {
+                    $user->setLastname($data['lastname']);
+                }
+                if (isset($data['company'])) {
+                    $user->setCompany($data['company']);
+                }
+                if (isset($data['vat_number'])) {
+                    $user->setVatNumber($data['vat_number']);
+                }
+                if (isset($data['vat_valid'])) {
+                    $user->setVatValid($data['vat_valid']);
+                }
+                if (isset($data['city'])) {
+                    $user->setCity($data['city']);
+                }
+                if (isset($data['country'])) {
+                    $user->setLang($data['country']);
+                }
+                if (isset($data['address'])) {
+                    $user->setAddress($data['address']);
+                }
+                if (isset($data['email'])) {
+                    $user->setEmail($data['email']);
+                }
+                if (isset($data['id_valuta_display'])) {
+                    $user->setIdValutaDisplay($data['id_valuta_display']);
+                }
+
+                $this->getEntityManager()->persist($user);
+                $this->getEntityManager()->flush();
+            }
+        }
+
+        return view('app.my_account', [
+            'user' => $this->user,
+            'formData' => $request->all(),
+            'formSubmitted' => !empty($data),
+            'validationErrors' => !empty($data) && $validator->errors() ? $validator->errors()->all() : [],
+            'currencies' => $this->getRepository(Currency::class)->findAll(),
+        ]);
     }
 
     public function invoices(): View
