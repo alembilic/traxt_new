@@ -49,6 +49,9 @@ Route::group(['middleware' => ['auth:web', 'authorizedOnly', 'verifyPlan'], 'pre
     Route::get('invoices', UserSectionController::class . '@invoices');
     Route::get('invoices/{guid}', UserSectionController::class . '@invoiceDetails');
     Route::get('myplan', UserSectionController::class . '@myPlan');
+    Route::get('myplan/cancel', UserSectionController::class . '@cancelPlan');
+    Route::get('plans/{mixId}/{type}', UserSectionController::class . '@changePlan');
+    Route::get('subscription/{subscription}/terminate', UserSectionController::class . '@terminateSubscription');
 });
 
 Route::get('app', function () {

@@ -7,6 +7,7 @@ use App\Core\EntityManagerFresher;
 use App\Entities\Helpers\Notifiable;
 use Carbon\Carbon;
 use DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Collections\Selectable;
@@ -223,9 +224,9 @@ class User extends Authenticatable implements INotifiable
     /**
      * @var DateTime
      *
-     * @ORM\Column(name="next_due_date", type="date", nullable=false, options={"default"="0000-00-00"})
+     * @ORM\Column(name="next_due_date", type="date", nullable=false, options={"default"="CURRENT_DATE"})
      */
-    private $nextDueDate = '0000-00-00';
+    private $nextDueDate;
 
     /**
      * @var string
@@ -253,7 +254,7 @@ class User extends Authenticatable implements INotifiable
      *
      * @ORM\Column(name="sub_table_id", type="integer", nullable=false)
      */
-    private int $subTableId = 0;
+    private int $orderSubscription = 0;
 
     /**
      * @var int
@@ -303,6 +304,26 @@ class User extends Authenticatable implements INotifiable
      * @var Collection<Domain>
      */
     private $domains;
+
+    /**
+     * Order Subscription created by this user.
+     *
+     * @ORM\OneToMany(targetEntity="OrderSubscription", cascade={"persist"}, mappedBy="user")
+     *
+     * @var Collection<OrderSubscription>
+     */
+    private $activeSubscriptions;
+
+    /**
+     * @param array $attributes
+     */
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+
+        $this->nextDueDate = new DateTime();
+        $this->activeSubscriptions = new ArrayCollection();
+    }
 
     /**
      * @return Collection<Notification>|Selectable
@@ -774,19 +795,21 @@ class User extends Authenticatable implements INotifiable
     }
 
     /**
-     * @return int
+     * @return OrderSubscription|null
+     *
+     * @throws BindingResolutionException
      */
-    public function getSubTableId(): int
+    public function getSubscription(): ?OrderSubscription
     {
-        return $this->subTableId;
+        return $this->getEntityManager()->find(OrderSubscription::class, $this->orderSubscription);
     }
 
     /**
-     * @param int $subTableId
+     * @param OrderSubscription|null $subscription
      */
-    public function setSubTableId(int $subTableId): void
+    public function setSubscription(?OrderSubscription $subscription): void
     {
-        $this->subTableId = $subTableId;
+        $this->orderSubscription = $subscription ? $subscription->getId() : 0;
     }
 
     /**
@@ -835,6 +858,24 @@ class User extends Authenticatable implements INotifiable
     public function setIdBureau(int $idBureau): void
     {
         $this->idBureau = $idBureau;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getActiveSubscriptions()
+    {
+        return $this->activeSubscriptions;
+    }
+
+    /**
+     * @param OrderSubscription $orderSubscription
+     */
+    public function addActiveSubscriptions(OrderSubscription $orderSubscription): void
+    {
+        $orderSubscription->setUser($this);
+        $this->orderSubscription = $orderSubscription->getId();
+        $this->activeSubscriptions->add($orderSubscription);
     }
 
     /**

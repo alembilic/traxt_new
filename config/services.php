@@ -41,4 +41,9 @@ return [
         'id' => env('DINERO_COMPANY_ID'),
         'client_id' => env('DINERO_CLIENT_ID'),
     ],
+
+    'quickPay' => [
+        'key' => env('QUICK_PAY_API_KEY'),
+        'secret' => env('QUICK_PAY_API_SECRET'),
+    ],
 ];

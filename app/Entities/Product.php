@@ -26,14 +26,21 @@ class Product
      *
      * @ORM\Column(name="productname", type="string", length=50, nullable=false)
      */
-    private $productname;
+    private $productName;
 
     /**
      * @var int
      *
      * @ORM\Column(name="price1", type="integer", nullable=false)
      */
-    private $price1;
+    private $pricePerMonth;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="price2", type="integer", nullable=false)
+     */
+    private $priceSubscription;
 
     /**
      * @var string
@@ -75,7 +82,7 @@ class Product
      *
      * @ORM\Column(name="renew1", type="integer", nullable=false)
      */
-    private $renew1;
+    private $renew;
 
     /**
      * @var int
@@ -94,23 +101,16 @@ class Product
     /**
      * @var int
      *
-     * @ORM\Column(name="price2", type="integer", nullable=false)
-     */
-    private $price2;
-
-    /**
-     * @var int
-     *
      * @ORM\Column(name="renew2", type="integer", nullable=false)
      */
-    private $renew2;
+    private $renewSubscribe;
 
     /**
      * @var int
      *
      * @ORM\Column(name="respons_code", type="integer", nullable=false)
      */
-    private $responsCode = '0';
+    private $responseCode = '0';
 
     /**
      * @var int|null
@@ -151,17 +151,17 @@ class Product
     /**
      * @return string
      */
-    public function getProductname(): string
+    public function getProductName(): string
     {
-        return $this->productname;
+        return $this->productName;
     }
 
     /**
      * @return int
      */
-    public function getPrice1(): int
+    public function getPricePerMonth(): int
     {
-        return $this->price1;
+        return $this->pricePerMonth;
     }
 
     /**
@@ -207,9 +207,9 @@ class Product
     /**
      * @return int
      */
-    public function getRenew1(): int
+    public function getRenew(): int
     {
-        return $this->renew1;
+        return $this->renew;
     }
 
     /**
@@ -231,25 +231,25 @@ class Product
     /**
      * @return int
      */
-    public function getPrice2(): int
+    public function getPriceSubscription(): int
     {
-        return $this->price2;
+        return $this->priceSubscription;
     }
 
     /**
      * @return int
      */
-    public function getRenew2(): int
+    public function getRenewSubscribe(): int
     {
-        return $this->renew2;
+        return $this->renewSubscribe;
     }
 
     /**
      * @return int
      */
-    public function getResponsCode()
+    public function getResponseCode()
     {
-        return $this->responsCode;
+        return $this->responseCode;
     }
 
     /**

@@ -5,18 +5,27 @@ namespace App\Http\Controllers;
 use App\Core\EntityManagerFresher;
 use App\Entities\Currency;
 use App\Entities\Order;
+use App\Entities\OrderSubscription;
+use App\Entities\Product;
 use App\Entities\User;
+use App\Enums\SubscriptionTypes;
 use App\Exceptions\AuthServiceException;
+use App\Exceptions\DtoException;
+use App\Exceptions\PaymentServiceException;
 use App\Exceptions\ServiceException;
 use App\Services\Dinero\DineroService;
+use App\Services\PaymentServices\QuickPayPaymentService;
+use Carbon\Carbon;
 use Doctrine\Common\Collections\Criteria;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
 use NumberFormatter;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class UserSectionController extends BaseWebController
 {
@@ -241,7 +250,132 @@ class UserSectionController extends BaseWebController
      */
     public function myPlan(): View
     {
-        return view('app.my_plan', ['plan' => $this->user->getPlan()]);
+        $criteria = Criteria::create()
+            ->orderBy(['pricePerMonth' => 'asc'])
+            ->where(Criteria::expr()->eq('public', 1));
+
+        return view('app.my_plan', [
+            'plan' => $this->user->getPlan(),
+            'subscription' => $this->user->getSubscription(),
+            'user' => $this->user,
+            'plans' => $this->getRepository(Product::class)->matching($criteria),
+            'isPaymentCanceled' => false,
+        ]);
     }
 
+    public function cancelPlan(): View
+    {
+//        $orders = new Orders($db);
+//        $users = new Users($db);
+//        $user = $users->get_user($session->id);
+//        if ($user['subscription_id'] == 0) {
+//            $functions->updateUserByid($session->id, 'renew', 0);
+//            $functions->updateUserByid($session->id, 'sub_id', '');
+//            $functions->updateUserByid($session->id, 'sub_table_id', 0);
+//        }
+//        else {
+//            $cancel = $orders->cancel_subscription($user['subscription_id'], $functions);
+//            if ($cancel['curl_info']['http_code'] == '202' || $cancel['curl_info']['http_code'] == '400') {
+//                $confirm = 'Subscription Canceled';
+//                $functions->updateUserByid($session->id, 'renew', 0);
+//                $functions->updateUserByid($session->id, 'sub_id', '');
+//                $functions->updateUserByid($session->id, 'sub_table_id', 0);
+//            }
+//            else {
+//                $error = '<p>And Error has happend</p>';
+//            }
+//        }
+
+        return view('app.my_plan', ['plan' => $this->user->getPlan(), 'isPaymentCanceled' => true]);
+    }
+
+    /**
+     * @param string $mixId
+     * @param string $type
+     * @param QuickPayPaymentService $paymentService
+     *
+     * @return View
+     *
+     * @throws BindingResolutionException
+     * @throws DtoException
+     * @throws PaymentServiceException
+     */
+    public function changePlan(string $mixId, string $type, QuickPayPaymentService $paymentService): View
+    {
+        /* @var Product $plan */
+        $plan = $this->getRepository(Product::class)->findOneBy(['mixId' => $mixId]);
+        if (!$plan) {
+            throw new NotFoundHttpException();
+        }
+
+        $subscriptionId = Cache::get('subscriptionId');
+        if (!$subscriptionId) {
+            $this->user->addActiveSubscriptions(new OrderSubscription($this->user, $plan, $type));
+            $this->entityManager->persist($this->user);
+            $this->entityManager->flush();
+            $subscription = $this->user->getSubscription();
+            Cache::put('subscriptionId', $subscription->getId(), 86400);
+        } else {
+            $subscription = $this->getRepository(OrderSubscription::class)->findOneBy(['id' => $subscriptionId]);
+        }
+
+        $price = ($type === SubscriptionTypes::ONCE ? $plan->getPricePerMonth() : $plan->getPriceSubscription()) / 100;
+        $vatValue = 0;
+        if ($this->user->getVatValid() === 'DK') {
+            $vatValue = 0.25;
+        }
+
+        return view('app.change_plan', [
+            'plan' => $plan,
+            'type' => $type,
+            'user' => $this->user,
+            'paymentUrl' => $paymentService->getPaymentLink($subscription),
+            'nextDueDate' => Carbon::now()
+                ->subMonths($this->user->getOldUser() !== 1 ? $plan->getFreeTrail() : 0)
+                ->format('Y-m-d'),
+            'price' => round($price, 2),
+            'vat' => round($price * $vatValue, 2),
+            'total' => round($price + $price * $vatValue, 2),
+        ]);
+    }
+
+    /**
+     * @param string $subscription
+     * @param QuickPayPaymentService $paymentService
+     *
+     * @return View
+     *
+     * @throws BindingResolutionException
+     * @throws DtoException
+     * @throws PaymentServiceException
+     */
+    public function terminateSubscription(string $subscription, QuickPayPaymentService $paymentService): View
+    {
+        /* @var OrderSubscription $subscription */
+        $subscription = $this->getRepository(OrderSubscription::class)->findOneBy(['id' => $subscription]);
+        if (!$subscription) {
+            throw new NotFoundHttpException();
+        }
+        $plan = $subscription->getProduct();
+        $price = ($subscription->getType() === SubscriptionTypes::ONCE
+                ? $plan->getPricePerMonth()
+                : $plan->getPriceSubscription()) / 100;
+        $vatValue = 0;
+        if ($this->user->getVatValid() === 'DK') {
+            $vatValue = 0.25;
+        }
+
+        return view('app.change_plan', [
+            'plan' => $subscription->getProduct(),
+            'type' => $subscription->getType(),
+            'user' => $this->user,
+            'paymentUrl' => $paymentService->getPaymentLink($subscription),
+            'nextDueDate' => Carbon::now()
+                ->subMonths($this->user->getOldUser() !== 1 ? $plan->getFreeTrail() : 0)
+                ->format('Y-m-d'),
+            'price' => round($price, 2),
+            'vat' => round($price * $vatValue, 2),
+            'total' => round($price + $price * $vatValue, 2),
+        ]);
+    }
 }

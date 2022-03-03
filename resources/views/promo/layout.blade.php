@@ -132,9 +132,8 @@
                 <div class="wrapper align-left">
                     <ul class="footer-list">
                         <li class="text-left fw-700">Contact</li>
-                        <li>With Traxr you don’t get more than you need.</li>
-                        <li><a href="mailto:sales@traxr.net">sales@traxr.net</a></li>
-                        <li><a href="mailto:support@traxr.net">support@traxr.net</a></li>
+                        <li>Inquires towards our sales or support team may be sent to</li>
+                        <li><a href="mailto:info@traxr.net">info@traxr.net</a></li>
                     </ul>
                 </div>
             </div>

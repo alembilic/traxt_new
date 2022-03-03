@@ -17,6 +17,7 @@ use Illuminate\Notifications\Channels\MailChannel as BaseMailChannel;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 use League\Fractal\TransformerAbstract;
+use QuickPay\QuickPay;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -54,5 +55,9 @@ class AppServiceProvider extends ServiceProvider
         }
 
         $this->app->bind(ClientInterface::class, GuzzleClient::class);
+
+        $this->app->singleton(QuickPay::class, function () {
+            return new QuickPay(':' . config('services.quickPay.secret'));
+        });
     }
 }
