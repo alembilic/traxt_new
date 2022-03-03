@@ -1,136 +1,112 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Traxr - Register Form</title>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/ico" href="favicon.ico">
-    <link href="/assets/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link
-        href="https://fonts.googleapis.com/css?family=Baloo+2:400,500,600,700,800|Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i&display=swap"
-        rel="stylesheet">
-    <link href="/assets/css/main.css" rel="stylesheet">
-    <script src="/app/admin/js/jquery-2.1.3.min.js"></script>
-    <script src="/app/admin/js/jquery-ui.js"></script>
-    <script src="/app/admin/js/bootstrap.min.js"></script>
+@extends('app.layout')
+@section('pageName')
+    My Account
+@endsection
+@section('content')
 
-    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-162383577-1"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
+<!-- Page Wrapper -->
+<!-- END Title Header -->
+<!-- END Row -->
+<script>
+    function isEU(countryCode) {
+        return (jQuery.inArray(countryCode, {!! json_encode(config('app.eu_country_codes'))  !!}));
+    }
 
-        function gtag() {
-            dataLayer.push(arguments);
-        }
-
-        gtag('js', new Date());
-
-        gtag('config', 'UA-162383577-1');
-    </script>
-
-    <script>
-        function isEU(countryCode) {
-            return (jQuery.inArray(countryCode, {!! json_encode(config('app.eu_country_codes'))  !!}));
-        }
-
-        $(document).ready(function () {
-            $("#vat_number").blur(function () {
-                var formvat = $("#vat_number").val();
-                var ctry = formvat.substring(0, 2);
-                var vat = formvat.substring(2);
-                vat = vat.replace("-", "");
-                if (formvat !== vat)
-                    $("#vat_number").val(ctry + vat);
-                var up_ctry = ctry.toUpperCase();
-                if (up_ctry !== 'DK') {
-                    $.getJSON("/api/vat?countryCode=" + up_ctry + "&vatNo=" + vat, function (data) {
-                        if (data.status === 'success' || data.status === 'error') {
-                            if (data.valid) {
-                                $("#vat_number").css('border', '1px solid #d9d9d9');
-                                $("#vat_valid").val(data.isEU ? 'EU' : 'WORLD');
-
-                                $("#vat_number").css('border', '1px solid #d9d9d9');
-                            } else {
-                                $("#vat_valid").val('');
-                                $("#vat_number").css('border', '2px solid red');
-                            }
+    $(function () {
+        $('#country').val('{{ $formData['country'] ?? $user->getCountry() }}');
+        $("#deletelinks").submit(function () {
+            return confirm("Are you sure you want to delete all links in your account?");
+        });
+        $("#vat_number").blur(function () {
+            var formvat = $("#vat_number").val();
+            var ctry = formvat.substring(0, 2);
+            var vat = formvat.substring(2);
+            vat = vat.replace("-", "");
+            if (formvat !== vat) {
+                $("#vat_number").val(ctry + vat);
+            }
+            formvat.toUpperCase();
+            if (ctry !== 'DK') {
+                $.getJSON("/api/vat?countryCode=" + ctry + "&vatNo=" + vat, function (data) {
+                    if (data.status === 'success') {
+                        if (data.valid) {
+                            $("#vat_valid").val(data.isEU ? 'EU' : 'WORLD');
+                            $("#vat_number").css('border', '1px solid #d9d9d9');
+                        } else {
+                            $("#vat_valid").val('');
+                            $("#vat_number").css('border', '2px solid red');
                         }
-                    });
-                } else {
-                    $("#vat_valid").val('DK');
-                    $("#vat_number").css('border', '1px solid #d9d9d9');
-                }
-            });
-            $("#myForm").submit(function () {
-                var formvat = $("#vat_number").val();
-                var ctry = formvat.substring(0, 2);
-                var selected_ctry = $('select[name="land"]').children("option:selected").val();
-                var vat = formvat.substring(3);
-                var up_ctry = ctry.toUpperCase();
-                if (up_ctry !== 'DK') {
-                    $.getJSON("/api/vat?countryCode=" + up_ctry + "&vatNo=" + vat, function (data) {
-                        if (data.status === 'success') {
-                            if (data.valid) {
-                                $("#vat_valid").val(data.isEU ? 'EU' : 'WORLD');
-                                $("#vat_number").css('border', '1px solid #d9d9d9');
-                            } else {
-                                $("#vat_valid").val('');
-                                $("#vat_number").css('border', '2px solid red');
-                            }
+                    }
+                });
+            } else {
+                $("#vat_valid").val('DK');
+                $("#vat_number").css('border', '1px solid #d9d9d9');
+            }
+        });
+        $("#myForm").submit(function () {
+            var ctry = $("#vat_number").val().substring(0, 2);
+            var vat = $("#vat_number").val().substring(2);
+            if (ctry !== 'DK') {
+                $.getJSON("/api/vat?countryCode=" + ctry + "&vatNo=" + vat, function (data) {
+                    if (data.status === 'success') {
+                        if (data.valid) {
+                            $("#vat_valid").val(data.isEU ? 'EU' : 'WORLD');
+                            $("#vat_number").css('border', '1px solid #d9d9d9');
+                        } else {
+                            $("#vat_valid").val('');
+                            $("#vat_number").css('border', '2px solid red');
                         }
-                    });
-                } else {
-                    $("#vat_valid").val('DK');
-                    $("#vat_number").css('border', '1px solid #d9d9d9');
-                }
-                if ($("#vat_number").val() !== '' && selected_ctry !== up_ctry) {
+                    }
+                });
+            } else {
+                $("#vat_valid").val('DK');
+                $("#vat_number").css('border', '1px solid #d9d9d9');
+            }
+            if ($("#vat_number").val()) {
+                if ($('select[name="country"]').val() !== ctry) {
                     alert('Selected country and VAT code country selection must fit')
                     return false;
                 }
-                if (!$("#terms").prop('checked')) {
-                    $("#termstext").css('color', 'red');
-                    return false;
-                }
-            });
+            }
         });
-    </script>
-</head>
-
-<body class="login">
-<!-- Pen Title-->
-<section class="">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-12 form-bc-grad sign-up-section">
-                <div class="form-box bc-white wide-box">
-                    <div class="form-header pad-2">
-                        <img src="/img/traxr-logo-dark.svg" class="form-logo">
-                    </div>
-                    <p class="form-heading align-center">Sign up for an account</p>
-                    <div style="color: red;">
-                        @foreach($validationErrors ?? [] as $error)
-                            <p>{{ $error }}</p>
-                        @endforeach
-                    </div>
-                    <form action="/app/signup" method="post" id="myForm" class="sign-up-form">
-                        @csrf
-                        <input type="hidden" name="username" placeholder="Username" value="{{ $formData['username'] ?? '' }}"/>
-                        <input type="text" name="firstname" placeholder="First Name" value="{{ $formData['firstname'] ?? '' }}" required/>
-                        <input type="text" name="lastname" placeholder="Last Name" value="{{ $formData['lastname'] ?? '' }}" required/>
-                        <input type="password" name="password" placeholder="Password" value="{{ $formData['password'] ?? '' }}" required/>
-                        <input type="password" name="conf_password" placeholder="Confirm Password" value="{{ $formData['conf_password'] ?? '' }}" required/>
-                        <input type="email" name="email" placeholder="Email Address" value="{{ $formData['email'] ?? '' }}" required/>
-                        <input type="email" name="conf_email" placeholder="Confirm Email Address" value="{{ $formData['conf_email'] ?? '' }}" required/>
-                        <div class="form-divider"></div>
-                        <input type="hidden" name="form_submission" value="register">
-                        <input type="text" name="company" placeholder="Company" value="{{ $formData['company'] ?? '' }}" required/>
-                        <input type="text" name="vat_number" id="vat_number" placeholder="Vat NO (DK40388737)" value="{{ $formData['vat_number'] ?? '' }}" required/>
-                        <input type="hidden" name="vat_valid" id="vat_valid" value="{{ $formData['vat_valid'] ?? '' }}" required/>
-                        <input type="text" name="city" placeholder="City" value="{{ $formData['city'] ?? '' }}" required/>
-                        <input type="text" name="address" placeholder="Address" value="{{ $formData['address'] ?? '' }}" required/>
-                        <select name="land" id="country" required>
-                            <option selected="true" disabled="disabled">Choose country</option>
+    });
+</script>
+<div class="row">
+    <div class="panel">
+        <div class="panel-heading">
+            <div class="panel-options pull-right">
+            </div>
+            <i class="fas fa-list"></i>
+            <h3 class="panel-title">Your Information</h3>
+        </div>
+        <div class="panel-body table-responsive">
+            <div class="col-sm-2 col-md-6">
+                <div style="color: red;">
+                    @foreach($validationErrors ?? [] as $error)
+                        <p>{{ $error }}</p>
+                    @endforeach
+                </div>
+                <form action="/app/myaccount" method="POST" id="myForm">
+                    @csrf
+                    <p>
+                        <label>Company</label>
+                        <input class="form-control" type="text" name="company" value="{{ $formData['company'] ?? $user->getCompany() }}">
+                    <p>
+                        <label>Vat Number (DK40388737)</label>
+                        <input class="form-control" type="text" name="vat_number" id="vat_number" value="{{ $formData['vat_number'] ?? $user->getVatNumber() }}">
+                        <input type="hidden" name="vat_valid" id="vat_valid"  value="{{ $formData['vat_valid'] ?? $user->getVatValid() }}"/>
+                    </p>
+                    <p>
+                        <label>Address</label>
+                        <input class="form-control" type="text" name="address" value="{{ $formData['address'] ?? $user->getAddress() }}" >
+                    </p>
+                    <p>
+                        <label>City</label>
+                        <input class="form-control" type="text" name="city" value="{{ $formData['city'] ?? $user->getCity() }}">
+                    </p>
+                    <p>
+                        <label>Country</label>
+                        <select name="country" id="country" class="form-control">
                             <option value="DK">Denmark</option>
                             <option value="AF">Afghanistan</option>
                             <option value="AX">Åland Islands</option>
@@ -382,24 +358,33 @@
                             <option value="ZM">Zambia</option>
                             <option value="ZW">Zimbabwe</option>
                         </select>
-                        <div class="checkbox-box fw-700">
-                            <input type="checkbox" name="terms" id="terms" value="1" required>
-                            <label for="terms" class="terms" id="termstext" style="margin-left: 20px;">
-                                Accept terms and conditions <a href="/conditions" target="_blank">(Read)</a>
-                            </label>
-                        </div>
-                        <button class="bc-btn-primary btn-sign-up">Yes, Sign me up</button>
-                    </form>
-                </div>
+                    </p>
+                    <p>
+                        <label>First Name</label>
+                        <input class="form-control" type="text" name="firstname" value="{{ $formData['firstname'] ?? $user->getFirstname() }}">
+                    </p>
+                    <p>
+                        <label>Last Name</label>
+                        <input class="form-control" type="text" name="lastname" value="{{ $formData['lastname'] ?? $user->getLastname() }}">
+                    </p>
+                    <p>
+                        <label>Email</label>
+                        <input class="form-control" type="text" name="email" value="{{ $formData['email'] ?? $user->getEmail() }}" >
+                    </p>
+                    <p>
+                        <label>Display currency on dashboard</label>
+                        <select name="id_valuta_display" class="form-control">
+                            @foreach ($currencies as $currency)
+                            <option value="{{ $currency->getId() }}" {{ $currency->getId() === ($formData['id_valuta_display'] ?? $user->getIdValutaDisplay()) ? 'selected="selected"' : '' }}>{{ $currency->getCode() }}</option>
+                            @endforeach
+                        </select>
+                    </p>
+                    <button type="submit" class="btn btn-main" data-toggle="modal">Update</button>
+
+                </form>
             </div>
         </div>
     </div>
-</section>
-
-<script>
-    // Initialize Tooltips
-    $('[data-toggle="tooltip"], .show-tooltip').tooltip({container: 'body', animation: false});
-</script>
-
-</body>
-</html>
+</div>
+<!-- END Row -->
+@endsection

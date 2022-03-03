@@ -42,7 +42,7 @@ return [
         ],
         'api' => [
             'driver' => 'xAuth',
-            'provider' => 'users',
+            'provider' => 'apiUsers',
         ],
     ],
 
@@ -64,11 +64,11 @@ return [
     */
 
     'providers' => [
-//        'users' => [
-//            'driver' => 'database',
-//            'table' => 'users',
-//        ],
         'users' => [
+            'driver' => 'database',
+            'table' => 'users',
+        ],
+        'apiUsers' => [
             'driver' => 'doctrine',
             'model' => App\Entities\User::class,
         ],

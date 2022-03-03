@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PromoController;
+use App\Http\Controllers\UserSectionController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -40,13 +41,17 @@ Route::group([], function () {
 });
 
 Route::group(['middleware' => ['auth:web', 'authorizedOnly', 'verifyPlan'], 'prefix' => 'app'], function () {
-    Route::view('dashboard', 'app.dashboard');
-//    Route::get('login', [CustomAuthController::class, 'index'])->name('login');
-//    Route::post('custom-login', [CustomAuthController::class, 'customLogin'])->name('login.custom');
-//    Route::get('registration', [CustomAuthController::class, 'registration'])->name('register-user');
-//    Route::post('custom-registration', [CustomAuthController::class, 'customRegistration'])->name('register.custom');
-//    Route::get('signout', [CustomAuthController::class, 'signOut'])->name('signout');
-
+    Route::view('guide', 'app.guide');
+    Route::get('dashboard', UserSectionController::class . '@dashboard');
+    Route::get('links', UserSectionController::class . '@links');
+    Route::get('domains', UserSectionController::class . '@domains');
+    Route::any('myaccount', UserSectionController::class . '@myAccount');
+    Route::get('invoices', UserSectionController::class . '@invoices');
+    Route::get('invoices/{guid}', UserSectionController::class . '@invoiceDetails');
+    Route::get('myplan', UserSectionController::class . '@myPlan');
+    Route::get('myplan/cancel', UserSectionController::class . '@cancelPlan');
+    Route::get('plans/{mixId}/{type}', UserSectionController::class . '@changePlan');
+    Route::get('subscription/{subscription}/terminate', UserSectionController::class . '@terminateSubscription');
 });
 
 Route::get('app', function () {

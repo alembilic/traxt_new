@@ -35,4 +35,15 @@ return [
         'password' => env('BACKLINKS_PASSWORD'),
     ],
 
+    'dinero' => [
+        'key' => env('DINERO_API_KEY'),
+        'secret' => env('DINERO_API_SECRET'),
+        'id' => env('DINERO_COMPANY_ID'),
+        'client_id' => env('DINERO_CLIENT_ID'),
+    ],
+
+    'quickPay' => [
+        'key' => env('QUICK_PAY_API_KEY'),
+        'secret' => env('QUICK_PAY_API_SECRET'),
+    ],
 ];

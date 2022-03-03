@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use App\Core\ChannelManager;
 use App\Core\Mail\MailChannel;
+use App\Http\Controllers\NotificationsApiController;
+use App\Http\Transformers\NotificationTransformer;
 use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\ClientInterface;
 use Illuminate\Contracts\Foundation\Application;
@@ -14,6 +16,8 @@ use Illuminate\Notifications\ChannelManager as BaseChannelManager;
 use Illuminate\Notifications\Channels\MailChannel as BaseMailChannel;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
+use League\Fractal\TransformerAbstract;
+use QuickPay\QuickPay;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -43,10 +47,17 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        $this->app->when(NotificationsApiController::class)
+            ->needs(TransformerAbstract::class)
+            ->give(NotificationTransformer::class);
         if (!$this->app->environment('local')) {
             URL::forceScheme('https');
         }
 
         $this->app->bind(ClientInterface::class, GuzzleClient::class);
+
+        $this->app->singleton(QuickPay::class, function () {
+            return new QuickPay(':' . config('services.quickPay.secret'));
+        });
     }
 }

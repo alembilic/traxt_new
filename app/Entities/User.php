@@ -3,13 +3,18 @@
 namespace App\Entities;
 
 use App\Contracts\INotifiable;
+use App\Core\EntityManagerFresher;
 use App\Entities\Helpers\Notifiable;
 use Carbon\Carbon;
 use DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
+use Doctrine\Common\Collections\Selectable;
 use Doctrine\ORM\Mapping as ORM;
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Str;
 
 /**
  * User
@@ -17,10 +22,13 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @ORM\Table(name="users", indexes={@ORM\Index(name="username", columns={"username"})})
  *
  * @ORM\Entity
+ *
+ * @ORM\HasLifecycleCallbacks()
  */
 class User extends Authenticatable implements INotifiable
 {
     use Notifiable;
+    use EntityManagerFresher;
 
     /**
      * @var int
@@ -65,6 +73,13 @@ class User extends Authenticatable implements INotifiable
      * @ORM\Column(name="api_token", type="string", length=80, nullable=true)
      */
     private ?string $apiToken;
+
+    /**
+     * @var string|null
+     *
+     * @ORM\Column(name="remember_token", type="string", length=255, nullable=true)
+     */
+    private ?string $rememberToken;
 
     /**
      * @var int
@@ -209,9 +224,9 @@ class User extends Authenticatable implements INotifiable
     /**
      * @var DateTime
      *
-     * @ORM\Column(name="next_due_date", type="date", nullable=false, options={"default"="0000-00-00"})
+     * @ORM\Column(name="next_due_date", type="date", nullable=false, options={"default"="CURRENT_DATE"})
      */
-    private $nextDueDate = '0000-00-00';
+    private $nextDueDate;
 
     /**
      * @var string
@@ -239,7 +254,7 @@ class User extends Authenticatable implements INotifiable
      *
      * @ORM\Column(name="sub_table_id", type="integer", nullable=false)
      */
-    private int $subTableId = 0;
+    private int $orderSubscription = 0;
 
     /**
      * @var int
@@ -266,13 +281,13 @@ class User extends Authenticatable implements INotifiable
      * Notifications of this user.
      *
      * @ORM\OneToMany(
-     *     targetEntity="Notifications",
+     *     targetEntity="Notification",
      *     mappedBy="user",
      *     cascade={"persist"},
      *     indexBy="id"
      * )
      *
-     * @var Collection<Notifications>
+     * @var Collection<Notification>|Selectable
      */
     private $notifications;
 
@@ -291,9 +306,29 @@ class User extends Authenticatable implements INotifiable
     private $domains;
 
     /**
-     * @return Collection<Notifications>|Notifications[]
+     * Order Subscription created by this user.
+     *
+     * @ORM\OneToMany(targetEntity="OrderSubscription", cascade={"persist"}, mappedBy="user")
+     *
+     * @var Collection<OrderSubscription>
      */
-    public function getNotifications(): Collection
+    private $activeSubscriptions;
+
+    /**
+     * @param array $attributes
+     */
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+
+        $this->nextDueDate = new DateTime();
+        $this->activeSubscriptions = new ArrayCollection();
+    }
+
+    /**
+     * @return Collection<Notification>|Selectable
+     */
+    public function getNotifications()
     {
         return $this->notifications;
     }
@@ -630,11 +665,13 @@ class User extends Authenticatable implements INotifiable
     }
 
     /**
-     * @return string
+     * @return Product|null
+     *
+     * @throws BindingResolutionException
      */
-    public function getPlan(): string
+    public function getPlan(): ?Product
     {
-        return $this->plan;
+        return $this->getEntityManager()->getRepository(Product::class)->findOneBy(['mixId' => $this->plan]);
     }
 
     /**
@@ -758,19 +795,21 @@ class User extends Authenticatable implements INotifiable
     }
 
     /**
-     * @return int
+     * @return OrderSubscription|null
+     *
+     * @throws BindingResolutionException
      */
-    public function getSubTableId(): int
+    public function getSubscription(): ?OrderSubscription
     {
-        return $this->subTableId;
+        return $this->getEntityManager()->find(OrderSubscription::class, $this->orderSubscription);
     }
 
     /**
-     * @param int $subTableId
+     * @param OrderSubscription|null $subscription
      */
-    public function setSubTableId(int $subTableId): void
+    public function setSubscription(?OrderSubscription $subscription): void
     {
-        $this->subTableId = $subTableId;
+        $this->orderSubscription = $subscription ? $subscription->getId() : 0;
     }
 
     /**
@@ -824,8 +863,69 @@ class User extends Authenticatable implements INotifiable
     /**
      * @return Collection
      */
+    public function getActiveSubscriptions()
+    {
+        return $this->activeSubscriptions;
+    }
+
+    /**
+     * @param OrderSubscription $orderSubscription
+     */
+    public function addActiveSubscriptions(OrderSubscription $orderSubscription): void
+    {
+        $orderSubscription->setUser($this);
+        $this->orderSubscription = $orderSubscription->getId();
+        $this->activeSubscriptions->add($orderSubscription);
+    }
+
+    /**
+     * Returns auth token for api.
+     *
+     * @return string|null
+     *
+     * @throws BindingResolutionException
+     */
+    public function getApiToken(): ?string
+    {
+        //TODO: generate token for all users and remove this code
+        if (!$this->apiToken) {
+            $this->apiToken = Str::random(60);
+            $this->getEntityManager()->persist($this);
+            $this->getEntityManager()->flush();
+        }
+
+        return $this->apiToken;
+    }
+
+    /**
+     * @ORM\PrePersist()
+     */
+    public function createApiToken(): void
+    {
+        $this->apiToken = Str::random(60);
+    }
+
+    /**
+     * @return Collection
+     */
     public function getDomains(): Collection
     {
         return $this->domains->matching(Criteria::create()->where(Criteria::expr()->eq('deleted', 0)));
+    }
+
+    public function getValidationRules(): array
+    {
+        return [
+            'username' => ['string'],
+            'firstname' => ['required', 'string'],
+            'lastname' => ['required', 'string'],
+            'company' => ['string'],
+            'vat_number' => ['string'],
+            'vat_valid' => ['string'],
+            'city' => ['string'],
+            'address' => ['string'],
+            'country' => ['required', 'string'],
+            'email' => ['required', 'email'],
+        ];
     }
 }

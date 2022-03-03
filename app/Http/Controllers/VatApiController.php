@@ -7,14 +7,15 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller as BaseController;
 use SoapClient;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
-class VatApiController extends BaseController
+class VatApiController extends BaseApiController
 {
     public function index(Request $request): JsonResponse
     {
         try {
-            $countryCode = $request->get('countrycode') ?? '';
-            $vatNo = $request->get('vatno') ?? '';
+            $countryCode = $request->get('countryCode') ?? '';
+            $vatNo = $request->get('vatNo') ?? '';
 
             if ($countryCode && $vatNo) {
                 $client = new SoapClient("http://ec.europa.eu/taxation_customs/vies/checkVatService.wsdl");
@@ -29,13 +30,9 @@ class VatApiController extends BaseController
                 $result['valid'] = $vatInfo->valid;
                 $result['name'] = $vatInfo->name;
                 $result['address'] = $vatInfo->address;
-                $result['isEU'] = in_array($countryCode, [
-                    'AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DE', 'DK', 'EE', 'EL', 'EI', 'ES', 'FI', 'FR', 'HU', 'IE',
-                    'IT', 'LT', 'LU', 'LV', 'MT', 'NL', 'PL', 'PT', 'RO', 'SE', 'SI', 'SK'
-                ]);
+                $result['isEU'] = in_array($countryCode, config('app.eu_country_codes'));
             } else {
-                $result['status'] = 'error';
-                $result['response'] = 'Vat number and Country code are required fields';
+                throw new BadRequestHttpException('Vat number and Country code are required fields');
             }
         } catch (Exception $e) {
             $result['status'] = 'error';
