@@ -62,4 +62,12 @@ class BackLinksRawData extends BaseDtoWrapper
     public ?Carbon $lastChecked = null;
     public ?Carbon $lastFound = null;
     public ?Carbon $firstFound = null;
+
+    /**
+     * @return string
+     */
+    public function getSearchKey(): string
+    {
+        return $this->sourceUrl . '-' . $this->destUrl;
+    }
 }
