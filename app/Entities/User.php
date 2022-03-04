@@ -30,6 +30,9 @@ class User extends Authenticatable implements INotifiable
     use Notifiable;
     use EntityManagerFresher;
 
+    public const ID = 'id';
+    public const ACTIVE_PLAN = 'activePlan';
+
     /**
      * @var int
      *

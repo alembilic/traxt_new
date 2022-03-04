@@ -2,9 +2,11 @@
 
 namespace App\Entities;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use LaravelDoctrine\Extensions\Timestamps\Timestamps;
+use Doctrine\Common\Collections\Collection;
 
 /**
  * Domain
@@ -16,6 +18,9 @@ use LaravelDoctrine\Extensions\Timestamps\Timestamps;
 class Domain
 {
     use Timestamps;
+
+    public const USER = 'createdBy';
+    public const DELETED = 'deleted';
 
     /**
      * @var int
@@ -129,6 +134,29 @@ class Domain
      * @ORM\Column(name="domain_redirect_flow", type="text", length=65535, nullable=true)
      */
     private ?string $domainRedirectFlow = null;
+
+    /**
+     * User Suppliers Settings.
+     *
+     * @ORM\OneToMany(
+     *     targetEntity="BackLink",
+     *     mappedBy="domain",
+     *     cascade={"persist", "remove"},
+     *     orphanRemoval=true
+     * )
+     *
+     * @var Collection<BackLink>
+     */
+    private Collection $backLinks;
+
+    /**
+     * @param string $domainName
+     */
+    public function __construct(string $domainName)
+    {
+        $this->domainName = $domainName;
+        $this->backLinks = new ArrayCollection();
+    }
 
     /**
      * @return int
@@ -362,4 +390,11 @@ class Domain
         $this->domainRedirectFlow = $domainRedirectFlow;
     }
 
+    /**
+     * @return Collection
+     */
+    public function getBackLinks(): Collection
+    {
+        return $this->backLinks;
+    }
 }
