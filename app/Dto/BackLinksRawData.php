@@ -32,6 +32,7 @@ class BackLinksRawData extends BaseDtoWrapper
     public const LINK_TYPE = 'linkType';
     public const RANK = 'rank';
     public const IS_LOST = 'isLost';
+    public const ALT = 'alt';
 
     public string $domainName;
     public string $sourceUrl;
@@ -51,6 +52,7 @@ class BackLinksRawData extends BaseDtoWrapper
     public ?bool $relUgc = null;
     public ?bool $relSponsored = null;
     public ?bool $isLost = null;
+    public ?bool $alt = null;
 
     public ?int $status = 1;
     public ?int $linkType = 1;

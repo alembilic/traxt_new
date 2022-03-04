@@ -6,7 +6,7 @@ use App\Dto\BackLinksRawData;
 use League\Fractal\TransformerAbstract;
 
 /**
- * Raw BackLink Transformer
+ * Raw TrxBackLink Transformer
  */
 class RawBackLinkTransformer extends TransformerAbstract
 {
