@@ -33,7 +33,7 @@ class BackLink
      *
      * @var Domain
      *
-     * @ORM\ManyToOne(targetEntity="Domain")
+     * @ORM\ManyToOne(targetEntity="Domain", inversedBy="backLinks")
      *
      * @ORM\JoinColumn(name="domain_id", referencedColumnName="id")
      */
@@ -325,5 +325,13 @@ class BackLink
     public function getLastSeen(): DateTime
     {
         return $this->lastSeen;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSearchKey(): string
+    {
+        return $this->sourceUrl . '-' . $this->destUrl;
     }
 }
