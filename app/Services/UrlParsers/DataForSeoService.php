@@ -32,9 +32,9 @@ class DataForSeoService
                 [
                     'target' => $path,
                     'mode' => 'as_is',
-                    'limit' => 200,
+                    'limit' => 500,
                     'backlinks_status_type' => 'all',
-                    'include_subdomains' => true,
+                    'include_subdomains' => false,
                 ]
             ]);
             $curl = curl_init();
