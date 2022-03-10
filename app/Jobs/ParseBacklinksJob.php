@@ -4,6 +4,8 @@ namespace App\Jobs;
 
 use App\Core\EntityManagerFresher;
 use App\Dto\BackLinksRawData;
+use App\Entities\BackLink;
+use App\Entities\BackLinkLog;
 use App\Entities\Domain;
 use App\Entities\ExternalLink;
 use App\Entities\ImportedUrl;
@@ -60,44 +62,37 @@ class ParseBacklinksJob extends BaseJob implements ShouldBeUniqueUntilProcessing
         $user = $entityManager->find(User::class, $this->userId);
         /* @var Domain $domain */
         $domain = $entityManager->getRepository(Domain::class)->find($this->domainId);
-        if (!$domain) {
+        if (!$domain || ($user && !$user->isActivePlan()) || $domain->isDeleted()) {
             throw new InvalidArgumentException('Domain expired');
         }
 
+        $map = collect($domain->getBackLinks())->keyBy(function (BackLink $backLink) {
+            return $backLink->getSearchKey();
+        });
         $backLinks = $service->getBackLinksByPath($domain->getDomainName());
 
-        $i = 0;
-        $urls = collect();
         /* @var BackLinksRawData $linkData */
-        foreach ($backLinks as $linkData) {
+        foreach ($backLinks as $backLinkData) {
             if (!in_array($linkData->destUrl . $linkData->sourceUrl, $this->linksFilter)) {
                 continue;
             }
 
-            /* @var ImportedUrl $iu */
-            $iu = $urls->get($linkData->destUrl);
-            if (!$iu) {
-                $iu = $entityManager->getRepository(ImportedUrl::class)->findOneBy(['url' => $linkData->destUrl]);
-                if ($iu) {
-                    $urls->put($linkData->destUrl, $iu);
-                }
-            }
-            if (!$iu) {
-                $iu = new ImportedUrl($linkData->destUrl);
-                $entityManager->persist($iu);
-                $link = new Link($iu, $user);
-                $entityManager->persist($link);
-                $urls->put($linkData->destUrl, $iu);
+            /* @var BackLink $backLink */
+            $backLink = $map->get($backLinkData->getSearchKey());
+            if ($backLink) {
+                $backLinkLog = new BackLinkLog($backLink, json_encode($backLinkData->toArray()));
+                $backLinkLog->fill($backLinkData);
+                $entityManager->persist($backLinkLog);
+                continue;
             }
 
-            $backLink = new ExternalLink($iu, $linkData->sourceUrl);
-            $backLink->fill($linkData);
-            $backLink->setDomain($domain->getDomainName());
+            $backLink = new BackLink($linkData->sourceUrl, $linkData->destUrl, $domain, $user);
+            $backLink->fill($backLinkData);
             $entityManager->persist($backLink);
-            if ($i % 100 === 0) {
-                $entityManager->flush();
-            }
-            $i++;
+
+            $backLinkLog = new BackLinkLog($backLink, json_encode($backLinkData->toArray()));
+            $backLinkLog->fill($backLinkData);
+            $entityManager->persist($backLinkLog);
         }
 
         $entityManager->flush();
