@@ -101,7 +101,7 @@
                                 </tr>
                             </table>
                             <div class="pre-payment-pricing-bottom align-center">
-                                <p>Every {{ $type === 'once' ? $plan->getRenew() : $plan->getRenewSubscribe() }} Months</p>
+                                <p>Every {{ $type === 'monthly' ? $plan->getRenew() : $plan->getRenewSubscribe() }} Months</p>
                                 @if ($plan->getFreeTrail())
                                     <p class="color-grey pad-top-2">First withdrawal: {{ $nextDueDate }}</p>
                                 @endif
@@ -111,7 +111,7 @@
                     @if (!$plan->getPricePerMonth())
                         <a class="btn-custom bc-btn-primary align-center btn-go-to-payment" href="/app/dashboard">Goto dashboard</a>
                     @else
-                        <a href="{{ $paymentUrl }}" class="btn-custom bc-btn-primary align-center btn-go-to-payment">Go to Payment</a>
+                        <a href="/app/subscription/pay?product={{ $plan->getMixId() }}&type={{ $type }}" class="btn-custom bc-btn-primary align-center btn-go-to-payment">Go to Payment</a>
                     @endif
                 </div>
             </div>

@@ -231,7 +231,7 @@ class Product
     /**
      * @return int
      */
-    public function getPriceSubscription(): int
+    public function getPricePeriod(): int
     {
         return $this->priceSubscription;
     }

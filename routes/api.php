@@ -3,6 +3,7 @@
 use App\Http\Controllers\DomainApiController;
 use App\Http\Controllers\NotificationsApiController;
 use App\Http\Controllers\VatApiController;
+use App\Http\Controllers\WebhookApiController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -30,3 +31,4 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::post('domain/{domain}/importBackLinks', DomainApiController::class . '@importBackLinks');
     Route::get('domain/{domain}/retrieveBackLinks', DomainApiController::class . '@retrieveBackLinks');
 });
+Route::any('webhook/{type}', WebhookApiController::class . '@handle');

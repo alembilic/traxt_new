@@ -163,7 +163,7 @@ class OrderSubscription
             return null;
         }
 
-        return $type === 1 ? SubscriptionTypes::ONCE : SubscriptionTypes::SUBSCRIBE;
+        return $type === 1 ? SubscriptionTypes::MONTHLY : SubscriptionTypes::YEARLY;
     }
 
     /**
@@ -176,7 +176,7 @@ class OrderSubscription
         if (!$this->getProduct()) {
             return 0;
         }
-        return $this->getType() === SubscriptionTypes::ONCE
+        return $this->getType() === SubscriptionTypes::MONTHLY
             ? $this->getProduct()->getRenew()
             : $this->getProduct()->getRenewSubscribe();
     }
@@ -193,9 +193,9 @@ class OrderSubscription
             return 0.00;
         }
 
-        return ($this->getType() === SubscriptionTypes::ONCE
+        return ($this->getType() === SubscriptionTypes::MONTHLY
             ? $product->getPricePerMonth()
-            : $product->getPriceSubscription()) / 100;
+            : $product->getPricePeriod()) / 100;
     }
 
     /**
@@ -211,9 +211,9 @@ class OrderSubscription
         }
 
         if (!$this->user->getVatValid() || $this->user->getVatValid() === 'DK') {
-            return ($this->getType() === SubscriptionTypes::ONCE
+            return ($this->getType() === SubscriptionTypes::MONTHLY
                 ? $product->getPricePerMonth()
-                : $product->getPriceSubscription()) / 100 * 0.25;
+                : $product->getPricePeriod()) / 100 * 0.25;
         }
 
         return 0;

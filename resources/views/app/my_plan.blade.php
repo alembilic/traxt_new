@@ -7,7 +7,7 @@
         /* @var \App\Entities\Product|null $plan */
         /* @var \App\Entities\Product $availablePlan */
         /* @var \App\Entities\User $user */
-        /* @var \App\Entities\OrderSubscription|null $subscription */
+        /* @var \App\Entities\Subscription|null $subscription */
     @endphp
     <script>
         $(function() {
@@ -43,7 +43,7 @@
                 <h1 style="text-align: center; margin: 20px;">You current plan</h1>
                 <div class="all_plans">
                     <div class="plan" style="margin: 0 auto;">
-                        @if (!$user->isActivePlan() || !$plan || !$plan->getDomains())
+                        @if (!$subscription)
                             No active plan
                         @else
                             <div class="name">
@@ -90,17 +90,17 @@
                                 </div>
                             </div>
                             <hr />
-                            @if($user->getSubscription())
+                            @if($subscription)
                                 Price: {{ number_format($subscription->getTotal(), 2, '.', '') }} USD
                                 <br />
-                                Every {{ $subscription->getPeriod() }} Month{{ $subscription->getPeriod() > 1 ? 's' : '' }}
+                                Every {{ $subscription->getPaymentPeriod() }} Month{{ $subscription->getPaymentPeriod() > 1 ? 's' : '' }}
                                 <br />Next renewal:
                                 @if ($plan->getRenew() === 1)
-                                    {{ $user->getNextDueDate()->format('Y-m-d') }}
+                                    {{ $subscription->getNextDueDate()->format('Y-m-d') }}
                                     <div style="margin-top: 20px;"><a href="/app/myplan/cancel" id="cancel_sub" class="btn btn-danger">Cancel subscription</a></div>
                                 @else
                                     Not set to renew
-                                    <div style="margin-top: 20px;">Subscription will end on {{ $user->getNextDueDate()->format('Y-m-d') }}</div>
+                                    <div style="margin-top: 20px;">Subscription will end on {{ $subscription->getNextDueDate()->format('Y-m-d') }}</div>
                                 @endif
                             @endif
                         @endif
@@ -110,7 +110,7 @@
                 <h1 style="text-align: center; margin: 20px;">Pick a new plan, choice below</h1>
                 <div class="all_plans">
                     @if ($isPaymentCanceled ?? false)
-                        <div style="color: red;font-weight:bold;">You canceled the Payment, pick a plan to continue</div>
+                        <div style="color: red;font-weight:bold;text-align: center">You canceled the Payment, pick a plan to continue</div>
                     @endif
                     @foreach ($plans as $availablePlan)
                     <div class="plan">
@@ -164,15 +164,15 @@
                                     <br /><span style="color: grey; font-size: 12px;">+{{ number_format($availablePlan->getPricePerMonth() / 100 * 0.25, 2, '.', '') }} USD VAT</span>
                                 @endif
                                 <br />For {{ $availablePlan->getRenew() }} Month{{ $availablePlan->getRenew() > 1 ? 's' : '' }}
-                                <a href="/app/plans/{{ $availablePlan->getMixId() }}/once">Pick this plan</a>
+                                <a href="/app/plans/{{ $availablePlan->getMixId() }}/monthly">Pick this plan</a>
                             </div>
                             <div class="price">
-                                {{ number_format($availablePlan->getPriceSubscription() / 100, 2, '.', '') }} USD
+                                {{ number_format($availablePlan->getPricePeriod() / 100, 2, '.', '') }} USD
                                 @if ($user->getVatValid() === 'DK')
-                                    <br /><span style="color: grey; font-size: 12px;">+{{ number_format($availablePlan->getPriceSubscription() / 100 * 0.25, 2, '.', '') }} USD VAT</span>
+                                    <br /><span style="color: grey; font-size: 12px;">+{{ number_format($availablePlan->getPricePeriod() / 100 * 0.25, 2, '.', '') }} USD VAT</span>
                                 @endif
                                 <br />For {{ $availablePlan->getRenewSubscribe() }} Month{{ $availablePlan->getRenewSubscribe() > 1 ? 's' : '' }}
-                                <a href="/app/plans/{{ $availablePlan->getMixId() }}/subscribe">Pick this plan</a>
+                                <a href="/app/plans/{{ $availablePlan->getMixId() }}/yearly">Pick this plan</a>
                             </div>
                         </div>
                     </div>

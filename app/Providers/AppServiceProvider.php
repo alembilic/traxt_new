@@ -2,10 +2,14 @@
 
 namespace App\Providers;
 
+use App\Contracts\IAccountingSystem;
+use App\Contracts\IPaymentSystemService;
 use App\Core\ChannelManager;
 use App\Core\Mail\MailChannel;
 use App\Http\Controllers\NotificationsApiController;
 use App\Http\Transformers\NotificationTransformer;
+use App\Services\Dinero\DineroService;
+use App\Services\PaymentServices\QuickPayPaymentServiceService;
 use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\ClientInterface;
 use Illuminate\Contracts\Foundation\Application;
@@ -55,6 +59,8 @@ class AppServiceProvider extends ServiceProvider
         }
 
         $this->app->bind(ClientInterface::class, GuzzleClient::class);
+        $this->app->bind(IAccountingSystem::class, DineroService::class);
+        $this->app->bind(IPaymentSystemService::class, QuickPayPaymentServiceService::class);
 
         $this->app->singleton(QuickPay::class, function () {
             return new QuickPay(':' . config('services.quickPay.secret'));

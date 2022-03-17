@@ -12,7 +12,7 @@
                 <h3 class="panel-title">Invoices</h3>
             </div>
             @php
-                /* @var \App\Entities\Order[] $invoices */
+                /* @var \App\Entities\SubscriptionCharge[] $invoices */
             @endphp
             <div class="panel-body table-responsive">
                 @if (count($invoices))
@@ -38,11 +38,11 @@
                                 <td>
                                     @if (!$invoice->getTotal())
                                     No invoice for Zero orders
-                                    @elseif ($invoice->getDineroGuid() && $invoice->getTransferState() !== 5)
+                                    @elseif ($invoice->getStatus() === 'pending')
                                     Pending
                                     @else
                                     <div class="btn-group btn-group-xs">
-                                        <a target="_blank" class="open_modal btn btn-default" href="/app/invoices/{{$invoice->getDineroGuid()}}">Download Invoice</a>
+                                        <a target="_blank" class="open_modal btn btn-default" href="/app/invoices/{{$invoice->getAccountingSystemId()}}">Download Invoice</a>
                                     </div>
                                     @endif
                                 </td>

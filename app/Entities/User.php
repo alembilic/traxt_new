@@ -7,7 +7,6 @@ use App\Core\EntityManagerFresher;
 use App\Entities\Helpers\Notifiable;
 use Carbon\Carbon;
 use DateTime;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Collections\Selectable;
@@ -204,11 +203,11 @@ class User extends Authenticatable implements INotifiable
     private string $plan;
 
     /**
-     * @var string
+     * @var integer
      *
-     * @ORM\Column(name="renew", type="string", length=11, nullable=false)
+     * @ORM\Column(name="renew", type="integer", nullable=false)
      */
-    private string $renew = '';
+    private int $renew = 0;
 
     /**
      * @var string
@@ -325,7 +324,6 @@ class User extends Authenticatable implements INotifiable
         parent::__construct($attributes);
 
         $this->nextDueDate = new DateTime();
-        $this->activeSubscriptions = new ArrayCollection();
     }
 
     /**
@@ -686,17 +684,17 @@ class User extends Authenticatable implements INotifiable
     }
 
     /**
-     * @return string
+     * @return int
      */
-    public function getRenew(): string
+    public function getRenew(): int
     {
         return $this->renew;
     }
 
     /**
-     * @param string $renew
+     * @param int $renew
      */
-    public function setRenew(string $renew): void
+    public function setRenew(int $renew): void
     {
         $this->renew = $renew;
     }
@@ -798,21 +796,18 @@ class User extends Authenticatable implements INotifiable
     }
 
     /**
-     * @return OrderSubscription|null
+     * @return Subscription|null
      *
      * @throws BindingResolutionException
      */
-    public function getSubscription(): ?OrderSubscription
+    public function getSubscription(): ?Subscription
     {
-        return $this->getEntityManager()->find(OrderSubscription::class, $this->orderSubscription);
-    }
-
-    /**
-     * @param OrderSubscription|null $subscription
-     */
-    public function setSubscription(?OrderSubscription $subscription): void
-    {
-        $this->orderSubscription = $subscription ? $subscription->getId() : 0;
+        return $this->getEntityManager()->getRepository(Subscription::class)->matching(Criteria::create()
+            ->where(Criteria::expr()->eq(Subscription::CREATED_BY, $this))
+            ->andWhere(Criteria::expr()->isNull(Subscription::CANCEL_DATE))
+            ->andWhere(Criteria::expr()->lt(Subscription::NEXT_DUE_DATE, (new DateTime())))
+            ->andWhere(Criteria::expr()->eq(Subscription::ACTIVE, true))
+        )->get(0);
     }
 
     /**
@@ -861,24 +856,6 @@ class User extends Authenticatable implements INotifiable
     public function setIdBureau(int $idBureau): void
     {
         $this->idBureau = $idBureau;
-    }
-
-    /**
-     * @return Collection
-     */
-    public function getActiveSubscriptions()
-    {
-        return $this->activeSubscriptions;
-    }
-
-    /**
-     * @param OrderSubscription $orderSubscription
-     */
-    public function addActiveSubscriptions(OrderSubscription $orderSubscription): void
-    {
-        $orderSubscription->setUser($this);
-        $this->orderSubscription = $orderSubscription->getId();
-        $this->activeSubscriptions->add($orderSubscription);
     }
 
     /**
