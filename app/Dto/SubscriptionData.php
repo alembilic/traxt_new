@@ -15,7 +15,7 @@ class SubscriptionData extends BaseDtoWrapper
     public const CANCEL_DATE = 'cancelDate';
     public const ACTIVE = 'active';
 
-    public ?string $externalId = null;
+    public $externalId = null;
     public ?string $paymentUrl = null;
     public ?string $accountingSystemId = null;
     public ?string $status = null;
