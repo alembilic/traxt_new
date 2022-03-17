@@ -6,6 +6,6 @@ use BenSampo\Enum\Enum;
 
 class SubscriptionTypes extends Enum
 {
-    public const ONCE = 'once';
-    public const SUBSCRIBE = 'subscribe';
+    public const MONTHLY = 'monthly';
+    public const YEARLY = 'yearly';
 }

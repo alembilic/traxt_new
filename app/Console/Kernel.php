@@ -28,6 +28,7 @@ class Kernel extends ConsoleKernel
     {
         // uncomment on production
 //        $schedule->command('backlinks:parse')->daily();
+//        $schedule->command('subscriptions:renew')->daily();
     }
 
     /**

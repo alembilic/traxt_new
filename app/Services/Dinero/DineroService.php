@@ -2,6 +2,8 @@
 
 namespace App\Services\Dinero;
 
+use App\Contracts\IAccountingSystem;
+use App\Entities\SubscriptionCharge;
 use App\Exceptions\AuthServiceException;
 use App\Exceptions\ServiceException;
 use Illuminate\Support\Facades\Cache;
@@ -9,7 +11,7 @@ use Illuminate\Support\Facades\Cache;
 /**
  * DataForSEO service
  */
-class DineroService
+class DineroService implements IAccountingSystem
 {
     /**
      * @var string
@@ -35,7 +37,7 @@ class DineroService
             curl_setopt($curl, CURLOPT_HEADER, false);
             curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($curl, CURLOPT_HTTPHEADER, [
-                'Authorization: Bearer '. $this->getAuthToken(),
+                'Authorization: Bearer ' . $this->getAuthToken(),
                 'Host: api.dinero.dk',
                 'Content-Type: application/json',
                 'Accept: application/octet-stream'
@@ -93,5 +95,77 @@ class DineroService
         }
 
         return $data['access_token'];
+    }
+
+    public function createInvoice(SubscriptionCharge $charge): string
+    {
+
+    }
+
+
+    function cron_create_contact($ordre, $auth) {
+        if ($auth != false) {
+            $token = $auth->access_token;
+            $firmaid = firmaid();
+            //$invoice = new HTMLTemplateInvoiceCore($order_invoice, true);
+
+            //print_r($invoice);
+
+
+
+            $contact = '{"ExternalReference": "Traxr: '.$ordre['id'].'",
+                      "Name": "'.($ordre['company'] ? $ordre['company'] : $ordre['firstname'].' '.$ordre['lastname']) .''.($vat).'",
+                      "Street": "'.$ordre['address'].'",
+                      "ZipCode": "",
+                      "City": "'.$ordre['city'].'",
+                      "CountryKey": "'.$ordre['country'].'",
+                      "Phone": null,
+                      "Email": "'.$ordre['email'].'",
+                      "AttPerson": "'.$ordre['firstname'].' '.$ordre['lastname'].'",
+                      "PaymentConditionType": "Netto",
+                      "PaymentConditionNumberOfDays": 8,
+                      "UseCvr": false,
+                      "IsPerson": false}';
+            //echo $contact;
+            $test = json_decode($contact);
+            /*echo '<pre>';
+            echo 123;
+            print_r($test);
+            echo '</pre>';*/
+            $url = 'https://api.dinero.dk/v1/'.$firmaid.'/contacts';
+            $curl = curl_init($url);
+            curl_setopt($curl, CURLOPT_POST, true);
+            curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($curl, CURLOPT_HEADER, false);
+            curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($curl, CURLOPT_HTTPHEADER, array(
+                'Authorization: Bearer '. $token,
+                'Host: api.dinero.dk',
+                'Content-Type: application/json',
+                'Content-Length: '.strlen($contact)
+            ));
+            curl_setopt($curl, CURLOPT_POSTFIELDS,$contact);
+            $contact_guid = curl_exec($curl);
+
+            print_r($contact_guid);
+
+            if($errno = curl_errno($curl)) {
+                $error_message = curl_strerror($errno);
+                echo "cURL error ({$errno}):\n {$error_message}";
+            }
+            else if (isJson($contact_guid)) {
+                $contact_guid = json_decode($contact_guid);
+                if (!isset($contact_guid->Message) && !isset($contact_guid->message)) {
+                    return $contact_guid;
+                }
+                else {
+                    return false;
+                }
+            }
+
+        }
+        else {
+            echo 'An error has happend';
+        }
     }
 }

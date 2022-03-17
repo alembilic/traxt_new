@@ -183,7 +183,7 @@
                 </div>
                 <div class="s04-pricing-amount">
                     <strong>
-                        <span class="s04-pricing-currency">$</span><span>{{ number_format($availablePlan->getPriceSubscription() / 100, 2, '.', '') }}</span>
+                        <span class="s04-pricing-currency">$</span><span>{{ number_format($availablePlan->getPricePeriod() / 100, 2, '.', '') }}</span>
                         <code>00</code>
                     </strong>
                     <div class="s04-pricing-frequency">Paid Yearly</div>
