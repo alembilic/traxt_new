@@ -2,7 +2,6 @@
 
 namespace App\Entities;
 
-use App\Core\EntityManagerFresher;
 use App\Enums\ChargeStatuses;
 use App\Jobs\AccountingSystemPaymentJob;
 use Carbon\Carbon;
@@ -23,7 +22,6 @@ use LaravelDoctrine\Extensions\Timestamps\Timestamps;
  */
 class SubscriptionCharge
 {
-    use EntityManagerFresher;
     use Timestamps;
 
     public const STATUS = 'status';
@@ -50,7 +48,7 @@ class SubscriptionCharge
     /**
      * @var User
      *
-     * @ORM\ManyToOne(targetEntity="User", inversedBy="activeSubscriptions")
+     * @ORM\ManyToOne(targetEntity="User")
      *
      * @ORM\JoinColumn(name="created_by", referencedColumnName="id")
      */
@@ -273,20 +271,13 @@ class SubscriptionCharge
      */
     public function addActivityAfterValueChange(LifecycleEventArgs $args): void
     {
-        $changeSet = $args->getEntityManager()->getUnitOfWork()->getEntityChangeSet($this);
+        $em = $args->getEntityManager();
+        $changeSet = $em->getUnitOfWork()->getEntityChangeSet($this);
 
         if (isset($changeSet[static::STATUS]) && $changeSet[static::STATUS][1] === ChargeStatuses::COMPLETE) {
             $subscription = $this->getSubscription();
-            $nextDueDate = Carbon::now()->startOfDay()->addMonths($subscription->getPeriod());
-            $user = $subscription->getCreatedBy();
-            $user->setNextDueDate($nextDueDate);
-            $user->setActivePlan(true);
-            $user->setOldUser(1);
-            $user->setPlan($subscription->getProduct()->getMixId());
-            $user->setRenew(1);
-            $subscription->setNextDueDate($nextDueDate);
-            $em = $this->getEntityManager();
-            $em->persist($user);
+            $subscription->activate();
+            $subscription->setNextDueDate(Carbon::now()->startOfDay()->addMonths($subscription->getPeriod()));
             $em->persist($subscription);
             $em->flush();
         }

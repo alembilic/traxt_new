@@ -8,6 +8,7 @@ use App\Enums\SubscriptionTypes;
 use App\Jobs\TerminateSubscriptionJob;
 use Carbon\Carbon;
 use DateTime;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -151,13 +152,13 @@ class Subscription
     {
         $fields = $data->getInitializedFields();
         if (in_array(SubscriptionData::EXTERNAL_ID, $fields)) {
-            $this->externalId = $data->externalId;
+            $this->externalId = (string)$data->externalId;
         }
         if (in_array(SubscriptionData::PAYMENT_URL, $fields)) {
-            $this->paymentUrl = $data->paymentUrl;
+            $this->paymentUrl = (string)$data->paymentUrl;
         }
         if (in_array(SubscriptionData::ACCOUNTING_SYSTEM_ID, $fields)) {
-            $this->accountingSystemId = $data->accountingSystemId;
+            $this->accountingSystemId = (string)$data->accountingSystemId;
         }
         if (in_array(SubscriptionData::PAYMENT_PERIOD, $fields)) {
             $this->paymentPeriod = $data->paymentPeriod;
@@ -271,6 +272,23 @@ class Subscription
     }
 
     /**
+     * @return void
+     */
+    public function activate(): void
+    {
+        $this->active = true;
+    }
+
+    /**
+     * @return void
+     */
+    public function deactivate(): void
+    {
+        $this->active = false;
+        $this->cancelDate = new DateTime();
+    }
+
+    /**
      * @return Product
      */
     public function getProduct(): Product
@@ -350,6 +368,8 @@ class Subscription
     }
 
     /**
+     * Cancel all current subscriptions.
+     *
      * @ORM\PostUpdate()
      */
     public function terminateSubscription(LifecycleEventArgs $args): void
@@ -358,6 +378,41 @@ class Subscription
 
         if ($this->getPrice() && isset($changeSet[static::CANCEL_DATE]) && $changeSet[static::CANCEL_DATE][1]) {
             dispatch(new TerminateSubscriptionJob($this));
+        }
+    }
+
+    /**
+     * Deactivate all subscriptions except current.
+     *
+     * @ORM\PostUpdate()
+     */
+    public function onActivateSubscription(LifecycleEventArgs $args): void
+    {
+        $em = $args->getEntityManager();
+        $changeSet = $em->getUnitOfWork()->getEntityChangeSet($this);
+
+        if (isset($changeSet[static::ACTIVE]) && $changeSet[static::ACTIVE][1]) {
+            $user = $this->getCreatedBy();
+            $user->setNextDueDate($this->getNextDueDate());
+            $user->setActivePlan(true);
+            $user->setOldUser(1);
+            $user->setPlan($this->getProduct()->getMixId());
+            $user->setRenew(1);
+            $em->persist($user);
+
+            $subscriptions = $em->getRepository(Subscription::class)->matching(Criteria::create()
+                ->where(Criteria::expr()->eq(Subscription::CREATED_BY, $this->getCreatedBy()))
+                ->andWhere(Criteria::expr()->isNull(Subscription::CANCEL_DATE))
+                ->andWhere(Criteria::expr()->gt(Subscription::NEXT_DUE_DATE, (new DateTime())))
+                ->andWhere(Criteria::expr()->eq(Subscription::ACTIVE, true))
+                ->andWhere(Criteria::expr()->neq(Subscription::ID, $this->getId()))
+            );
+            /* @var Subscription $subscription */
+            foreach ($subscriptions as $subscription) {
+                $subscription->deactivate();
+                $em->persist($subscription);
+            }
+            $em->flush();
         }
     }
 }

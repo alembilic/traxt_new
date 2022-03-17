@@ -95,9 +95,10 @@
                                 <br />
                                 Every {{ $subscription->getPaymentPeriod() }} Month{{ $subscription->getPaymentPeriod() > 1 ? 's' : '' }}
                                 <br />Next renewal:
-                                @if ($plan->getRenew() === 1)
+                                @if (!$subscription->getCancelDate())
                                     {{ $subscription->getNextDueDate()->format('Y-m-d') }}
                                     <div style="margin-top: 20px;"><a href="/app/myplan/cancel" id="cancel_sub" class="btn btn-danger">Cancel subscription</a></div>
+                                    <div style="margin-top: 20px;"><a href="/app/subscription/{{ $subscription->getId() }}/update" class="btn btn-green">Update card info</a></div>
                                 @else
                                     Not set to renew
                                     <div style="margin-top: 20px;">Subscription will end on {{ $subscription->getNextDueDate()->format('Y-m-d') }}</div>
@@ -110,7 +111,7 @@
                 <h1 style="text-align: center; margin: 20px;">Pick a new plan, choice below</h1>
                 <div class="all_plans">
                     @if ($isPaymentCanceled ?? false)
-                        <div style="color: red;font-weight:bold;text-align: center">You canceled the Payment, pick a plan to continue</div>
+                        <div style="color: red;font-weight:bold;text-align: center;width: 100%">You canceled the Payment, pick a plan to continue</div>
                     @endif
                     @foreach ($plans as $availablePlan)
                     <div class="plan">

@@ -282,12 +282,7 @@ class User extends Authenticatable implements INotifiable
     /**
      * Notifications of this user.
      *
-     * @ORM\OneToMany(
-     *     targetEntity="Notification",
-     *     mappedBy="user",
-     *     cascade={"persist"},
-     *     indexBy="id"
-     * )
+     * @ORM\OneToMany(targetEntity="Notification", mappedBy="user", cascade={"persist"}, indexBy="id")
      *
      * @var Collection<Notification>|Selectable
      */
@@ -296,25 +291,20 @@ class User extends Authenticatable implements INotifiable
     /**
      * Domains created by this user.
      *
-     * @ORM\OneToMany(
-     *     targetEntity="Domain",
-     *     mappedBy="createdBy",
-     *     cascade={"persist"},
-     *     indexBy="id"
-     * )
+     * @ORM\OneToMany(targetEntity="Domain", mappedBy="createdBy", cascade={"persist"}, indexBy="id")
      *
      * @var Collection<Domain>
      */
     private $domains;
 
     /**
-     * Order Subscription created by this user.
+     * Subscriptions created by this user.
      *
-     * @ORM\OneToMany(targetEntity="OrderSubscription", cascade={"persist"}, mappedBy="user")
+     * @ORM\OneToMany(targetEntity="Subscription", cascade={"persist"}, mappedBy="createdBy")
      *
-     * @var Collection<OrderSubscription>
+     * @var Collection<Subscription>|Selectable
      */
-    private $activeSubscriptions;
+    private $subscriptions;
 
     /**
      * @param array $attributes
@@ -797,17 +787,24 @@ class User extends Authenticatable implements INotifiable
 
     /**
      * @return Subscription|null
-     *
-     * @throws BindingResolutionException
      */
     public function getSubscription(): ?Subscription
     {
-        return $this->getEntityManager()->getRepository(Subscription::class)->matching(Criteria::create()
+        $currentSubscriptions = collect($this->subscriptions->matching(Criteria::create()
             ->where(Criteria::expr()->eq(Subscription::CREATED_BY, $this))
-            ->andWhere(Criteria::expr()->isNull(Subscription::CANCEL_DATE))
-            ->andWhere(Criteria::expr()->lt(Subscription::NEXT_DUE_DATE, (new DateTime())))
+            ->andWhere(Criteria::expr()->gt(Subscription::NEXT_DUE_DATE, (new DateTime())))
             ->andWhere(Criteria::expr()->eq(Subscription::ACTIVE, true))
-        )->get(0);
+            ->orderBy([
+                Subscription::CANCEL_DATE => 'asc',
+                Subscription::NEXT_DUE_DATE => 'desc',
+            ])
+        ));
+        $currentSubscription = $currentSubscriptions->first();
+        if ($currentSubscription->getCancelDate()) {
+            $currentSubscription = $currentSubscriptions->last();
+        }
+
+        return $currentSubscription ?: null;
     }
 
     /**

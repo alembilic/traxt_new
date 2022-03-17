@@ -182,13 +182,7 @@ class UserSectionController extends BaseWebController
      */
     public function myPlan(): View
     {
-        /* @var Subscription $currentSubscription */
-        $currentSubscription = $this->getRepository(Subscription::class)->matching(Criteria::create()
-            ->where(Criteria::expr()->eq(Subscription::CREATED_BY, $this->user))
-            ->andWhere(Criteria::expr()->isNull(Subscription::CANCEL_DATE))
-            ->andWhere(Criteria::expr()->lt(Subscription::NEXT_DUE_DATE, (new DateTime())))
-            ->andWhere(Criteria::expr()->eq(Subscription::ACTIVE, true))
-        )->get(0);
+        $currentSubscription = $this->user->getSubscription();
 
         return view('app.my_plan', [
             'plan' => $currentSubscription ? $currentSubscription->getProduct() : null,
@@ -201,30 +195,29 @@ class UserSectionController extends BaseWebController
         ]);
     }
 
+    /**
+     * @return View
+     *
+     * @throws BindingResolutionException
+     */
     public function cancelPlan(): View
     {
-//        $orders = new Orders($db);
-//        $users = new Users($db);
-//        $user = $users->get_user($session->id);
-//        if ($user['subscription_id'] == 0) {
-//            $functions->updateUserByid($session->id, 'renew', 0);
-//            $functions->updateUserByid($session->id, 'sub_id', '');
-//            $functions->updateUserByid($session->id, 'sub_table_id', 0);
-//        }
-//        else {
-//            $cancel = $orders->cancel_subscription($user['subscription_id'], $functions);
-//            if ($cancel['curl_info']['http_code'] == '202' || $cancel['curl_info']['http_code'] == '400') {
-//                $confirm = 'Subscription Canceled';
-//                $functions->updateUserByid($session->id, 'renew', 0);
-//                $functions->updateUserByid($session->id, 'sub_id', '');
-//                $functions->updateUserByid($session->id, 'sub_table_id', 0);
-//            }
-//            else {
-//                $error = '<p>And Error has happend</p>';
-//            }
-//        }
+        $currentSubscription = $this->user->getSubscription();
+        if ($currentSubscription && !$currentSubscription->getCancelDate()) {
+            $currentSubscription->setCancelDate(new DateTime());
+            $this->getEntityManager()->persist($currentSubscription);
+            $this->getEntityManager()->flush();
+        }
 
-        return view('app.my_plan', ['plan' => $this->user->getPlan(), 'isPaymentCanceled' => true]);
+        return view('app.my_plan', [
+            'plan' => $currentSubscription ? $currentSubscription->getProduct() : null,
+            'subscription' => $currentSubscription,
+            'user' => $this->user,
+            'plans' => $this->getRepository(Product::class)->matching(Criteria::create()
+                ->orderBy(['pricePerMonth' => 'asc'])
+                ->where(Criteria::expr()->eq('public', 1))),
+            'isPaymentCanceled' => true
+        ]);
     }
 
     /**
@@ -331,4 +324,32 @@ class UserSectionController extends BaseWebController
         return redirect($subscriptionData->paymentUrl);
     }
 
+    /**
+     * Update Credit Card Information.
+     *
+     * @param Subscription $subscription
+     * @param QuickPayPaymentServiceService $paymentService
+     *
+     * @return Redirector|RedirectResponse
+     *
+     * @throws BindingResolutionException
+     * @throws DtoException
+     * @throws PaymentServiceException
+     */
+    public function updateSubscription(Subscription $subscription, QuickPayPaymentServiceService $paymentService)
+    {
+        $newSubscription = new Subscription($this->user, $subscription->getProduct(), $subscription->getPeriod());
+        $newSubscription->setNextDueDate($subscription->getNextDueDate());
+        $this->getEntityManager()->persist($newSubscription);
+        $this->getEntityManager()->flush();
+
+        $subscriptionData = $paymentService->subscribe($newSubscription, false);
+
+        $newSubscription->fill($subscriptionData);
+
+        $this->getEntityManager()->persist($newSubscription);
+        $this->getEntityManager()->flush();
+
+        return redirect($subscriptionData->paymentUrl);
+    }
 }

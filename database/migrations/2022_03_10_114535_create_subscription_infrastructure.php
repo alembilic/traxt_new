@@ -47,6 +47,12 @@ class CreateSubscriptionInfrastructure extends Migration
             $table->index(['subscriptions_id']);
             $table->index(['created_at']);
             $table->index(['status']);
+
+            $table->foreign(['subscriptions_id'])
+                ->on('subscriptions')
+                ->references('id')
+                ->onDelete('CASCADE')
+                ->onUpdate('CASCADE');
         });
     }
 

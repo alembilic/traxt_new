@@ -159,7 +159,7 @@ class QuickPayPaymentServiceService implements IWebhookHandler, IPaymentSystemSe
 
             $data = $this->subscribeRecurring($paymentLog);
 
-            $paymentLog->setExternalId($data->externalId);
+            $paymentLog->setExternalId((string)$data->externalId);
             $paymentLog->setStatus($data->status);
             $this->getEntityManager()->persist($paymentLog);
             $this->getEntityManager()->flush();

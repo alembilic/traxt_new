@@ -19,6 +19,7 @@ class ConvertSubscriptionsCharges extends Migration
                 amount,
                 vat,
                 accounting_system_id,
+                status,
                 created_at
             )
             SELECT
@@ -27,6 +28,7 @@ class ConvertSubscriptionsCharges extends Migration
                 o.amount as amount,
                 o.vat as vat,
                 o.dinero_guid as accounting_system_id,
+                'complete' as status,
                 s.created_at
             FROM subscriptions s
             INNER JOIN orders o ON o.subscriptions_orders_id = s.external_id
@@ -40,6 +42,6 @@ class ConvertSubscriptionsCharges extends Migration
      */
     public function down()
     {
-        DB::table('subscriptions_change')->truncate();
+        DB::table('subscriptions_charges')->truncate();
     }
 }

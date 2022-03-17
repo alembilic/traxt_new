@@ -57,7 +57,7 @@ class RenewSubscription extends Command
 
             $data = $paymentService->subscribeRecurring($paymentLog);
 
-            $paymentLog->setExternalId($data->externalId);
+            $paymentLog->setExternalId((string)$data->externalId);
             $paymentLog->setStatus($data->status);
             $this->getEntityManager()->persist($paymentLog);
             $this->getEntityManager()->flush();
