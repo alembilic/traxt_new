@@ -120,7 +120,7 @@ class QuickPayPaymentServiceService implements IWebhookHandler, IPaymentSystemSe
         $data = $response->asArray();
 
         return new SubscriptionData([
-            SubscriptionData::EXTERNAL_ID => $data['id'],
+            SubscriptionData::EXTERNAL_ID => (string)$data['id'],
             SubscriptionData::STATUS => $response->httpStatus() >= 300
                 ? ChargeStatuses::FAIL
                 : ChargeStatuses::COMPLETE,
