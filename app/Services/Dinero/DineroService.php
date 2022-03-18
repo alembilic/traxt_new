@@ -3,36 +3,34 @@
 namespace App\Services\Dinero;
 
 use App\Contracts\IAccountingSystem;
+use App\Core\EntityManagerFresher;
 use App\Entities\SubscriptionCharge;
+use App\Entities\User;
 use App\Exceptions\AuthServiceException;
 use App\Exceptions\ServiceException;
 use Illuminate\Support\Facades\Cache;
+use Psr\SimpleCache\InvalidArgumentException;
 
 /**
  * DataForSEO service
  */
 class DineroService implements IAccountingSystem
 {
+    use EntityManagerFresher;
+
     /**
      * @var string
      */
-    protected string $baseUrl = 'https://api.dinero.dk/v1';
+    protected string $baseUrl = 'https://api.dinero.dk/v1/';
 
     /**
-     * Returns an invoice content.
-     *
-     * @param string $id Invoice identifier
-     *
-     * @return string
-     *
-     * @throws AuthServiceException
-     * @throws ServiceException
+     * {@inheritDoc}
      */
     public function getInvoice(string $id): string
     {
         $result = Cache::get($id);
         if (!$result) {
-            $curl = curl_init('https://api.dinero.dk/v1/' . config('services.dinero.id') . '/invoices/' . $id);
+            $curl = curl_init($this->baseUrl . config('services.dinero.id') . '/invoices/' . $id);
             curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
             curl_setopt($curl, CURLOPT_HEADER, false);
             curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
@@ -63,9 +61,15 @@ class DineroService implements IAccountingSystem
      * @return string
      *
      * @throws AuthServiceException
+     * @throws InvalidArgumentException
      */
     private function getAuthToken(): string
     {
+        $token = Cache::get('dinero_auth_token');
+        if ($token) {
+            return $token;
+        }
+
         $authKey = base64_encode(config('services.dinero.client_id') . ':' . config('services.dinero.secret'));
         $curl = curl_init('https://authz.dinero.dk/dineroapi/oauth/token');
         curl_setopt($curl, CURLOPT_POST, true);
@@ -94,78 +98,140 @@ class DineroService implements IAccountingSystem
             throw new AuthServiceException();
         }
 
+        Cache::set('dinero_auth_token', $data['access_token'], 3600);
+
         return $data['access_token'];
     }
 
-    public function createInvoice(SubscriptionCharge $charge): string
+    /**
+     * {@inheritDoc}
+     */
+    public function createUser(User $user): string
     {
+        if ($user->getDineroAddGuid()) {
+            return $user->getDineroAddGuid();
+        }
 
+        $contact = json_encode([
+            'ExternalReference' => 'Traxr: ' . $user->getId(),
+            'Name' => ($user->getCompany() ?: $user->getFirstname() . ' ' . $user->getLastname()),
+            'Street' => $user->getAddress(),
+            'ZipCode' => '',
+            'City' => $user->getCity(),
+            'CountryKey' => $user->getCountry(),
+            'Phone' => null,
+            'Email' => $user->getEmail(),
+            'AttPerson' => $user->getFirstname() . ' ' . $user->getLastname(),
+            'PaymentConditionType' => 'Netto',
+            'PaymentConditionNumberOfDays' => 8,
+            'UseCvr' => false,
+            'IsPerson' => false,
+        ]);
+
+        $url = $this->baseUrl . config('services.dinero.id') . '/contacts';
+        $curl = curl_init($url);
+        curl_setopt($curl, CURLOPT_POST, true);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($curl, CURLOPT_HEADER, false);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_HTTPHEADER, array(
+            'Authorization: Bearer ' . $this->getAuthToken(),
+            'Host: api.dinero.dk',
+            'Content-Type: application/json',
+            'Accept: application/octet-stream',
+            'Content-Length: ' . strlen($contact)
+        ));
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $contact);
+        $response = curl_exec($curl);
+
+        if ($errno = curl_errno($curl)) {
+            throw new ServiceException(curl_strerror($errno));
+        }
+        if (!$response) {
+            throw new ServiceException('Invalid response from Dinero API.' . $response);
+        }
+
+        $data = json_decode($response, 1);
+
+        if (!$data['contactGuid']) {
+            throw new ServiceException('Invalid response from Dinero API.' . $response);
+        }
+
+        $user->setDineroAddGuid($data['contactGuid']);
+        $em = $this->getEntityManager();
+        $em->persist($user);
+        $em->flush();
+
+        return $data['contactGuid'];
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    public function createInvoice(User $user, SubscriptionCharge $charge): string
+    {
+        $url = $this->baseUrl . config('services.dinero.id') . '/invoices';
+        $subscription = $charge->getSubscription();
+        $AccountNumber = 1250;
 
-    function cron_create_contact($ordre, $auth) {
-        if ($auth != false) {
-            $token = $auth->access_token;
-            $firmaid = firmaid();
-            //$invoice = new HTMLTemplateInvoiceCore($order_invoice, true);
-
-            //print_r($invoice);
-
-
-
-            $contact = '{"ExternalReference": "Traxr: '.$ordre['id'].'",
-                      "Name": "'.($ordre['company'] ? $ordre['company'] : $ordre['firstname'].' '.$ordre['lastname']) .''.($vat).'",
-                      "Street": "'.$ordre['address'].'",
-                      "ZipCode": "",
-                      "City": "'.$ordre['city'].'",
-                      "CountryKey": "'.$ordre['country'].'",
-                      "Phone": null,
-                      "Email": "'.$ordre['email'].'",
-                      "AttPerson": "'.$ordre['firstname'].' '.$ordre['lastname'].'",
-                      "PaymentConditionType": "Netto",
-                      "PaymentConditionNumberOfDays": 8,
-                      "UseCvr": false,
-                      "IsPerson": false}';
-            //echo $contact;
-            $test = json_decode($contact);
-            /*echo '<pre>';
-            echo 123;
-            print_r($test);
-            echo '</pre>';*/
-            $url = 'https://api.dinero.dk/v1/'.$firmaid.'/contacts';
-            $curl = curl_init($url);
-            curl_setopt($curl, CURLOPT_POST, true);
-            curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
-            curl_setopt($curl, CURLOPT_HEADER, false);
-            curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($curl, CURLOPT_HTTPHEADER, array(
-                'Authorization: Bearer '. $token,
-                'Host: api.dinero.dk',
-                'Content-Type: application/json',
-                'Content-Length: '.strlen($contact)
-            ));
-            curl_setopt($curl, CURLOPT_POSTFIELDS,$contact);
-            $contact_guid = curl_exec($curl);
-
-            print_r($contact_guid);
-
-            if($errno = curl_errno($curl)) {
-                $error_message = curl_strerror($errno);
-                echo "cURL error ({$errno}):\n {$error_message}";
-            }
-            else if (isJson($contact_guid)) {
-                $contact_guid = json_decode($contact_guid);
-                if (!isset($contact_guid->Message) && !isset($contact_guid->message)) {
-                    return $contact_guid;
-                }
-                else {
-                    return false;
-                }
-            }
-
+        if ($user->getVatValid() === 'DK' || !$user->getVatValid()) {
+            $AccountNumber = 1000;
         }
-        else {
-            echo 'An error has happend';
+        if ($user->getVatValid() === 'EU') {
+            $AccountNumber = 1200;
         }
+
+        $requestData = json_encode([
+            'PaymentConditionNumberOfDays' => 0,
+            'PaymentConditionType' => 'Netto',
+            'ContactGuid' => $user->getDineroAddGuid(),
+            'ShowLinesInclVat' => false,
+            'Currency' => 'USD',
+            'Language' => 'en-GB',
+            'ExternalReference' => 'Traxr: ' . $charge->getId() . '',
+            'Description' => 'Invoice',
+            'Date' => date('Y-m-d'),
+            'ProductLines' => [[
+                'BaseAmountValue' => $charge->getAmount(),
+                'Description' => $subscription->getProduct()->getProductName() . ' - Next due date: ' .
+                    $subscription->getNextDueDate()->format('Y-m-d'),
+                'Quantity' => '1',
+                'AccountNumber' => $AccountNumber,
+                'Unit' => 'parts',
+                'Discount' => '0',
+                'LineType' => 'Product'
+            ]],
+            'Address' => null
+        ]);
+
+        $curl = curl_init($url);
+        curl_setopt($curl, CURLOPT_POST, true);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($curl, CURLOPT_HEADER, false);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_HTTPHEADER, array(
+            'Authorization: Bearer ' . $this->getAuthToken(),
+            'Host: api.dinero.dk',
+            'Content-Type: application/json',
+            'Content-Length: ' . strlen($requestData)
+        ));
+
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $requestData);
+        $response = curl_exec($curl);
+
+        if ($errno = curl_errno($curl)) {
+            throw new ServiceException(curl_strerror($errno));
+        }
+        if (!$response) {
+            throw new ServiceException('Invalid response from Dinero API.' . $response);
+        }
+
+        $data = json_decode($response, 1);
+
+        if (!$data['guid']) {
+            throw new ServiceException('Invalid response from Dinero API.' . $response);
+        }
+
+        return $data['guid'];
     }
 }

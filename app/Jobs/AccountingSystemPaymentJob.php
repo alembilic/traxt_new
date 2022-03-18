@@ -5,9 +5,12 @@ namespace App\Jobs;
 use App\Contracts\IAccountingSystem;
 use App\Core\EntityManagerFresher;
 use App\Entities\SubscriptionCharge;
+use App\Exceptions\AuthServiceException;
+use App\Exceptions\ServiceException;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Contracts\Queue\ShouldBeUniqueUntilProcessing;
 use Illuminate\Queue\InteractsWithQueue;
+use Psr\SimpleCache\InvalidArgumentException;
 
 class AccountingSystemPaymentJob extends BaseJob implements ShouldBeUniqueUntilProcessing
 {
@@ -39,18 +42,31 @@ class AccountingSystemPaymentJob extends BaseJob implements ShouldBeUniqueUntilP
      * @param IAccountingSystem $service Accounting Service
      *
      * @throws BindingResolutionException
+     * @throws AuthServiceException
+     * @throws ServiceException
+     * @throws InvalidArgumentException
      */
     public function handle(IAccountingSystem $service): void
     {
+        /* @var SubscriptionCharge $charge */
         $entityManager = $this->getEntityManager();
         $charge = $entityManager->find(SubscriptionCharge::class, $this->chargeId);
         if (!$charge) {
             return;
         }
 
-        $externalId = $service->createInvoice($charge);
+        $user = $charge->getCreatedBy();
+        $subscription = $charge->getSubscription();
 
-        $user = $charge->getSubscription()->getCreatedBy();
-        $user->setDineroAddGuid();
+        $userGuid = $service->createUser($charge);
+        $user->setDineroAddGuid($userGuid);
+        $entityManager->persist($user);
+
+        $externalId = $service->createInvoice($user, $charge);
+        $charge->setAccountingSystemId($externalId);
+        $subscription->setAccountingSystemId($externalId);
+        $entityManager->persist($charge);
+        $entityManager->persist($subscription);
+        $entityManager->flush();
     }
 }

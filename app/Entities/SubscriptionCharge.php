@@ -258,6 +258,22 @@ class SubscriptionCharge
     }
 
     /**
+     * @return User
+     */
+    public function getCreatedBy(): User
+    {
+        return $this->createdBy;
+    }
+
+    /**
+     * @param User $createdBy
+     */
+    public function setCreatedBy(User $createdBy): void
+    {
+        $this->createdBy = $createdBy;
+    }
+
+    /**
      * @ORM\PostPersist()
      */
     public function accountingSystemIntegration(): void
