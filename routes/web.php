@@ -14,7 +14,7 @@ Route::group([], function () {
     Route::view('/', 'promo.index');
     Route::view('features', 'promo.features');
     Route::view('pricing', 'promo.pricing');
-    Route::view('contact', 'promo.contact');
+    Route::view('contact', 'promo.contact')->name('contact');
     Route::view('about', 'promo.about');
     Route::view('privacy', 'promo.privacy');
     Route::view('cookie', 'promo.cookie');
@@ -45,15 +45,15 @@ Route::group([], function () {
 });
 
 Route::group(['middleware' => ['auth:web', 'authorizedOnly', 'verifyPlan'], 'prefix' => 'app'], function () {
-    Route::view('guide', 'app.guide');
-    Route::get('dashboard', UserSectionController::class . '@dashboard');
-    Route::get('links', UserSectionController::class . '@links');
-    Route::get('domains', UserSectionController::class . '@domains');
-    Route::any('myaccount', UserSectionController::class . '@myAccount');
-    Route::get('invoices', UserSectionController::class . '@invoices');
-    Route::get('invoices/{guid}', UserSectionController::class . '@invoiceDetails');
-    Route::get('myplan', UserSectionController::class . '@myPlan');
-    Route::get('myplan/cancel', UserSectionController::class . '@cancelPlan');
+    Route::view('guide', 'app.guide')->name('guide');
+    Route::get('dashboard', UserSectionController::class . '@dashboard')->name('dashboard');
+    Route::get('links', UserSectionController::class . '@links')->name('links');
+    Route::get('domains', UserSectionController::class . '@domains')->name('domains');
+    Route::any('myaccount', UserSectionController::class . '@myAccount')->name('myaccount');
+    Route::get('invoices', UserSectionController::class . '@invoices')->name('invoices');
+    Route::get('invoices/{guid}', UserSectionController::class . '@invoiceDetails')->name('invoices.show');
+    Route::get('myplan', UserSectionController::class . '@myPlan')->name('myplan');
+    Route::get('myplan/cancel', UserSectionController::class . '@cancelPlan')->name('myplan.cancel');
     Route::get('plans/{mixId}/{type}', UserSectionController::class . '@changePlan');
     Route::get('subscription/pay', UserSectionController::class . '@paySubscription');
     Route::get('subscription/{subscription}/terminate', UserSectionController::class . '@terminateSubscription');

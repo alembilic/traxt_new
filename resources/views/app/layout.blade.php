@@ -28,7 +28,7 @@
     <script src="/admin/js/xavier.js"></script>
     <script src="/js/chart/Chart.js"></script>
     <link rel="stylesheet" href="/app/dist/jquery-confirm.min.css">
-    <script src="/app/dist/jquery-confirm.min.js"></script>
+    <script src="/dist/jquery-confirm.min.js"></script>
     <script src="/admin/js/intro.min.js"></script>
     @if($newSignup ?? false)
     <!-- Global site tag (gtag.js) - Google Ads: 619209208 -->
@@ -74,9 +74,7 @@
         fbq('init', '2197430967008741');
         fbq('track', 'PageView');
     </script>
-    <noscript><img height="1" width="1" style="display:none"
-                   src="https://www.facebook.com/tr?id=2197430967008741&ev=PageView&noscript=1"
-        /></noscript>
+    <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=2197430967008741&ev=PageView&noscript=1" /></noscript>
     <!-- End Facebook Pixel Code -->
     <script>
         fbq('track', 'Purchase', {currency: "USD", value: 1.00});
@@ -223,9 +221,71 @@
     <!-- END Side Menu -->
     <!-- Top Navbar -->
     <nav class="navbar navbar-static-top" role="navigation">
-        <a class="close-sidebar btn btn-main" href="#"><i class="fas fa-bars"></i> </a>
+        <!--a class="close-sidebar btn btn-main" href="#"><i class="fas fa-bars"></i> </a-->
         <!-- Settings -->
         <!-- User -->
+        <div class="userinfo">
+            <div class="row">
+                <div class="cell">
+                    <i class="fas fa-search"></i>
+                </div>
+                <div class="cell">
+                    <i class="fas fa-info-circle" onclick="startIntro();"></i>
+                </div>
+                <div class="cell" id="notification">
+                    <div class="notificationwrapper">
+                        <i class="far fa-bell" id="notifcations_bell">
+                                <span class="notifications_number {{ $user->getNotifications()->count() ? 'noneticolor' : 'noticolor' }}">
+                                    <span class="notifications_number_span">{{$user->getNotifications()->count() }}</span>
+                                </span>
+                        </i>
+                        <div class="allnotifications">
+                            <div class="messageheader">
+                                New messages: <b class="notifications_number_span">{{$user->getNotifications()->count()}}</b>
+                                <span class="delete_all_notifications">
+                                    <i class="fas fa-book-reader read_all"></i>
+                                </span>
+                                <span class="mark_read_all">Mark all as read</span>
+                            </div>
+                            <div class="messagewrapper">
+                                @if($user->getNotifications()->count())
+                                    @foreach ($user->getNotifications() as $notification)
+                                        <div class="messagewrap" id="notis_wrap_{{$notification->getId()}}">
+                                            <div class="stamp">
+                                                {{ $notification->getCreatedAt()->format('M j, g:ia') }}
+                                                <div class="read_info" data="{{ $notification->getId() }}">
+                                                    <span id="notis_{{$notification->getId()}}">Mark as read</span>
+                                                    <i class="fas fa-book-reader read"></i>
+                                                </div>
+                                            </div>
+                                            <div class="message">
+                                                {{ $notification->getMessage() }}
+                                            </div>
+                                            <div class="markup"></div>
+                                        </div>
+                                    @endforeach
+                                @else
+                                    <div class="messagewrap">
+                                        <div class="stamp">
+                                            <div class="read_info"><span>Mark as read</span></div>
+                                        </div>
+                                        <div class="message" style="text-align: center;">
+                                            No new messages
+                                        </div>
+                                        <div class="markup"></div>
+                                    </div>
+                                @endif
+                            </div>
+                            <div class="messagefooter">View all messages</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="cell">
+                    <img height="24" src="https://www.gravatar.com/avatar/{{ md5(strtolower(trim($user->getEmail()))) }}.jpg"/>
+                    {{ $user->getFirstname() ? $user->getFirstname() . ' ' . $user->getLastname() : $user->getEmail() }}
+                </div>
+            </div>
+        </div>
     </nav>
     <!-- END Top Navbar -->
     <!-- Page Content -->
@@ -233,72 +293,6 @@
 
         <!-- Title Header -->
         <div class="title-header white-bg">
-            <div class="userinfo">
-                <div class="row">
-                    <div class="cell" style="display:none;">
-                        <form name="lang_picker_form" id="lang_picker_form" method="POST" action="#">
-                            <select name="lang_picker" id="lang_picker">
-                                <option value="en-US" {!! $user->getLang() === 'en-US' ? 'selected="selected"' : '' !!}>English</option>
-                                <option value="da-DK" {!! $user->getLang() === 'da-DK' ? 'selected="selected"' : '' !!}>Danish</option>
-                            </select>
-                        </form>
-                    </div>
-                    <div class="cell" id="notification">
-                        <div class="notificationwrapper">
-                            <i class="far fa-bell" id="notifcations_bell">
-                                <span class="notifications_number {{ $user->getNotifications()->count() ? 'noneticolor' : 'noticolor' }}">
-                                    <span class="notifications_number_span">{{$user->getNotifications()->count() }}</span>
-                                </span>
-                            </i>
-                            <div class="allnotifications">
-                                <div class="messageheader">
-                                    New messages: <b class="notifications_number_span">{{$user->getNotifications()->count()}}</b>
-                                    <span class="delete_all_notifications">
-                                        <i class="fas fa-book-reader read_all"></i>
-                                    </span>
-                                    <span class="mark_read_all">Mark all as read</span>
-                                </div>
-                                <div class="messagewrapper">
-                                    @if($user->getNotifications()->count())
-                                        @foreach ($user->getNotifications() as $notification)
-                                            <div class="messagewrap" id="notis_wrap_{{$notification->getId()}}">
-                                                <div class="stamp">
-                                                    {{ $notification->getCreatedAt()->format('M j, g:ia') }}
-                                                    <div class="read_info" data="{{ $notification->getId() }}">
-                                                        <span id="notis_{{$notification->getId()}}">Mark as read</span>
-                                                        <i class="fas fa-book-reader read"></i>
-                                                    </div>
-                                                </div>
-                                                <div class="message">
-                                                    {{ $notification->getMessage() }}
-                                                </div>
-                                                <div class="markup"></div>
-                                            </div>
-                                        @endforeach
-                                    @else
-                                        <div class="messagewrap">
-                                            <div class="stamp">
-                                                <div class="read_info"><span>Mark as read</span></div>
-                                            </div>
-                                            <div class="message" style="text-align: center;">
-                                                No new messages
-                                            </div>
-                                            <div class="markup"></div>
-                                        </div>
-                                    @endif
-                                </div>
-                                <div class="messagefooter">View all messages</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="cell">
-                        <img src="https://www.gravatar.com/avatar/{{ md5(strtolower(trim($user->getEmail()))) }}.jpg"/>
-                        <div class="nametag">
-                            {{ $user->getFirstname() ? $user->getFirstname() . ' ' . $user->getLastname() : $user->getEmail() }}
-                        </div>
-                    </div>
-                </div>
-            </div>
             <h2>@yield('pageName')</h2>
             <ol class="breadcrumb">
                 <li>
