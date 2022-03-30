@@ -35,32 +35,11 @@ class UserSectionController extends BaseWebController
 
     public function dashboard(): View
     {
-        //TODO: move this to a service layer
         /* @var User $user */
         $user = $this->user;
 
-        $fmt = numfmt_create('en_US', NumberFormatter::DECIMAL);
         return view('app.dashboard', [
             'res_num_prices' => 0,
-            'required_num' => 10,
-            'avg_price' => 0,
-            'currency_code' => 0,
-            'res_user_currency' => 0,
-            'res_link_avg_prices' => 0,
-            'res_amount_valuta' => 0,
-            'res_vanished_count' => 0,
-            'res_header_nofollow_count' => 0,
-            'res_rel_nofollow_count' => 0,
-            'res_no_index' => 0,
-            'res_all_links' => 0,
-            'res_all_ok' => 0,
-            'res_html_links' => 0,
-            'res_js_links' => 0,
-            'res_vanished_todo' => 0,
-            'res_noindex_todo' => 0,
-            'res_noheader_todo' => 0,
-            'res_nofollow_todo' => 0,
-            'fmt' => $fmt,
         ]);
     }
 

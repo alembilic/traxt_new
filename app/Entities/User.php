@@ -690,7 +690,7 @@ class User extends Authenticatable implements INotifiable
     }
 
     /**
-     * @return string
+     * @return int
      */
     public function getSubId(): string
     {
