@@ -130,7 +130,24 @@ return [
     | DQL custom string functions
     |--------------------------------------------------------------------------
     */
-    'custom_string_functions'    => [],
+    'custom_string_functions'    => [
+        'MONTH' => DoctrineExtensions\Query\Mysql\Month::class,
+        'ATAN2' => DoctrineExtensions\Query\Mysql\Atan2::class,
+        'SIN' => DoctrineExtensions\Query\Mysql\Sin::class,
+        'COS' => DoctrineExtensions\Query\Mysql\Cos::class,
+        'PI' => DoctrineExtensions\Query\Mysql\Pi::class,
+        'IFELSE' => DoctrineExtensions\Query\Mysql\IfElse::class,
+        'IFNULL' => DoctrineExtensions\Query\Mysql\IfNull::class,
+        'MATCH' => DoctrineExtensions\Query\Mysql\MatchAgainst::class,
+        'NOW' => DoctrineExtensions\Query\Mysql\Now::class,
+        'MONTHNAME' => DoctrineExtensions\Query\Mysql\MonthName::class,
+        'YEAR' => DoctrineExtensions\Query\Mysql\Year::class,
+        'DAY' => DoctrineExtensions\Query\Mysql\Day::class,
+        'WEEK' => DoctrineExtensions\Query\Mysql\Week::class,
+        'DATE' => DoctrineExtensions\Query\Mysql\Date::class,
+        'DATEFORMAT' => DoctrineExtensions\Query\Mysql\DateFormat::class,
+        'REGEXP' => DoctrineExtensions\Query\Mysql\Regexp::class,
+    ],
     /*
     |--------------------------------------------------------------------------
     | Register custom hydrators
