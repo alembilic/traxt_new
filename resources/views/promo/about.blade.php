@@ -45,18 +45,21 @@
                 <div class="col-md-6 padding-sm-mob">
                     <div class="features-box pad-10">
                         <div class="text-content">
-                            <center><img src="/img/profile-lennart.png" title="Founder of Traxr" style="width:50%">
-                                <h3 class="pt-2 align-center">Lennart Øster<br />Founder</h3>
+                            <center>
+                                <img src="/img/face1.png" title="Founder of Traxr" style="width:216px">
+                                <h3 class="pt-2 align-center">Jimmi Meilstrup<br />CEO</h3>
                             </center>
                             <p class="pt-3 align-left ">
-                                Lennart has worked with SEO and Link building for more than 10 years.<br /><br />
-                                Expert in Search Engine Optimization and Affiliate Marketing<br /><br />
-                                20 Years experience with programming and Project management
+                                Jimmi is an entrepreneur by heart and has always had a passion for generating ideas, developing concepts, and eventually implementing them; this is how Traxr was born.
+                                <br /><br />
+                                Jimmi is devoted to delivering value to the customer. His experience in the affiliate and SEO industry provides a unique perspective to make Traxr one of the industries leading CRM platforms for backlinking. Jimmi has been involved in 9 start-ups and has completed four successful exits.
+                                <br /><br />
+                                Jimmi's core competencies are his creativity and his orientation toward solutions.
                             </p>
                             <div class="features-bottom-text-wrapper">
                                 <div class="list-icon"></div>
                                 <p class="pt-3 align-left fw-700 features-bottom-text">
-                                    Mail: lennart@traxr.net<br />
+                                    <a href="https://www.linkedin.com/in/jimmimeilstrup/">https://www.linkedin.com/in/jimmimeilstrup/</a><br />
                                 </p>
                             </div>
                         </div>
@@ -65,18 +68,20 @@
                 <div class="col-md-6 padding-sm-mob">
                     <div class="features-box pad-10">
                         <div class="text-content">
-                            <center><img src="/img/profile-tim.png" title="Founder of Traxr" style="width:50%">
-                                <h3 class="pt-2 align-center">Tim Peterssen<br />Co-Founder</h3>
+                            <center><img src="/img/face2.jpg" title="Founder of Traxr" style="height: 216px">
+                                <h3 class="pt-2 align-center">Kristoffer Tølbøll<br />Tech Lead</h3>
                             </center>
                             <p class="pt-3 align-left ">
-                                Tim has 10 years of experience with Affiliate Marketing and Search Engine optimization<br /><br />
-                                Expert in programming and database management as well as complex problem solving<br /><br />
-                                The main developer of Traxr
+                                Kristoffer is the tech lead of Traxr and manages the development process, and delivers value to the end customer.
+                                <br /><br />
+                                He has over 5+ years of software engineering experience. He has worked in a diverse array of industries, and he has a passion for being between the technical and the commercial side of the business.
+                                <br /><br />
+                                Kristoffer's core competencies are his ability to think outside the box and apply his technical knowledge to solve business problems.
                             </p>
                             <div class="features-bottom-text-wrapper">
                                 <div class="list-icon"></div>
                                 <p class="pt-3 align-left fw-700 features-bottom-text">
-                                    Mail: tim@traxr.net<br />
+                                    Mail: kristofferlocktolboll@gmail.com<br />
                                 </p>
                             </div>
                         </div>
