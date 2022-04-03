@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Contracts\IAccountingSystem;
 use App\Core\EntityManagerFresher;
+use App\Dto\Statistics\StatisticsFilterDto;
 use App\Entities\Currency;
 use App\Entities\Order;
 use App\Entities\OrderSubscription;
@@ -11,10 +12,15 @@ use App\Entities\Product;
 use App\Entities\Subscription;
 use App\Entities\SubscriptionCharge;
 use App\Entities\User;
+use App\Enums\StatisticsGroupByValues;
+use App\Enums\StatisticsTypes;
 use App\Enums\SubscriptionTypes;
+use App\Exceptions\AuthServiceException;
 use App\Exceptions\DtoException;
 use App\Exceptions\PaymentServiceException;
+use App\Exceptions\ServiceException;
 use App\Services\PaymentServices\QuickPayPaymentServiceService;
+use App\Services\Statistics\StatisticsServicesFactory;
 use Carbon\Carbon;
 use DateTime;
 use Doctrine\Common\Collections\Criteria;
@@ -26,20 +32,60 @@ use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
-use NumberFormatter;
+use Psr\SimpleCache\InvalidArgumentException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class UserSectionController extends BaseWebController
 {
     use EntityManagerFresher;
 
-    public function dashboard(): View
+    /**
+     * Dashboard page.
+     *
+     * @param StatisticsServicesFactory $statisticsServicesFactory Services Factory
+     *
+     * @return View
+     *
+     * @throws BindingResolutionException
+     * @throws DtoException
+     */
+    public function dashboard(StatisticsServicesFactory $statisticsServicesFactory): View
     {
         /* @var User $user */
         $user = $this->user;
 
+        $backLinksTotal = $statisticsServicesFactory->build(StatisticsTypes::BACKLINKS)
+            ->getStatistics(new StatisticsFilterDto([
+                StatisticsFilterDto::USER => $user,
+                StatisticsFilterDto::END => Carbon::now(),
+                StatisticsFilterDto::GROUP_BY => StatisticsGroupByValues::LOST,
+            ]));
+        $backLinksDaily = $statisticsServicesFactory->build(StatisticsTypes::BACKLINKS)
+            ->getStatistics(new StatisticsFilterDto([
+                StatisticsFilterDto::USER => $user,
+                StatisticsFilterDto::START => Carbon::now()->subDay(),
+                StatisticsFilterDto::END => Carbon::now(),
+                StatisticsFilterDto::GROUP_BY => StatisticsGroupByValues::LOST,
+            ]));
+        $domains = $statisticsServicesFactory->build(StatisticsTypes::DOMAINS)
+            ->getStatistics(new StatisticsFilterDto([
+                StatisticsFilterDto::USER => $user,
+                StatisticsFilterDto::GROUP_BY => StatisticsGroupByValues::LOST,
+            ]));
+        $backLinksDailyGraph = $statisticsServicesFactory->build(StatisticsTypes::BACKLINKS_GRAPH)
+            ->getStatistics(new StatisticsFilterDto([
+                StatisticsFilterDto::USER => $user,
+                StatisticsFilterDto::START => Carbon::now()->subDay(),
+                StatisticsFilterDto::END => Carbon::now(),
+                StatisticsFilterDto::GROUP_BY => StatisticsGroupByValues::DAYS,
+            ]));
+
         return view('app.dashboard', [
-            'res_num_prices' => 0,
+            'backLinksTotal' => $backLinksTotal,
+            'backLinksDaily' => $backLinksDaily,
+            'backLinksDailyGraph' => $backLinksDailyGraph,
+            'domains' => $domains,
+            'user' => $user,
         ]);
     }
 
@@ -145,6 +191,10 @@ class UserSectionController extends BaseWebController
      * @param IAccountingSystem $accountingService Dinero
      *
      * @return Response
+     *
+     * @throws AuthServiceException
+     * @throws ServiceException
+     * @throws InvalidArgumentException
      */
     public function invoiceDetails(string $guid, IAccountingSystem $accountingService): Response
     {
@@ -195,7 +245,7 @@ class UserSectionController extends BaseWebController
             'plans' => $this->getRepository(Product::class)->matching(Criteria::create()
                 ->orderBy(['pricePerMonth' => 'asc'])
                 ->where(Criteria::expr()->eq('public', 1))),
-            'isPaymentCanceled' => true
+            'isPaymentCanceled' => true,
         ]);
     }
 

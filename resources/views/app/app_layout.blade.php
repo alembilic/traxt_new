@@ -20,6 +20,16 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
 
+    <!-- jQuery -->
+    <script src="/assets-app/js/jquery.min.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="/assets-app/js/bootstrap.bundle.min.js"></script>
+    <!-- Charts JS -->
+    <script src="/assets-app/js/chart.min.js"></script>
+    <!-- Main JS -->
+    <script src="/assets-app/js/main.js"></script>
+    <script src="/assets-app/js/cookie.js"></script>
+
     <link href="/admin/css/introjs.min.css" rel="stylesheet">
     <script src="/admin/js/intro.min.js"></script>
 @if($newSignup ?? false)
@@ -289,15 +299,5 @@
         </div>
     </main>
 </div>
-
-<!-- jQuery -->
-<script src="/assets-app/js/jquery.min.js"></script>
-<!-- Bootstrap JS -->
-<script src="/assets-app/js/bootstrap.bundle.min.js"></script>
-<!-- Charts JS -->
-<script src="/assets-app/js/chart.min.js"></script>
-<!-- Main JS -->
-<script src="/assets-app/js/main.js"></script>
-<script src="/assets-app/js/cookie.js"></script>
 </body>
 </html>

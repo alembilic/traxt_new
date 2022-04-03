@@ -19,6 +19,15 @@ class BackLink
 {
     use Timestamps;
 
+    public const ID = 'id';
+    public const CREATED_AT = 'createdAt';
+    public const UPDATED_AT = 'updatedAt';
+    public const SOURCE_URL = 'sourceUrl';
+    public const DEST_URL = 'destUrl';
+    public const DOMAIN = 'domain';
+    public const CREATED_BY = 'createdBy';
+    public const LOST = 'lost';
+
     /**
      * @var int
      *
@@ -205,6 +214,7 @@ class BackLink
         if (in_array(BackLinksRawData::LAST_FOUND, $fields)) {
             $this->lastSeen = $data->lastFound;
         }
+        $this->updatedAt = new DateTime();
     }
 
     /**

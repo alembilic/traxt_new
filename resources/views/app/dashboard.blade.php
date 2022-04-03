@@ -14,7 +14,16 @@
         <button type="button" class="btn-close"></button>
     </div>
 @endif
-
+@php
+/**
+ * @var \App\Entities\User $user
+ * @var \App\Contracts\Statistics\IStatisticsObject $backLinksTotal
+ * @var \App\Contracts\Statistics\IStatisticsObject $backLinksDaily
+ * @var \App\Contracts\Statistics\IStatisticsObject $backLinksDailyGraph
+ * @var \App\Contracts\Statistics\IStatisticsObject $domains
+ * @var \App\Contracts\Statistics\IStatisticsItem $item
+ */
+@endphp
 <div class="row cards">
     <div class="col col-12 col-lg-4">
         <div class="total-card total-card-blue">
@@ -25,19 +34,17 @@
                 <div>
                     <h5>Total backlinks</h5>
                     <span class="total-number">
-                        87
+                        {{ $backLinksTotal->getTotalCount() }}
                     </span>
                 </div>
             </div>
             <div class="total-card-footer">
+                @foreach ($backLinksTotal->toArray() as $item)
                 <div class="card-item">
-                    <span>Expired backlinks</span>
-                    <a href="#" class="number">35</a>
+                    <span>{{ $item->getTitle() }}</span>
+                    <a href="#" class="number">{{ $item->getCount() }}</a>
                 </div>
-                <div class="card-item">
-                    <span>Live backlinks</span>
-                    <a href="#" class="number">12</a>
-                </div>
+                @endforeach
             </div>
         </div>
     </div>
@@ -50,19 +57,17 @@
                 <div>
                     <h5>Your daily update</h5>
                     <span class="total-number">
-                        43
+                        {{ $backLinksDaily->getTotalCount() }}
                     </span>
                 </div>
             </div>
             <div class="total-card-footer">
-                <div class="card-item">
-                    <span>Expired links</span>
-                    <a href="#" class="number">35</a>
-                </div>
-                <div class="card-item">
-                    <span>Live links</span>
-                    <a href="#" class="number">12</a>
-                </div>
+                @foreach ($backLinksDaily->toArray() as $item)
+                    <div class="card-item">
+                        <span>{{ $item->getTitle() }}</span>
+                        <a href="#" class="number">{{ $item->getCount() }}</a>
+                    </div>
+                @endforeach
             </div>
         </div>
     </div>
@@ -75,19 +80,13 @@
                 <div>
                     <h5>Total domains</h5>
                     <span class="total-number">
-                        105
+                        {{ $domains->getTotalCount() }}
                     </span>
                 </div>
             </div>
             <div class="total-card-footer">
-                <div class="card-item">
-                    <span>Expired backlinks</span>
-                    <a href="#" class="number">35</a>
-                </div>
-                <div class="card-item">
-                    <span>Live backlinks</span>
-                    <a href="#" class="number">12</a>
-                </div>
+                <div class="card-item">&nbsp;</div>
+                <div class="card-item">&nbsp;</div>
             </div>
         </div>
     </div>
@@ -96,7 +95,7 @@
     <div class="col col-12 col-xl-6">
         <div class="graph-box">
             <h3>Growth rate</h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</p>
+            <p>Growth Rate indicates the progress of your backlinks on PageRank. PageRank is one of the most vital indicators for determining the success of your backlinks</p>
             <div class="line-designation">
                 <div class="line-item">
                     <span style="background-color: #F25F33;"></span>
@@ -115,7 +114,7 @@
     <div class="col col-12 col-xl-6">
         <div class="graph-box">
             <h3>Spendings</h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</p>
+            <p>Spendings indicate how much money you have spent on your backlinks, the amount lost on non-active backlinks, and the amount spent on backlinks that are currently active. </p>
             <div class="line-designation">
                 <div class="line-item">
                     <span style="background-color: #2D2FF0;"></span>
@@ -139,7 +138,7 @@
         <div class="graph-box full-width">
             <div>
                 <h3>Links</h3>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam, nulla sit viverra lacus viverra tellus mauris vitae.</p>
+                <p>Links indicate how many links you have in Traxr, including active backlinks and non-active backlinks.</p>
                 <div class="line-designation">
                     <div class="line-item">
                         <span style="background-color: #00C0FF;"></span>
@@ -161,7 +160,12 @@
         </div>
     </div>
 </div>
-
+@php
+$days = [];
+for ($i = 7; $i >= 0; $i--) {
+    $days[] = '"' . date('Y-m-d', strtotime('-' . $i . 'days')) . '"';
+}
+@endphp
 <script>
     function startIntro(){
         var intro = introJs();
@@ -210,211 +214,210 @@
         intro.start();
     }
 
+    $(function () {
+        const daysLabels = [{!! implode(', ', $days) !!}];
+        Chart.defaults.font.size = 8;
+        Chart.defaults.color = 'rgba(44, 53, 66, 0.45)';
+        Chart.defaults.elements.point.radius = 0;
+        Chart.defaults.elements.arc.borderColor = 'rgba(65, 97, 128, 0.151934)';
+        const ctx1 = document.getElementById('chart1');
+        const ctx2 = document.getElementById('chart2');
+        const ctx3 = document.getElementById('chart3');
 
-    // // Charts
-
-    Chart.defaults.font.size = 8;
-    Chart.defaults.color = 'rgba(44, 53, 66, 0.45)';
-    Chart.defaults.elements.point.radius = 0;
-    Chart.defaults.elements.arc.borderColor = 'rgba(65, 97, 128, 0.151934)';
-    const ctx1 = document.getElementById('chart1');
-    const ctx2 = document.getElementById('chart2');
-    const ctx3 = document.getElementById('chart3');
-
-    const chart1 = new Chart(ctx1, {
-        type: 'line',
-        options: {
-            scales: {
-                x: {
-                    min: 0,
-                    grid: {
-                        display: false
+        const chart1 = new Chart(ctx1, {
+            type: 'line',
+            options: {
+                scales: {
+                    x: {
+                        min: 0,
+                        grid: {
+                            display: false
+                        },
+                        ticks: {
+                            padding: 0
+                        }
                     },
-                    ticks: {
-                        padding: 0
+                    y: {
+                        min: 0,
+                        max: 50,
+                        ticks: {
+                            stepSize: 10,
+                            padding: 9
+                        },
+
                     }
                 },
-                y: {
-                    min: 0,
-                    max: 50,
-                    ticks: {
-                        stepSize: 10,
-                        padding: 9
-                    },
-
-                }
-            },
-            layout: {
-                padding: 0,
-            },
-            plugins: {
-                legend: {
-                    display: false
-                }
-            },
-            responsive: true,
-            maintainAspectRatio: false,
-        },
-        data: {
-            labels: ['XXXXX', 'XXXXX', 'XXXXX', 'XXXXX', 'XXXXX', 'XXXXX', 'XXXXX', 'XXXXX'],
-            datasets: [
-                {
-                    label: 'Total growth of all backlinks',
-                    data: [25, 21, 24, 33, 25, 14, 26, 26.5, 20],
-                    backgroundColor: '#F25F33',
-                    borderColor: '#F25F33',
-                    borderWidth: 2,
-                    order: 1,
-                    pointBorderWidth: 0
+                layout: {
+                    padding: 0,
                 },
-                {
-                    label: 'Average growth of backlinks',
-                    data: [15, 15.5, 19, 20, 23, 24, 31, 32],
-                    backgroundColor: '#0BDD53',
-                    borderColor: '#0BDD53',
-                    borderWidth: 2,
-                    order: 2,
-                    pointBorderWidth: 0
-                }
-            ]
-        },
-
-    });
-
-    const chart2 = new Chart(ctx2, {
-        type: 'line',
-        options: {
-            scales: {
-                x: {
-                    min: 0,
-                    grid: {
+                plugins: {
+                    legend: {
                         display: false
-                    },
-                    ticks: {
-                        padding: 0
                     }
                 },
-                y: {
-                    min: 0,
-                    max: 50,
-                    ticks: {
-                        stepSize: 10,
-                        padding: 9
+                responsive: true,
+                maintainAspectRatio: false,
+            },
+            data: {
+                labels: daysLabels,
+                datasets: [
+                    {
+                        label: 'Total growth of all backlinks',
+                        data: [25, 21, 24, 33, 25, 14, 26, 26.5, 20],
+                        backgroundColor: '#F25F33',
+                        borderColor: '#F25F33',
+                        borderWidth: 2,
+                        order: 1,
+                        pointBorderWidth: 0
                     },
+                    {
+                        label: 'Average growth of backlinks',
+                        data: [15, 15.5, 19, 20, 23, 24, 31, 32],
+                        backgroundColor: '#0BDD53',
+                        borderColor: '#0BDD53',
+                        borderWidth: 2,
+                        order: 2,
+                        pointBorderWidth: 0
+                    }
+                ]
+            },
 
-                }
-            },
-            layout: {
-                padding: 0,
-            },
-            plugins: {
-                legend: {
-                    display: false
-                }
-            },
-            responsive: true,
-            maintainAspectRatio: false,
-        },
-        data: {
-            labels: ['XXXXX', 'XXXXX', 'XXXXX', 'XXXXX', 'XXXXX', 'XXXXX', 'XXXXX', 'XXXXX'],
-            datasets: [
-                {
-                    data: [13, 14, 12, 42, 21, 23, 22, 29, 32],
-                    backgroundColor: '#2D2FF0',
-                    borderColor: '#2D2FF0',
-                    borderWidth: 2,
-                    order: 3,
-                    pointBorderWidth: 0
+        });
+
+        const chart2 = new Chart(ctx2, {
+            type: 'line',
+            options: {
+                scales: {
+                    x: {
+                        min: 0,
+                        grid: {
+                            display: false
+                        },
+                        ticks: {
+                            padding: 0
+                        }
+                    },
+                    y: {
+                        min: 0,
+                        max: 50,
+                        ticks: {
+                            stepSize: 10,
+                            padding: 9
+                        },
+
+                    }
                 },
-                {
-                    data: [23, 21, 23, 32, 28, 34, 18, 28, 26],
-                    backgroundColor: '#E8C300',
-                    borderColor: '#E8C300',
-                    borderWidth: 2,
-                    order: 2,
-                    pointBorderWidth: 0
+                layout: {
+                    padding: 0,
                 },
-                {
-                    data: [8, 8.5, 9, 9, 13, 8, 20, 12, 13],
-                    backgroundColor: '#E80054',
-                    borderColor: '#E80054',
-                    borderWidth: 2,
-                    order: 1,
-                    pointBorderWidth: 0
-                }
-            ]
-        },
-
-    });
-
-    const chart3 = new Chart(ctx3, {
-        type: 'line',
-        options: {
-            scales: {
-                x: {
-                    min: 0,
-                    max: 8,
-                    grid: {
+                plugins: {
+                    legend: {
                         display: false
-                    },
-                    ticks: {
-                        padding: 0,
-                    },
+                    }
                 },
-                y: {
-                    min: 0,
-                    max: 35,
-                    ticks: {
-                        stepSize: 10,
-                        // callback: function(value, index, ticks) {
-                        //     return 'YYYYY';
-                        // },
-                        padding: 9,
+                responsive: true,
+                maintainAspectRatio: false,
+            },
+            data: {
+                labels: daysLabels,
+                datasets: [
+                    {
+                        data: [13, 14, 12, 42, 21, 23, 22, 29, 32],
+                        backgroundColor: '#2D2FF0',
+                        borderColor: '#2D2FF0',
+                        borderWidth: 2,
+                        order: 3,
+                        pointBorderWidth: 0
                     },
-                }
+                    {
+                        data: [23, 21, 23, 32, 28, 34, 18, 28, 26],
+                        backgroundColor: '#E8C300',
+                        borderColor: '#E8C300',
+                        borderWidth: 2,
+                        order: 2,
+                        pointBorderWidth: 0
+                    },
+                    {
+                        data: [8, 8.5, 9, 9, 13, 8, 20, 12, 13],
+                        backgroundColor: '#E80054',
+                        borderColor: '#E80054',
+                        borderWidth: 2,
+                        order: 1,
+                        pointBorderWidth: 0
+                    }
+                ]
             },
-            layout: {
-                padding: 0
-            },
-            plugins: {
-                legend: {
-                    display: false
-                }
-            },
-            responsive: true,
-            maintainAspectRatio: false,
-        },
-        data: {
-            labels: ['XXXXX', 'XXXXX', 'XXXXX', 'XXXXX', 'XXXXX', 'XXXXX', 'XXXXX', 'XXXXX'],
-            datasets: [
-                {
-                    data: [5, 6, 8, 9, 12, 15, 9, 16, 10],
-                    backgroundColor: '#00C0FF',
-                    borderColor: '#00C0FF',
-                    borderWidth: 2,
-                    order: 3,
-                    pointBorderWidth: 0
-                },
-                {
-                    data: [14, 12, 14, 23, 15, 6, 19, 19, 16],
-                    backgroundColor: '#FFEB32',
-                    borderColor: '#FFEB32',
-                    borderWidth: 2,
-                    order: 2,
-                    pointBorderWidth: 0
-                },
-                {
-                    data: [22, 23, 24, 9, 31, 22, 33, 21, 17, 20.5],
-                    backgroundColor: '',
-                    borderColor: '#D500E8',
-                    borderWidth: 2,
-                    order: 1,
-                    pointBorderWidth: 0
-                }
-            ]
-        },
 
+        });
+
+        const chart3 = new Chart(ctx3, {
+            type: 'line',
+            options: {
+                scales: {
+                    x: {
+                        min: 0,
+                        max: 8,
+                        grid: {
+                            display: false
+                        },
+                        ticks: {
+                            padding: 0,
+                        },
+                    },
+                    y: {
+                        min: 0,
+                        max: 35,
+                        ticks: {
+                            stepSize: 10,
+                            // callback: function(value, index, ticks) {
+                            //     return 'YYYYY';
+                            // },
+                            padding: 9,
+                        },
+                    }
+                },
+                layout: {
+                    padding: 0
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                responsive: true,
+                maintainAspectRatio: false,
+            },
+            data: {
+                labels: daysLabels,
+                datasets: [
+                    {
+                        data: [5, 6, 8, 9, 12, 15, 9, 16, 10],
+                        backgroundColor: '#00C0FF',
+                        borderColor: '#00C0FF',
+                        borderWidth: 2,
+                        order: 3,
+                        pointBorderWidth: 0
+                    },
+                    {
+                        data: [14, 12, 14, 23, 15, 6, 19, 19, 16],
+                        backgroundColor: '#FFEB32',
+                        borderColor: '#FFEB32',
+                        borderWidth: 2,
+                        order: 2,
+                        pointBorderWidth: 0
+                    },
+                    {
+                        data: [22, 23, 24, 9, 31, 22, 33, 21, 17, 20.5],
+                        backgroundColor: '',
+                        borderColor: '#D500E8',
+                        borderWidth: 2,
+                        order: 1,
+                        pointBorderWidth: 0
+                    }
+                ]
+            },
+
+        });
     });
-
 </script>
 @endsection
