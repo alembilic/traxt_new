@@ -13,9 +13,11 @@ use App\Entities\BackLink;
 use App\Enums\StatisticsGroupByValues;
 use App\Enums\StatisticsTypes;
 use App\Exceptions\DtoException;
+use Carbon\Carbon;
+use http\Exception\InvalidArgumentException;
 use Illuminate\Contracts\Container\BindingResolutionException;
 
-class BackLinksStatisticsService implements IStatisticsService
+class GraphBackLinksStatisticsService implements IStatisticsService
 {
     use EntityManagerFresher;
 
@@ -27,7 +29,7 @@ class BackLinksStatisticsService implements IStatisticsService
         $items = $this->getGroupByPeriodStatistics($filterDto);
 
         return new BackLinksStatisticsData([
-            BaseStatisticsData::TYPE => StatisticsTypes::BACKLINKS,
+            BaseStatisticsData::TYPE => StatisticsTypes::BACKLINKS_GRAPH,
             BaseStatisticsData::TOTAL_COUNT => collect($items)->sum(BaseStatisticsItem::COUNT),
             BaseStatisticsData::ITEMS => $items,
         ]);
@@ -45,7 +47,7 @@ class BackLinksStatisticsService implements IStatisticsService
      */
     protected function getGroupByPeriodStatistics(StatisticsFilterDto $filterDto): array
     {
-        $keys = ['Expired backlinks', 'Live backlinks'];
+        $titles = ['Total links', 'Total lost links', 'Total live links'];
         switch ($filterDto->groupBy) {
             case StatisticsGroupByValues::DAYS:
                 $field = 'DATEFORMAT(bl.' . BackLink::UPDATED_AT . ", '%Y.%m.%d') as key";
@@ -59,55 +61,54 @@ class BackLinksStatisticsService implements IStatisticsService
             case StatisticsGroupByValues::YEARS:
                 $field = 'YEAR(bl.' . BackLink::UPDATED_AT . ') as key';
                 break;
-            case StatisticsGroupByValues::LOST:
-                $field = 'IFELSE(bl.' . BackLink::LOST . ' = 0, 0, 1) as key';
-                break;
             default:
-                $field = 'COUNT(bl.' . BackLink::ID . ') as key';
-                break;
+                throw new InvalidArgumentException('Invalid statistics grouping');
         }
 
-        $query = $this->getEntityManager()->getRepository(BackLink::class)->createQueryBuilder('bl');
+        $baseQuery = $this->getEntityManager()->getRepository(BackLink::class)->createQueryBuilder('bl');
 
-        $criteria = [];
+        $baseCriteria = [];
 
         if ($filterDto->periodStart) {
-            $criteria[] = $query->expr()->gte('bl.' . BackLink::UPDATED_AT, $query->expr()->literal($filterDto->periodStart));
+            $baseCriteria[] = $baseQuery->expr()->gte('bl.' . BackLink::UPDATED_AT, $baseQuery->expr()->literal($filterDto->periodStart));
         }
 
         if ($filterDto->periodEnd) {
-            $criteria[] = $query->expr()->lte('bl.' . BackLink::UPDATED_AT, $query->expr()->literal($filterDto->periodEnd));
+            $baseCriteria[] = $baseQuery->expr()->lte('bl.' . BackLink::UPDATED_AT, $baseQuery->expr()->literal($filterDto->periodEnd));
         }
 
         if ($filterDto->user) {
-            $criteria[] = $query->expr()->eq('bl.' . BackLink::CREATED_BY, $filterDto->user->getId());
+            $baseCriteria[] = $baseQuery->expr()->eq('bl.' . BackLink::CREATED_BY, $filterDto->user->getId());
         }
 
-        $rawItems = $query
-            ->select([
-                'count(bl.' . BackLink::ID . ') as value',
-                $field,
-            ])
-            ->where($query->expr()->andX(...$criteria))
-            ->groupBy('key')
-            ->getQuery();
-
+        $baseQuery->groupBy('key');
         $items = collect();
-        foreach ($rawItems->getArrayResult() as $item) {
-            $items->put($item['key'], new BaseStatisticsItem([
-                BaseStatisticsItem::KEY => (string)$item['key'],
-                BaseStatisticsItem::TITLE => $keys[$item['key']] ?? '',
-                BaseStatisticsItem::COUNT => $item['value'],
-            ]));
-        }
 
-        // Add empty keys if it is necessary
-        foreach ($keys as $key => $name) {
-            if (!$items->get($key)) {
-                $items->put($key, new BaseStatisticsItem([
-                    BaseStatisticsItem::KEY => (string)$key,
-                    BaseStatisticsItem::TITLE => $name,
-                    BaseStatisticsItem::COUNT => 0,
+        foreach ($titles as $key => $title) {
+            $query = clone $baseQuery;
+            $criteria = $baseCriteria;
+            switch ($key) {
+                case 1:
+                    $criteria[] = $query->expr()->eq('bl.' . BackLink::LOST, true);
+                    break;
+                case 2:
+                    $criteria[] = $query->expr()->eq('bl.' . BackLink::LOST, false);
+                    break;
+            }
+            $rawItems = $query
+                ->select([
+                    'count(bl.' . BackLink::ID . ') as value',
+                    $field,
+                ])
+                ->where($baseQuery->expr()->andX(...$criteria))
+                ->getQuery();
+
+            foreach ($rawItems->getArrayResult() as $item) {
+                $items->put($item['key'] . '-' . $key, new BaseStatisticsItem([
+                    BaseStatisticsItem::KEY => $item['key'] . '-' . $key,
+                    BaseStatisticsItem::TITLE => $title,
+                    BaseStatisticsItem::COUNT => $item['value'],
+                    BaseStatisticsItem::DATE => Carbon::parse($item['key']),
                 ]));
             }
         }

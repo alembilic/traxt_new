@@ -15,6 +15,11 @@ class StatisticsTypes extends Enum
     public const BACKLINKS = 'backlinks';
 
     /**
+     * Information about backlinks as graph.
+     */
+    public const BACKLINKS_GRAPH = 'backlinks_graph';
+
+    /**
      * Total domains for the period and grouped information about domains.
      */
     public const DOMAINS = 'domains';

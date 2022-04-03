@@ -27,6 +27,7 @@ class StatisticsServicesFactory
      */
     protected array $servicesMapping = [
         StatisticsTypes::BACKLINKS => BackLinksStatisticsService::class,
+        StatisticsTypes::BACKLINKS_GRAPH => GraphBackLinksStatisticsService::class,
         StatisticsTypes::DOMAINS => DomainsStatisticsService::class,
     ];
 
