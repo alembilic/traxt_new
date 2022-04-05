@@ -263,7 +263,7 @@ for ($i = 7; $i >= 0; $i--) {
                 datasets: [
                     {
                         label: 'Total growth of all backlinks',
-                        data: [25, 21, 24, 33, 25, 14, 26, 26.5, 20],
+                        data: [0, 0, 0, 0, 0, 0, 0],
                         backgroundColor: '#F25F33',
                         borderColor: '#F25F33',
                         borderWidth: 2,
@@ -272,7 +272,7 @@ for ($i = 7; $i >= 0; $i--) {
                     },
                     {
                         label: 'Average growth of backlinks',
-                        data: [15, 15.5, 19, 20, 23, 24, 31, 32],
+                        data: [0, 0, 0, 0, 0, 0, 0],
                         backgroundColor: '#0BDD53',
                         borderColor: '#0BDD53',
                         borderWidth: 2,
@@ -322,7 +322,7 @@ for ($i = 7; $i >= 0; $i--) {
                 labels: daysLabels,
                 datasets: [
                     {
-                        data: [13, 14, 12, 42, 21, 23, 22, 29, 32],
+                        data: [0, 0, 0, 0, 0, 0, 0],
                         backgroundColor: '#2D2FF0',
                         borderColor: '#2D2FF0',
                         borderWidth: 2,
@@ -330,7 +330,7 @@ for ($i = 7; $i >= 0; $i--) {
                         pointBorderWidth: 0
                     },
                     {
-                        data: [23, 21, 23, 32, 28, 34, 18, 28, 26],
+                        data: [0, 0, 0, 0, 0, 0, 0],
                         backgroundColor: '#E8C300',
                         borderColor: '#E8C300',
                         borderWidth: 2,
@@ -338,7 +338,7 @@ for ($i = 7; $i >= 0; $i--) {
                         pointBorderWidth: 0
                     },
                     {
-                        data: [8, 8.5, 9, 9, 13, 8, 20, 12, 13],
+                        data: [0, 0, 0, 0, 0, 0, 0],
                         backgroundColor: '#E80054',
                         borderColor: '#E80054',
                         borderWidth: 2,
@@ -391,7 +391,7 @@ for ($i = 7; $i >= 0; $i--) {
                 labels: daysLabels,
                 datasets: [
                     {
-                        data: [5, 6, 8, 9, 12, 15, 9, 16, 10],
+                        data: [0, 0, 0, 0, 0, 0, 0],
                         backgroundColor: '#00C0FF',
                         borderColor: '#00C0FF',
                         borderWidth: 2,
@@ -399,7 +399,7 @@ for ($i = 7; $i >= 0; $i--) {
                         pointBorderWidth: 0
                     },
                     {
-                        data: [14, 12, 14, 23, 15, 6, 19, 19, 16],
+                        data: [0, 0, 0, 0, 0, 0, 0],
                         backgroundColor: '#FFEB32',
                         borderColor: '#FFEB32',
                         borderWidth: 2,
@@ -407,7 +407,7 @@ for ($i = 7; $i >= 0; $i--) {
                         pointBorderWidth: 0
                     },
                     {
-                        data: [22, 23, 24, 9, 31, 22, 33, 21, 17, 20.5],
+                        data: [0, 0, 0, 0, 0, 0, 0],
                         backgroundColor: '',
                         borderColor: '#D500E8',
                         borderWidth: 2,
