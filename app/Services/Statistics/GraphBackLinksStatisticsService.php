@@ -65,34 +65,33 @@ class GraphBackLinksStatisticsService implements IStatisticsService
                 throw new InvalidArgumentException('Invalid statistics grouping');
         }
 
-        $baseQuery = $this->getEntityManager()->getRepository(BackLink::class)->createQueryBuilder('bl');
-
-        $baseCriteria = [];
-
-        if ($filterDto->periodStart) {
-            $baseCriteria[] = $baseQuery->expr()->gte('bl.' . BackLink::UPDATED_AT, $baseQuery->expr()->literal($filterDto->periodStart));
-        }
-
-        if ($filterDto->periodEnd) {
-            $baseCriteria[] = $baseQuery->expr()->lte('bl.' . BackLink::UPDATED_AT, $baseQuery->expr()->literal($filterDto->periodEnd));
-        }
-
-        if ($filterDto->user) {
-            $baseCriteria[] = $baseQuery->expr()->eq('bl.' . BackLink::CREATED_BY, $filterDto->user->getId());
-        }
-
-        $baseQuery->groupBy('key');
         $items = collect();
 
         foreach ($titles as $key => $title) {
-            $query = clone $baseQuery;
-            $criteria = $baseCriteria;
+            $query = $this->getEntityManager()->getRepository(BackLink::class)->createQueryBuilder('bl');
+
+            $criteria = [];
+
+            if ($filterDto->periodStart) {
+                $criteria[] = $query->expr()
+                    ->gte('bl.' . BackLink::UPDATED_AT, $query->expr()->literal($filterDto->periodStart->startOfDay()));
+            }
+
+            if ($filterDto->periodEnd) {
+                $criteria[] = $query->expr()
+                    ->lte('bl.' . BackLink::UPDATED_AT, $query->expr()->literal($filterDto->periodEnd));
+            }
+
+            if ($filterDto->user) {
+                $criteria[] = $query->expr()->eq('bl.' . BackLink::CREATED_BY, $filterDto->user->getId());
+            }
+
             switch ($key) {
                 case 1:
-                    $criteria[] = $query->expr()->eq('bl.' . BackLink::LOST, true);
+                    $criteria[] = $query->expr()->eq('bl.' . BackLink::LOST, 1);
                     break;
                 case 2:
-                    $criteria[] = $query->expr()->eq('bl.' . BackLink::LOST, false);
+                    $criteria[] = $query->expr()->eq('bl.' . BackLink::LOST, 0);
                     break;
             }
             $rawItems = $query
@@ -100,7 +99,8 @@ class GraphBackLinksStatisticsService implements IStatisticsService
                     'count(bl.' . BackLink::ID . ') as value',
                     $field,
                 ])
-                ->where($baseQuery->expr()->andX(...$criteria))
+                ->where($query->expr()->andX(...$criteria))
+                ->groupBy('key')
                 ->getQuery();
 
             foreach ($rawItems->getArrayResult() as $item) {
