@@ -30,5 +30,6 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::put('notifications/{notification}/markAsRead', NotificationsApiController::class . '@markAsRead');
     Route::post('domain/{domain}/importBackLinks', DomainApiController::class . '@importBackLinks');
     Route::get('domain/{domain}/retrieveBackLinks', DomainApiController::class . '@retrieveBackLinks');
+    Route::resource('domains', DomainApiController::class);
 });
 Route::any('webhook/{type}', WebhookApiController::class . '@handle');

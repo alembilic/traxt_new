@@ -6,7 +6,9 @@ use App\Contracts\IAccountingSystem;
 use App\Contracts\IPaymentSystemService;
 use App\Core\ChannelManager;
 use App\Core\Mail\MailChannel;
+use App\Http\Controllers\DomainApiController;
 use App\Http\Controllers\NotificationsApiController;
+use App\Http\Transformers\DomainTransformer;
 use App\Http\Transformers\NotificationTransformer;
 use App\Services\Dinero\DineroService;
 use App\Services\PaymentServices\QuickPayPaymentServiceService;
@@ -54,6 +56,10 @@ class AppServiceProvider extends ServiceProvider
         $this->app->when(NotificationsApiController::class)
             ->needs(TransformerAbstract::class)
             ->give(NotificationTransformer::class);
+        $this->app->when(DomainApiController::class)
+            ->needs(TransformerAbstract::class)
+            ->give(DomainTransformer::class);
+
         if (!$this->app->environment('local')) {
             URL::forceScheme('https');
         }

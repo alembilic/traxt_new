@@ -2,6 +2,7 @@
 
 namespace App\Entities;
 
+use App\Contracts\IHasUser;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -15,7 +16,7 @@ use Doctrine\Common\Collections\Collection;
  *
  * @ORM\Entity
  */
-class Domain
+class Domain implements IHasUser
 {
     use Timestamps;
 
@@ -150,11 +151,13 @@ class Domain
     private Collection $backLinks;
 
     /**
-     * @param string $domainName
+     * @param string $domainName url
+     * @param User $user user
      */
-    public function __construct(string $domainName)
+    public function __construct(string $domainName, User $user)
     {
         $this->domainName = $domainName;
+        $this->createdBy = $user;
         $this->backLinks = new ArrayCollection();
     }
 
@@ -396,5 +399,13 @@ class Domain
     public function getBackLinks(): Collection
     {
         return $this->backLinks;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getUser(): ?User
+    {
+        return $this->getCreatedBy();
     }
 }
