@@ -29,11 +29,13 @@
         <div class="container">
             <div class="row align-items-center pad-top-3 pad-bot-1 padding-lg-mob">
                 <div class="col-md-12">
-                    Lennart Øster and Tim Petersson started Traxr in 2019, after years of working with link building on their own and customers sites.<br />
-                    One of the recurring problems was links being changed after they where published. Some where removed and others changed from dofollow to nofollow or sites where closed, redirected or any other number of issues.<br /><br />
-                    To be able to be proactive they developed Traxr.net, with one goal in mind.<br /><br />
-                    <i>It must be super easy and intuitive to monitor links and react on any events.</i> <br />
-                    <br />
+                    Traxr is a backlink CRM system created by Jimmi Meilstrup and Kristoffer Tølbøll. The inspiration for creating the system was the idea of many companies managing their backlinks in Large Excel Spreadsheets and other documents without having the ability to manage their backlinks in a user-friendly and dynamic fashion.
+                    <br /><br />
+                    Traxr aims to solve this issue with state-of-the-art technology that allows you to see your KPIs and have analytical insight into how their backlinks are performing over time.
+                    <br /><br />
+                    We are constantly aiming to improve Traxr and become an industry-leading tool in the SEO and backlinking industry.
+                    <br /><br />
+                    Feedback and inquires should be sent to <a href="mailto:info@traxr.net">info@traxr.net</a><br />
                 </div>
             </div>
         </div>
