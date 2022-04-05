@@ -3,6 +3,9 @@
 namespace App\Providers;
 
 use App\Auth\XAuthTokenGuard;
+use App\Entities\BackLink;
+use App\Entities\Domain;
+use App\Policies\BasePolicy;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Auth;
@@ -15,7 +18,8 @@ class AuthServiceProvider extends ServiceProvider
      * @var array<class-string, class-string>
      */
     protected $policies = [
-        // 'App\Models\Model' => 'App\Policies\ModelPolicy',
+        Domain::class => BasePolicy::class,
+        BackLink::class => BasePolicy::class,
     ];
 
     /**

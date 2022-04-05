@@ -27,8 +27,12 @@
     <!-- Charts JS -->
     <script src="/assets-app/js/chart.min.js"></script>
     <!-- Main JS -->
+    <script src="/assets-app/js/apis.js"></script>
     <script src="/assets-app/js/main.js"></script>
     <script src="/assets-app/js/cookie.js"></script>
+
+    <link href="/admin/css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+    <script src="/admin/js/plugins/sweetalert/sweetalert.min.js"></script>
 
     <link href="/admin/css/introjs.min.css" rel="stylesheet">
     <script src="/admin/js/intro.min.js"></script>

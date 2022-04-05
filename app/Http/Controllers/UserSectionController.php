@@ -6,6 +6,7 @@ use App\Contracts\IAccountingSystem;
 use App\Core\EntityManagerFresher;
 use App\Dto\Statistics\StatisticsFilterDto;
 use App\Entities\Currency;
+use App\Entities\Domain;
 use App\Entities\Order;
 use App\Entities\OrderSubscription;
 use App\Entities\Product;
@@ -94,9 +95,20 @@ class UserSectionController extends BaseWebController
         return view('app.links');
     }
 
-    public function domains(): View
+    public function domains(Request $request): View
     {
-        return view('app.domains');
+        $page = $request->get('page') ?? 1;
+        $perPage = 30;
+        $criteria = Criteria::create()
+            ->where(Criteria::expr()->eq(Domain::USER, $this->user))
+            ->andWhere(Criteria::expr()->eq(Domain::DELETED, false));
+
+        $countPages = ceil($this->getRepository(Domain::class)->matching($criteria)->count() / $perPage);
+
+        $criteria->setMaxResults($perPage)->setFirstResult(($page - 1) * $perPage);
+        $domains = collect($this->getRepository(Domain::class)->matching($criteria));
+
+        return view('app.domains', ['domains' => $domains, 'page' => $page, 'of' => $countPages]);
     }
 
     /**
@@ -281,6 +293,7 @@ class UserSectionController extends BaseWebController
             'total' => round($price + $price * $vatValue, 2),
         ]);
     }
+
     /**
      * @param string $subscription
      *

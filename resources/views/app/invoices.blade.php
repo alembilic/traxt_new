@@ -1,24 +1,21 @@
-@extends('app.layout')
+@extends('app.app_layout')
 @section('pageName')
     Invoices
 @endsection
 @section('content')
-    <div class="row">
-        <div class="panel">
-            <div class="panel-heading">
-                <div class="panel-options pull-right">
-                </div>
-                <i class="fas fa-list"></i>
-                <h3 class="panel-title">Invoices</h3>
-            </div>
+<div class="links-table-wrap">
+    <div class="table-header">
+        <div class="panel-body">
+            <h5>Invoices</h5>
+            <p></p>
             @php
                 /* @var \App\Entities\SubscriptionCharge[] $invoices */
             @endphp
-            <div class="panel-body table-responsive">
+            <div class="table-body" style="width: 100%">
                 @if (count($invoices))
-                    <table class="table table-hover table-striped">
+                    <table class="table" style="width: 100%">
                         <thead>
-                            <tr>
+                            <tr class="table-title">
                                 <th>Order ID</th>
                                 <th>Invoice Date</th>
                                 <th>Amount</th>
@@ -29,7 +26,7 @@
                         </thead>
                         <tbody>
                         @foreach ($invoices as $invoice)
-                            <tr>
+                            <tr class="table-item">
                                 <td>{{$invoice->getId()}}</td>
                                 <td>{{$invoice->getCreatedAt()->format('Y-m-d H:i:s')}}</td>
                                 <td>{{$invoice->getAmount()}} USD</td>
@@ -56,5 +53,6 @@
             </div>
         </div>
     </div>
+</div>
     <!-- END Row -->
 @endsection

@@ -2,6 +2,7 @@
 
 namespace App\Entities;
 
+use App\Contracts\IHasUser;
 use App\Dto\BackLinksRawData;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
@@ -15,7 +16,7 @@ use LaravelDoctrine\Extensions\Timestamps\Timestamps;
  *
  * @ORM\Entity
  */
-class BackLink
+class BackLink implements IHasUser
 {
     use Timestamps;
 
@@ -343,5 +344,13 @@ class BackLink
     public function getSearchKey(): string
     {
         return $this->sourceUrl . '-' . $this->destUrl;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getUser(): ?User
+    {
+        return $this->getCreatedBy();
     }
 }

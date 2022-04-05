@@ -1,4 +1,4 @@
-@extends('app.layout')
+@extends('app.app_layout')
 @section('pageName')
     My Account
 @endsection
@@ -71,15 +71,12 @@
         });
     });
 </script>
-<div class="row">
-    <div class="panel">
-        <div class="panel-heading">
-            <div class="panel-options pull-right">
-            </div>
-            <i class="fas fa-list"></i>
-            <h3 class="panel-title">Your Information</h3>
-        </div>
-        <div class="panel-body table-responsive">
+
+<div class="links-table-wrap">
+    <div class="table-header">
+        <div class="panel-body">
+            <h5>Your Information</h5>
+            <p></p>
             <div class="col-sm-2 col-md-6">
                 <div style="color: red;">
                     @foreach($validationErrors ?? [] as $error)
