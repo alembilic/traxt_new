@@ -53,14 +53,14 @@ class User extends Authenticatable implements INotifiable
      *
      * @ORM\Column(name="firstname", type="string", length=40, nullable=false)
      */
-    private string $firstname;
+    private string $firstName;
 
     /**
      * @var string
      *
      * @ORM\Column(name="lastname", type="string", length=40, nullable=false)
      */
-    private string $lastname;
+    private string $lastName;
 
     /**
      * @var string|null
@@ -354,33 +354,33 @@ class User extends Authenticatable implements INotifiable
     /**
      * @return string
      */
-    public function getFirstname(): string
+    public function getFirstName(): string
     {
-        return $this->firstname;
+        return $this->firstName;
     }
 
     /**
-     * @param string $firstname
+     * @param string $firstName
      */
-    public function setFirstname(string $firstname): void
+    public function setFirstName(string $firstName): void
     {
-        $this->firstname = $firstname;
+        $this->firstName = $firstName;
     }
 
     /**
      * @return string
      */
-    public function getLastname(): string
+    public function getLastName(): string
     {
-        return $this->lastname;
+        return $this->lastName;
     }
 
     /**
-     * @param string $lastname
+     * @param string $lastName
      */
-    public function setLastname(string $lastname): void
+    public function setLastName(string $lastName): void
     {
-        $this->lastname = $lastname;
+        $this->lastName = $lastName;
     }
 
     /**

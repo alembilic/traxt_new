@@ -282,7 +282,7 @@
                 </div>
                 <div class="cell">
                     <img height="24" src="https://www.gravatar.com/avatar/{{ md5(strtolower(trim($user->getEmail()))) }}.jpg"/>
-                    {{ $user->getFirstname() ? $user->getFirstname() . ' ' . $user->getLastname() : $user->getEmail() }}
+                    {{ $user->getFirstName() ? $user->getFirstName() . ' ' . $user->getLastName() : $user->getEmail() }}
                 </div>
             </div>
         </div>

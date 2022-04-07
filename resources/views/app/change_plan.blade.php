@@ -40,8 +40,8 @@
                             <ul>
                                 <li>Company: </td><td>{{ $user->getCompany() }}</td></li>
                                 <li>VAT no: </td><td>{{ $user->getVatNumber() }}</li>
-                                <li>Firstname: </td><td>{{ $user->getFirstname() }}</li>
-                                <li>Lastname: </td><td>{{ $user->getLastname() }}</li>
+                                <li>Firstname: </td><td>{{ $user->getFirstName() }}</li>
+                                <li>Lastname: </td><td>{{ $user->getLastName() }}</li>
                                 <li>Address : </td><td>{{ $user->getAddress() }}</li>
                                 <li>City : </td><td>{{ $user->getCity() }}</li>
                                 <li>Email: </td><td>{{ $user->getEmail() }}</li>

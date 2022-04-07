@@ -358,11 +358,11 @@
                     </p>
                     <p>
                         <label>First Name</label>
-                        <input class="form-control" type="text" name="firstname" value="{{ $formData['firstname'] ?? $user->getFirstname() }}">
+                        <input class="form-control" type="text" name="firstname" value="{{ $formData['firstname'] ?? $user->getFirstName() }}">
                     </p>
                     <p>
                         <label>Last Name</label>
-                        <input class="form-control" type="text" name="lastname" value="{{ $formData['lastname'] ?? $user->getLastname() }}">
+                        <input class="form-control" type="text" name="lastname" value="{{ $formData['lastname'] ?? $user->getLastName() }}">
                     </p>
                     <p>
                         <label>Email</label>

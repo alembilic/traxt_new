@@ -3,6 +3,8 @@
 namespace App\Console;
 
 use App\Console\Commands\ParseBackLinks;
+use App\Console\Commands\RenewSubscription;
+use App\Console\Commands\UpdateCurrency;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -15,6 +17,8 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         ParseBackLinks::class,
+        RenewSubscription::class,
+        UpdateCurrency::class,
     ];
 
     /**
@@ -29,6 +33,7 @@ class Kernel extends ConsoleKernel
         // uncomment on production
 //        $schedule->command('backlinks:parse')->daily();
 //        $schedule->command('subscriptions:renew')->daily();
+        $schedule->command('currency:update')->onOneServer()->dailyAt('09:30');
     }
 
     /**

@@ -8,7 +8,10 @@ use App\Entities\SubscriptionCharge;
 use App\Entities\User;
 use App\Exceptions\AuthServiceException;
 use App\Exceptions\ServiceException;
+use GuzzleHttp\Psr7\Request;
+use GuzzleHttp\Psr7\Uri;
 use Illuminate\Support\Facades\Cache;
+use Psr\Http\Message\RequestInterface;
 use Psr\SimpleCache\InvalidArgumentException;
 
 /**
@@ -114,14 +117,14 @@ class DineroService implements IAccountingSystem
 
         $contact = json_encode([
             'ExternalReference' => 'Traxr: ' . $user->getId(),
-            'Name' => ($user->getCompany() ?: $user->getFirstname() . ' ' . $user->getLastname()),
+            'Name' => ($user->getCompany() ?: $user->getFirstName() . ' ' . $user->getLastName()),
             'Street' => $user->getAddress(),
             'ZipCode' => '',
             'City' => $user->getCity(),
             'CountryKey' => $user->getCountry(),
             'Phone' => null,
             'Email' => $user->getEmail(),
-            'AttPerson' => $user->getFirstname() . ' ' . $user->getLastname(),
+            'AttPerson' => $user->getFirstName() . ' ' . $user->getLastName(),
             'PaymentConditionType' => 'Netto',
             'PaymentConditionNumberOfDays' => 8,
             'UseCvr' => false,
@@ -129,32 +132,10 @@ class DineroService implements IAccountingSystem
         ]);
 
         $url = $this->baseUrl . config('services.dinero.id') . '/contacts';
-        $curl = curl_init($url);
-        curl_setopt($curl, CURLOPT_POST, true);
-        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($curl, CURLOPT_HEADER, false);
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($curl, CURLOPT_HTTPHEADER, array(
-            'Authorization: Bearer ' . $this->getAuthToken(),
-            'Host: api.dinero.dk',
-            'Content-Type: application/json',
-            'Accept: application/octet-stream',
-            'Content-Length: ' . strlen($contact)
-        ));
-        curl_setopt($curl, CURLOPT_POSTFIELDS, $contact);
-        $response = curl_exec($curl);
-
-        if ($errno = curl_errno($curl)) {
-            throw new ServiceException(curl_strerror($errno));
-        }
-        if (!$response) {
-            throw new ServiceException('Invalid response from Dinero API.' . $response);
-        }
-
-        $data = json_decode($response, 1);
+        $data = $this->sendRequest(new Request('POST', new Uri($url), [], $contact));
 
         if (!$data['contactGuid']) {
-            throw new ServiceException('Invalid response from Dinero API.' . $response);
+            throw new ServiceException('Invalid response from Dinero API.');
         }
 
         $user->setDineroAddGuid($data['contactGuid']);
@@ -204,19 +185,142 @@ class DineroService implements IAccountingSystem
             'Address' => null
         ]);
 
-        $curl = curl_init($url);
-        curl_setopt($curl, CURLOPT_POST, true);
+        $data = $this->sendRequest(new Request('POST', new Uri($url), [], $requestData));
+
+        if (!isset($data['guid'])) {
+            throw new ServiceException('Invalid response from Dinero API.');
+        }
+
+        $res = $this->sendTransfer($data['guid'], $data['timestamp']);
+        $res = $this->sendPayment($data['guid'], $res['timestamp'], $charge);
+        $this->notify($data['guid'], $res['timestamp'], $user);
+
+        return $data['guid'];
+    }
+
+    /**
+     * Create transfer.
+     *
+     * @param string $guid GUID
+     * @param string $ts Timestamp
+     *
+     * @return array|null
+     *
+     * @throws AuthServiceException
+     * @throws InvalidArgumentException
+     * @throws ServiceException
+     */
+    private function sendTransfer(string $guid, string $ts): ?array
+    {
+        $url = $this->baseUrl . config('services.dinero.id') . '/invoices/' . $guid . '/book';
+        $requestData = json_encode([
+            'Number' => null,
+            'Timestamp' => $ts,
+        ]);
+        return $this->sendRequest(new Request('POST', new Uri($url), [], $requestData));
+    }
+
+    /**
+     * Transfer Payments.
+     *
+     * @param string $guid GUID
+     * @param string $ts Timestamp
+     * @param SubscriptionCharge $charge Charge
+     *
+     * @return array|null
+     *
+     * @throws AuthServiceException
+     * @throws InvalidArgumentException
+     * @throws ServiceException
+     */
+    private function sendPayment(string $guid, string $ts, SubscriptionCharge $charge): ?array
+    {
+        $rate = Cache::get('currencyRate') ?: 6.8;
+        $url = $this->baseUrl . config('services.dinero.id') . '/invoices/' . $guid . '/payments';
+        $amountUSD = number_format($charge->getTotal(), 2, '.', '');
+        $amount = number_format($charge->getTotal() * $rate, 2, '.', '');
+
+        $requestData = json_encode([
+            'Timestamp' => $ts,
+            'DepositAccountNumber' => 55001,
+            'ExternalReference' => 'Traxr => ' . $charge->getId(),
+            'PaymentDate' => date('Y-m-d'),
+            'Description' => 'Payment of Traxr order ' . $charge->getId(),
+            'Amount' => $amount,
+            'AmountInForeignCurrency' => $amountUSD,
+        ]);
+
+        return $this->sendRequest(new Request('POST', new Uri($url), [], $requestData));
+    }
+
+    /**
+     * Notify User about payment.
+     *
+     * @param string $guid GUID
+     * @param string $ts Timestamp
+     * @param User $user User
+     *
+     * @return array|null
+     *
+     * @throws AuthServiceException
+     * @throws InvalidArgumentException
+     * @throws ServiceException
+     */
+    private function notify(string $guid, string $ts, User $user): ?array
+    {
+        $url = $this->baseUrl . config('services.dinero.id') . '/invoices/' . $guid . '/email';
+        $requestData = json_encode([
+            'Timestamp' => $ts,
+            'Sender' => 'contact@traxr.net',
+            'CcToSender' => true,
+            'Receiver' => $user->getEmail(),
+            'Subject' => 'Your invoice for Traxr is ready',
+            'Message' => 'Hi ' . $user->getFirstName() . "\n
+Here\'s your invoice for your purchase at Traxr.net. The amount has been charged on your credit card.\n\n
+Link to PDF: [link-to-pdf]\n
+Kind regards \n
+Traxr Billing\n
+Traxr.net",
+            'AddVoucherAsPdfAttachment' =>  true
+        ]);
+
+        return $this->sendRequest(new Request('POST', new Uri($url), [], $requestData));
+    }
+
+    /**
+     * Send Request.
+     *
+     * @param RequestInterface $request Request
+     *
+     * @return array|null
+     *
+     * @throws AuthServiceException
+     * @throws InvalidArgumentException
+     * @throws ServiceException
+     */
+    private function sendRequest(RequestInterface $request): ?array
+    {
+        $curl = curl_init($request->getUri()->getScheme() . '://' . $request->getUri()->getHost() .
+            $request->getUri()->getPath());
+        switch (strtoupper($request->getMethod())) {
+            case 'PUT':
+                curl_setopt($curl, CURLOPT_PUT, true);
+                break;
+            case 'POST':
+                curl_setopt($curl, CURLOPT_POST, true);
+                break;
+        }
         curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($curl, CURLOPT_HEADER, false);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($curl, CURLOPT_HTTPHEADER, array(
+        curl_setopt($curl, CURLOPT_HTTPHEADER, [
             'Authorization: Bearer ' . $this->getAuthToken(),
-            'Host: api.dinero.dk',
+            'Host: ' . $request->getUri()->getHost(),
             'Content-Type: application/json',
-            'Content-Length: ' . strlen($requestData)
-        ));
+            'Content-Length: ' . $request->getBody()->getSize(),
+        ]);
 
-        curl_setopt($curl, CURLOPT_POSTFIELDS, $requestData);
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $request->getBody()->getContents());
         $response = curl_exec($curl);
 
         if ($errno = curl_errno($curl)) {
@@ -226,12 +330,6 @@ class DineroService implements IAccountingSystem
             throw new ServiceException('Invalid response from Dinero API.' . $response);
         }
 
-        $data = json_decode($response, 1);
-
-        if (!$data['guid']) {
-            throw new ServiceException('Invalid response from Dinero API.' . $response);
-        }
-
-        return $data['guid'];
+        return json_decode($response, 1);
     }
 }
