@@ -137,10 +137,10 @@ class UserSectionController extends BaseWebController
                     $user->setUsername($data['username']);
                 }
                 if (isset($data['firstname'])) {
-                    $user->setFirstname($data['firstname']);
+                    $user->setFirstName($data['firstname']);
                 }
                 if (isset($data['lastname'])) {
-                    $user->setLastname($data['lastname']);
+                    $user->setLastName($data['lastname']);
                 }
                 if (isset($data['company'])) {
                     $user->setCompany($data['company']);

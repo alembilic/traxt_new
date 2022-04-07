@@ -111,7 +111,7 @@
                 <div class="img-wrap">
                     <img height="24" src="https://www.gravatar.com/avatar/{{ md5(strtolower(trim($user->getEmail()))) }}.jpg"  alt="user-avatar"/>
                 </div>
-                {{ $user->getFirstname() ? $user->getFirstname() . ' ' . $user->getLastname() : $user->getEmail() }}
+                {{ $user->getFirstName() ? $user->getFirstName() . ' ' . $user->getLastName() : $user->getEmail() }}
             </a>
         </nav>
     </header>
@@ -131,7 +131,7 @@
                     <div class="img-wrap">
                         <img height="24" src="https://www.gravatar.com/avatar/{{ md5(strtolower(trim($user->getEmail()))) }}.jpg"  alt="user-avatar"/>
                     </div>
-                    {{ $user->getFirstname() ? $user->getFirstname() . ' ' . $user->getLastname() : $user->getEmail() }}
+                    {{ $user->getFirstName() ? $user->getFirstName() . ' ' . $user->getLastName() : $user->getEmail() }}
                 </a>
             </nav>
             <ul class="list-group">
