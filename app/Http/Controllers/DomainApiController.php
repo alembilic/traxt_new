@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Entities\Domain;
 use App\Enums\PolicyActions;
+use App\Exceptions\BusinessLogicException;
 use App\Http\Requests\SaveDomainRequest;
 use App\Http\Transformers\RawBackLinkTransformer;
 use App\Jobs\ParseBacklinksJob;
 use App\Services\UrlParsers\DataForSeoService;
+use Doctrine\Common\Collections\Criteria;
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
@@ -88,9 +90,21 @@ class DomainApiController extends BaseApiController
      * @param SaveDomainRequest $request Request with domain data
      *
      * @return JsonResponse
+     *
+     * @throws BusinessLogicException
      */
     public function store(SaveDomainRequest $request): JsonResponse
     {
+        $subscription = $this->user->getSubscription();
+        $domainsCount = $this->getRepository(Domain::class)->matching(
+            Criteria::create()
+                ->where(Criteria::expr()->eq(Domain::USER, $this->user))
+                ->andWhere(Criteria::expr()->eq(Domain::DELETED, false))
+        )->count();
+        if ($subscription && ($domainsCount >= $subscription->getProduct()->getDomains())) {
+            throw new BusinessLogicException('Domains limit reached for your plan.');
+        }
+
         preg_match(
             '!(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z0-9][a-z0-9-]{0,61}[a-z0-9]!',
             $request->domain,
