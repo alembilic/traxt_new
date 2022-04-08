@@ -3,6 +3,7 @@
 namespace App\Entities;
 
 use App\Contracts\IHasUser;
+use App\Jobs\CreateDomainThumbJob;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -14,7 +15,9 @@ use Doctrine\Common\Collections\Collection;
  *
  * @ORM\Table(name="trx_domains")
  *
- * @ORM\Entity
+ * @ORM\Entity()
+ *
+ * @ORM\HasLifecycleCallbacks()
  */
 class Domain implements IHasUser
 {
@@ -407,5 +410,25 @@ class Domain implements IHasUser
     public function getUser(): ?User
     {
         return $this->getCreatedBy();
+    }
+
+    /**
+     * @ORM\PostPersist()
+     */
+    public function createThumb(): void
+    {
+        if (!$this->thumbUrl) {
+            dispatch(new CreateDomainThumbJob($this));
+        }
+    }
+
+    /**
+     * @ORM\PostRemove()
+     */
+    public function removeThumb(): void
+    {
+        if ($this->thumbUrl && file_exists(public_path() . $this->thumbUrl)) {
+            unlink(public_path() . $this->thumbUrl);
+        }
     }
 }

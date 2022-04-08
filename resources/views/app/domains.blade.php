@@ -48,6 +48,8 @@
                     <td>
                         @if($domain->getThumbUrl())
                         <img src="{{ $domain->getThumbUrl() }}" width="50"/>
+                        @else
+                        <i class="fas fa-spinner fa-spin"></i>
                         @endif
                     </td>
                     <td>
