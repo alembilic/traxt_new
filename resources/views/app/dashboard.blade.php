@@ -94,8 +94,8 @@
 <div class="row graphs">
     <div class="col col-12 col-xl-6">
         <div class="graph-box">
-            <h3>Growth rate</h3>
-            <p>Growth Rate indicates the progress of your backlinks on PageRank. PageRank is one of the most vital indicators for determining the success of your backlinks</p>
+            <h3>Page rank growth</h3>
+            <p>PageRank is one of the most vital indicators for determining the success of your backlinks</p>
             <div class="line-designation">
                 <div class="line-item">
                     <span style="background-color: #F25F33;"></span>
@@ -113,8 +113,8 @@
     </div>
     <div class="col col-12 col-xl-6">
         <div class="graph-box">
-            <h3>Spendings</h3>
-            <p>Spendings indicate how much money you have spent on your backlinks, the amount lost on non-active backlinks, and the amount spent on backlinks that are currently active. </p>
+            <h3>Spending</h3>
+            <p>Spending indicate how much money you have spent on your backlinks, including active and lost spending.</p>
             <div class="line-designation">
                 <div class="line-item">
                     <span style="background-color: #2D2FF0;"></span>

@@ -84,6 +84,7 @@
                                 <div class="list-icon"></div>
                                 <p class="pt-3 align-left fw-700 features-bottom-text">
                                     Mail: kristofferlocktolboll@gmail.com<br />
+                                    <a href="https://kristoffer.dk/">https://kristoffer.dk/</a>
                                 </p>
                             </div>
                         </div>

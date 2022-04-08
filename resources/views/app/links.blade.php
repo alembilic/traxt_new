@@ -1,4 +1,4 @@
-@extends('app.layout')
+@extends('app.app_layout')
 @section('pageName')
     Links
 @endsection

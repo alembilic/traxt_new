@@ -1,5 +1,6 @@
 @php
     /* @var \App\Entities\User $user */
+    /* @var \App\Entities\Notification $notification */
     $user = \EntityManager::find(\App\Entities\User::class, Auth::user()->getAuthIdentifier());
     $page = preg_replace('!(\?.*)!i', '', str_replace('/app/', '', $_SERVER['REQUEST_URI']));
     $isAccount = in_array($page, ['/app/minkonto', '/app/invoices', '/app/myplan']);
@@ -15,6 +16,7 @@
     <link href="/assets-app/css/bootstrap.min.css" rel="stylesheet">
     <!-- Main CSS -->
     <link href="/assets-app/css/style.css" rel="stylesheet">
+    <link href="/assets-app/css/custom-style.css" rel="stylesheet">
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -86,6 +88,32 @@
 @endif
     <script>
         var apiToken = '{{ $user->getApiToken() }}';
+        $(function () {
+            $('.notifications-icon-bell img').on('click', function () {
+                $('.notifications-popup').slideToggle('fast');
+            });
+            $('.notifications-icon-bell .btn-close').on('click', function () {
+                $('.notifications-popup').slideToggle('fast');
+            });
+            $('.notification-item').on('click', function () {
+                $('.notification-message', this).slideToggle('fast');
+            });
+            $(".read-all").click(function () {
+                $.ajax({
+                    url: '/api/notifications/markAsReadAll',
+                    type: 'PUT',
+                    headers: {'X-Auth-Token': apiToken},
+                    success: function (data) {
+                        $('.notifications-list').html('<div class="notification-item-empty">No new messages</div>');
+                        $('.read-all').addClass('hidden');
+                        $('.header-icon-number').html(0);
+                    },
+                    error: function () {
+                        location.reload();
+                    }
+                });
+            });
+        });
     </script>
 </head>
 <body>
@@ -101,12 +129,30 @@
             <a href="#" onclick="startIntro();" class="header-icon">
                 <img src="/assets-app/images/icon-question.svg" alt="icon-question">
             </a>
-            <a href="#" class="header-icon">
+            <span class="header-icon notifications-icon-bell">
                 <img src="/assets-app/images/icon-bell.svg" alt="icon-bell">
                 @if($user->getNotifications()->count())
                 <span class="header-icon-number">{{ $user->getNotifications()->count() }}</span>
                 @endif
-            </a>
+                <div class="notifications-popup">
+                    <div class="btn-close"></div>
+                    <div class="notifications-list">
+                        @if($user->getNotifications()->count())
+                            @foreach($user->getNotifications() as $notification)
+                            <div class="notification-item" rel="{{ $notification->getId() }}">
+                                <div class="notification-title">{{ $notification->getTitle() }}</div>
+                                <div class="notification-message">{!! $notification->getMessage() !!} </div>
+                            </div>
+                            @endforeach
+                        @else
+                            <div class="notification-item-empty">No new messages</div>
+                        @endif
+                    </div>
+                    <div class="read-all-container">
+                        <a href="#" class="btn btn-primary read-all{{$user->getNotifications()->count() ? '' : ' hidden'}}">Mark all as read</a>
+                    </div>
+                </div>
+            </span>
             <a href="/app/myaccount" class="user-profile-link">
                 <div class="img-wrap">
                     <img height="24" src="https://www.gravatar.com/avatar/{{ md5(strtolower(trim($user->getEmail()))) }}.jpg"  alt="user-avatar"/>
