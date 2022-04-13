@@ -11,8 +11,16 @@
 /* @var \App\Entities\BlogPost $post */
 @endphp
 @section('content')
-    Post title: {{ $post->getTitle() }}<br />
-    Date: {{ $post->getCreatedAt()->format('M j, Y') }}<br />
-    Short Content: {!! $post->getShortContent() !!}<br />
-    Full Content: {!! $post->getFullContent() !!}<br />
+<section class="">
+    <div class="container">
+        <div class="">
+            <h2 class="">{{ $post->getTitle() }}</h2>
+            <p class="">{{ $post->getCreatedAt()->format('M j, Y') }}</p>
+
+            <p>
+                {!! $post->getFullContent() !!}
+            </p>
+        </div>
+    </div>
+</section>
 @endsection

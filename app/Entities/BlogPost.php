@@ -6,7 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use LaravelDoctrine\Extensions\Timestamps\Timestamps;
 
 /**
- * Product
+ * BlogPost
  *
  * @ORM\Table(name="blog_post")
  * @ORM\Entity
