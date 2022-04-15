@@ -3,13 +3,10 @@
 namespace App\Jobs;
 
 use App\Core\EntityManagerFresher;
-use App\Dto\BackLinksRawData;
+use App\Dto\BackLinks\BackLinksRawData;
 use App\Entities\BackLink;
 use App\Entities\BackLinkLog;
 use App\Entities\Domain;
-use App\Entities\ExternalLink;
-use App\Entities\ImportedUrl;
-use App\Entities\Link;
 use App\Entities\User;
 use App\Services\UrlParsers\DataForSeoService;
 use GuzzleHttp\Exception\GuzzleException;
@@ -80,15 +77,11 @@ class ParseBacklinksJob extends BaseJob implements ShouldBeUniqueUntilProcessing
             /* @var BackLink $backLink */
             $backLink = $map->get($backLinkData->getSearchKey());
             if ($backLink) {
-                $backLinkLog = new BackLinkLog($backLink, json_encode($backLinkData->toArray()));
-                $backLinkLog->fill($backLinkData);
-                $entityManager->persist($backLinkLog);
-                continue;
+                $backLink = new BackLink($linkData->sourceUrl, $linkData->destUrl, $domain, $user);
+                $backLink->fill($backLinkData);
+                $entityManager->persist($backLink);
+                $entityManager->flush();
             }
-
-            $backLink = new BackLink($linkData->sourceUrl, $linkData->destUrl, $domain, $user);
-            $backLink->fill($backLinkData);
-            $entityManager->persist($backLink);
 
             $backLinkLog = new BackLinkLog($backLink, json_encode($backLinkData->toArray()));
             $backLinkLog->fill($backLinkData);

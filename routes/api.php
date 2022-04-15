@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BackLinkSourceApiController;
 use App\Http\Controllers\DomainApiController;
 use App\Http\Controllers\NotificationsApiController;
 use App\Http\Controllers\VatApiController;
@@ -31,5 +32,6 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::post('domain/{domain}/importBackLinks', DomainApiController::class . '@importBackLinks');
     Route::get('domain/{domain}/retrieveBackLinks', DomainApiController::class . '@retrieveBackLinks');
     Route::resource('domains', DomainApiController::class);
+    Route::resource('backLinks/{backLink}/source', BackLinkSourceApiController::class);
 });
 Route::any('webhook/{type}', WebhookApiController::class . '@handle');

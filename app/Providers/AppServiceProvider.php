@@ -6,8 +6,10 @@ use App\Contracts\IAccountingSystem;
 use App\Contracts\IPaymentSystemService;
 use App\Core\ChannelManager;
 use App\Core\Mail\MailChannel;
+use App\Http\Controllers\BackLinkSourceApiController;
 use App\Http\Controllers\DomainApiController;
 use App\Http\Controllers\NotificationsApiController;
+use App\Http\Transformers\BackLinkTransformer;
 use App\Http\Transformers\DomainTransformer;
 use App\Http\Transformers\NotificationTransformer;
 use App\Services\Dinero\DineroService;
@@ -59,6 +61,9 @@ class AppServiceProvider extends ServiceProvider
         $this->app->when(DomainApiController::class)
             ->needs(TransformerAbstract::class)
             ->give(DomainTransformer::class);
+        $this->app->when(BackLinkSourceApiController::class)
+            ->needs(TransformerAbstract::class)
+            ->give(BackLinkTransformer::class);
 
         if (!$this->app->environment('local')) {
             URL::forceScheme('https');

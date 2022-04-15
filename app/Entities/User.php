@@ -887,7 +887,7 @@ class User extends Authenticatable implements INotifiable
      */
     public function getDomains(): Collection
     {
-        return $this->domains->matching(Criteria::create()->where(Criteria::expr()->eq('deleted', 0)));
+        return $this->domains->matching(Criteria::create()->where(Criteria::expr()->eq(Domain::DELETED, false)));
     }
 
     public function getValidationRules(): array

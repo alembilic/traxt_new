@@ -2,7 +2,7 @@
 
 namespace App\Services\UrlParsers;
 
-use App\Dto\BackLinksRawData;
+use App\Dto\BackLinks\BackLinksRawData;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
@@ -97,6 +97,7 @@ class DataForSeoService
                 BackLinksRawData::REL_SPONSORED => $item['attributes'] === 'sponsored',
                 BackLinksRawData::RANK => (int)$item['rank'],
                 BackLinksRawData::IS_LOST => (bool)$item['is_lost'],
+                BackLinksRawData::SPAM_SCORE => (int)$item['backlink_spam_score'],
             ]);
         });
     }

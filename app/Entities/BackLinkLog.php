@@ -2,7 +2,7 @@
 
 namespace App\Entities;
 
-use App\Dto\BackLinksRawData;
+use App\Dto\BackLinks\BackLinksRawData;
 use Doctrine\ORM\Mapping as ORM;
 use LaravelDoctrine\Extensions\Timestamps\Timestamps;
 
@@ -54,21 +54,21 @@ class BackLinkLog
     /**
      * @var boolean
      *
-     * @ORM\Column(name="nofollow", type="bool", nullable=false)
+     * @ORM\Column(name="nofollow", type="boolean", nullable=false)
      */
     private bool $nofollow = false;
 
     /**
      * @var boolean
      *
-     * @ORM\Column(name="alt", type="bool", nullable=false)
+     * @ORM\Column(name="alt", type="boolean", nullable=false)
      */
     private bool $alt = false;
 
     /**
      * @var boolean
      *
-     * @ORM\Column(name="anchor", type="bool", nullable=false)
+     * @ORM\Column(name="anchor", type="boolean", nullable=false)
      */
     private bool $anchor = false;
 
@@ -113,6 +113,20 @@ class BackLinkLog
      * @ORM\Column(name="status_code", type="integer", length=3, nullable=false)
      */
     private int $statusCode = 200;
+
+    /**
+     * @var integer|null
+     *
+     * @ORM\Column(name="price", type="integer", nullable=true)
+     */
+    private ?int $price;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="spam_score", type="integer", nullable=false)
+     */
+    private int $spamScore = 0;
 
     /**
      * @param BackLink $backLink Back Link
@@ -161,6 +175,9 @@ class BackLinkLog
         }
         if (in_array(BackLinksRawData::RESPONSE, $fields)) {
             $this->statusCode = (int)$data->response;
+        }
+        if (in_array(BackLinksRawData::SPAM_SCORE, $fields)) {
+            $this->spamScore = (int)$data->spamScore;
         }
     }
 

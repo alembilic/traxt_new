@@ -23,6 +23,7 @@ class Domain implements IHasUser
 {
     use Timestamps;
 
+    public const ID = 'id';
     public const USER = 'createdBy';
     public const DELETED = 'deleted';
     public const DOMAIN_URL = 'domainUrl';

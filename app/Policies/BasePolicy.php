@@ -25,7 +25,7 @@ class BasePolicy
             return true;
         }
 
-        return $entityWithUser->getUser()?->getId() === $user->getId();
+        return $entityWithUser->getUser() && $entityWithUser->getUser()->getId() === $user->getId();
     }
 
     /**

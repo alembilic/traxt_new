@@ -2,7 +2,7 @@
 
 namespace App\Entities;
 
-use App\Dto\BackLinksRawData;
+use App\Dto\BackLinks\BackLinksRawData;
 use Carbon\Carbon;
 use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
