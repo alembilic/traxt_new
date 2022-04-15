@@ -2,6 +2,9 @@
 @section('pageName')
 Guide
 @endsection
+@section('title-section')
+    <h1>Guide</h1>
+@endsection
 @section('content')
     <div class="links-table-wrap">
         <div class="table-header">

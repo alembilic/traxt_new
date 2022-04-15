@@ -29,3 +29,21 @@
     font-size: 10px;
     top: 10px;
 }
+.form-group label {
+    font-size: 14px;
+}
+.form-group {
+    margin-top: 10px;
+}
+.default-btn {
+    width: auto !important;
+    margin: 15px 0 !important;
+}
+
+.domain-popup .form-input {
+    display: inline-block;
+}
+.centred-button {
+    margin: 15px auto;
+    text-align: center;
+}

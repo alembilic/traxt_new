@@ -2,6 +2,9 @@
 @section('pageName')
     Dashboard
 @endsection
+@section('title-section')
+    <h1>Dashboard</h1>
+@endsection
 @section('content')
 @if($success ?? false)
     <div class="alert alert-success" role="alert">
