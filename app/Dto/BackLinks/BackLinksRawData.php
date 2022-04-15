@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Dto;
+namespace App\Dto\BackLinks;
 
+use App\Dto\BaseDtoWrapper;
 use Carbon\Carbon;
 
 /**
@@ -33,6 +34,7 @@ class BackLinksRawData extends BaseDtoWrapper
     public const RANK = 'rank';
     public const IS_LOST = 'isLost';
     public const ALT = 'alt';
+    public const SPAM_SCORE = 'spamScore';
 
     public string $domainName;
     public string $sourceUrl;
@@ -58,6 +60,7 @@ class BackLinksRawData extends BaseDtoWrapper
     public ?int $linkType = 1;
     public ?int $response = 200;
     public ?int $rank = null;
+    public ?int $spamScore = null;
 
     public ?Carbon $lastChecked = null;
     public ?Carbon $lastFound = null;

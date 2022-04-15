@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Contracts\IAccountingSystem;
 use App\Core\EntityManagerFresher;
+use App\Dto\BackLinks\BackLinksFilter;
+use App\Dto\CursorDto;
 use App\Dto\Statistics\StatisticsFilterDto;
+use App\Entities\BackLink;
 use App\Entities\Currency;
 use App\Entities\Domain;
 use App\Entities\Order;
@@ -20,6 +23,7 @@ use App\Exceptions\AuthServiceException;
 use App\Exceptions\DtoException;
 use App\Exceptions\PaymentServiceException;
 use App\Exceptions\ServiceException;
+use App\Repositories\BackLinkRepository;
 use App\Services\PaymentServices\QuickPayPaymentServiceService;
 use App\Services\Statistics\StatisticsServicesFactory;
 use Carbon\Carbon;
@@ -90,9 +94,66 @@ class UserSectionController extends BaseWebController
         ]);
     }
 
-    public function links(): View
+    /**
+     * Links Page.
+     *
+     * @param Request $request Request
+     *
+     * @return View
+     *
+     * @throws DtoException
+     */
+    public function links(Request $request): View
     {
-        return view('app.links');
+        $page = $request->get('page') ?? 1;
+        $perPage = 50;
+        $validated = $request->all(BackLinksFilter::getFields());
+        $filter = new BackLinksFilter([
+            CursorDto::LIMIT => $perPage,
+            CursorDto::COUNT => ($page - 1) * $perPage,
+            BackLinksFilter::USER => $this->user,
+            BackLinksFilter::SEARCH => $request->get(BackLinksFilter::SEARCH),
+            BackLinksFilter::DOMAIN =>
+                isset($validated[BackLinksFilter::DOMAIN]) ? (int)$validated[BackLinksFilter::DOMAIN] : null,
+            BackLinksFilter::REL => $request->get(BackLinksFilter::REL),
+            BackLinksFilter::NOINDEX =>
+                isset($validated[BackLinksFilter::NOINDEX]) ? (bool)$validated[BackLinksFilter::NOINDEX] : null,
+            BackLinksFilter::FOLLOW =>
+                isset($validated[BackLinksFilter::FOLLOW]) ? (bool)$validated[BackLinksFilter::FOLLOW] : null,
+            BackLinksFilter::INDEXED =>
+                isset($validated[BackLinksFilter::INDEXED]) ? (bool)$validated[BackLinksFilter::INDEXED] : null,
+            BackLinksFilter::IS_FAILED =>
+                isset($validated[BackLinksFilter::IS_FAILED]) ? (bool)$validated[BackLinksFilter::IS_FAILED] : null,
+            BackLinksFilter::IS_LOST =>
+                isset($validated[BackLinksFilter::IS_LOST]) ? (bool)$validated[BackLinksFilter::IS_LOST] : null,
+            BackLinksFilter::IS_LIVE =>
+                isset($validated[BackLinksFilter::IS_LIVE]) ? (bool)$validated[BackLinksFilter::IS_LIVE] : null,
+            BackLinksFilter::SUBDOMAINS =>
+                isset($validated[BackLinksFilter::SUBDOMAINS]) ? (bool)$validated[BackLinksFilter::SUBDOMAINS] : null,
+            BackLinksFilter::DATE_FROM => isset($validated[BackLinksFilter::DATE_FROM])
+                ? Carbon::parse($validated[BackLinksFilter::DATE_FROM])
+                : null,
+            BackLinksFilter::DATE_TO => isset($validated[BackLinksFilter::DATE_TO])
+                ? Carbon::parse($validated[BackLinksFilter::DATE_TO])
+                : null,
+            BackLinksFilter::RANK_FROM =>
+                isset($validated[BackLinksFilter::RANK_FROM]) ? (int)$validated[BackLinksFilter::RANK_FROM] : null,
+            BackLinksFilter::RANK_TO =>
+                isset($validated[BackLinksFilter::RANK_TO]) ? (int)$validated[BackLinksFilter::RANK_TO] : null,
+        ]);
+
+        /* @var BackLinkRepository $repository */
+        $repository = $this->getRepository(BackLink::class);
+        $countPages = ceil($repository->countLinksByFilter($filter) / $perPage);
+        $links = $repository->getSources($filter);
+
+        return view('app.links', [
+            'domains' => $this->user->getDomains(),
+            'links' => $links,
+            'page' => $page,
+            'of' => $countPages,
+            'search' => $filter->search,
+        ]);
     }
 
     /**

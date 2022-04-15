@@ -2,7 +2,7 @@
 
 namespace App\Http\Transformers;
 
-use App\Dto\BackLinksRawData;
+use App\Dto\BackLinks\BackLinksRawData;
 use League\Fractal\TransformerAbstract;
 
 /**

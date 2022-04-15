@@ -40,8 +40,7 @@
     <script src="/assets-app/js/main.js"></script>
     <script src="/assets-app/js/cookie.js"></script>
 
-    <link href="/admin/css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
-    <script src="/admin/js/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="/assets-app/js/sweetalert2.js"></script>
 
     <link href="/admin/css/introjs.min.css" rel="stylesheet">
     <script src="/admin/js/intro.min.js"></script>

@@ -3,7 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Core\EntityManagerFresher;
-use App\Dto\BackLinksRawData;
+use App\Dto\BackLinks\BackLinksRawData;
 use App\Entities\BackLink;
 use App\Entities\BackLinkLog;
 use App\Entities\Domain;

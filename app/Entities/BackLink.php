@@ -2,11 +2,14 @@
 
 namespace App\Entities;
 
+use App\Contracts\IEntity;
 use App\Contracts\IHasUser;
-use App\Dto\BackLinksRawData;
+use App\Core\EntityManagerFresher;
+use App\Dto\BackLinks\BackLinksRawData;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Illuminate\Contracts\Container\BindingResolutionException;
 use LaravelDoctrine\Extensions\Timestamps\Timestamps;
 
 /**
@@ -14,10 +17,11 @@ use LaravelDoctrine\Extensions\Timestamps\Timestamps;
  *
  * @ORM\Table(name="backlinks")
  *
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repositories\BackLinkRepository")
  */
-class BackLink implements IHasUser
+class BackLink implements IHasUser, IEntity
 {
+    use EntityManagerFresher;
     use Timestamps;
 
     public const ID = 'id';
@@ -28,6 +32,13 @@ class BackLink implements IHasUser
     public const DOMAIN = 'domain';
     public const CREATED_BY = 'createdBy';
     public const LOST = 'lost';
+    public const FIRST_SEEN = 'firstSeen';
+    public const LAST_SEEN = 'lastSeen';
+    public const NO_FOLLOW = 'nofollow';
+    public const NO_INDEX = 'noindex';
+    public const STATUS_CODE = 'statusCode';
+    public const RANK = 'rank';
+    public const PRICE = 'price';
 
     /**
      * @var int
@@ -79,21 +90,21 @@ class BackLink implements IHasUser
     /**
      * @var boolean
      *
-     * @ORM\Column(name="nofollow", type="bool", nullable=false)
+     * @ORM\Column(name="nofollow", type="boolean", nullable=false)
      */
     private bool $nofollow = false;
 
     /**
      * @var boolean
      *
-     * @ORM\Column(name="alt", type="bool", nullable=false)
+     * @ORM\Column(name="alt", type="boolean", nullable=false)
      */
     private bool $alt = false;
 
     /**
      * @var boolean
      *
-     * @ORM\Column(name="anchor", type="bool", nullable=false)
+     * @ORM\Column(name="anchor", type="boolean", nullable=false)
      */
     private bool $anchor = false;
 
@@ -138,6 +149,20 @@ class BackLink implements IHasUser
      * @ORM\Column(name="status_code", type="integer", length=3, nullable=false)
      */
     private int $statusCode = 200;
+
+    /**
+     * @var integer|null
+     *
+     * @ORM\Column(name="price", type="integer", nullable=true)
+     */
+    private ?int $price;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="spam_score", type="integer", nullable=false)
+     */
+    private int $spamScore = 0;
 
     /**
      * @var DateTime
@@ -214,6 +239,9 @@ class BackLink implements IHasUser
         }
         if (in_array(BackLinksRawData::LAST_FOUND, $fields)) {
             $this->lastSeen = $data->lastFound;
+        }
+        if (in_array(BackLinksRawData::SPAM_SCORE, $fields)) {
+            $this->spamScore = $data->spamScore;
         }
         $this->updatedAt = new DateTime();
     }
@@ -353,4 +381,54 @@ class BackLink implements IHasUser
     {
         return $this->getCreatedBy();
     }
+
+    /**
+     * @return float|null
+     *
+     * @throws BindingResolutionException
+     */
+    public function getSectionPrice(): float
+    {
+        $items = collect($this->getEntityManager()->getRepository(BackLink::class)->findBy([
+            BackLink::DEST_URL => $this->destUrl,
+            BackLink::CREATED_BY => $this->createdBy->getId(),
+        ]) ?? [])->map(function (BackLink $backLink) {
+            return $backLink->getPrice() ?: 0;
+        })->toArray();
+
+        return empty($items) ? 0 : array_sum($items);
+    }
+
+    /**
+     * @return float|null
+     */
+    public function getPrice(): ?float
+    {
+        return !is_null($this->price) ? floatval($this->price / 100) : null;
+    }
+
+    /**
+     * @param float|null $price
+     */
+    public function setPrice(?float $price): void
+    {
+        $this->price = !is_null($price) ? intval($price * 100) : null;
+    }
+
+    /**
+     * @return int
+     */
+    public function getSpamScore(): int
+    {
+        return $this->spamScore;
+    }
+
+    /**
+     * @param int $spamScore
+     */
+    public function setSpamScore(int $spamScore): void
+    {
+        $this->spamScore = $spamScore;
+    }
+
 }
