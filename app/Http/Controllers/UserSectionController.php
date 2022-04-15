@@ -196,16 +196,29 @@ class UserSectionController extends BaseWebController
     /**
      * Invoices list page.
      *
+     * @param Request $request Request
+     *
      * @return View
      */
-    public function invoices(): View
+    public function invoices(Request $request): View
     {
+        $page = $request->get('page') ?? 1;
+        $perPage = 30;
+        $search = $request->get('search');
         $criteria = Criteria::create()
             ->orderBy([Order::ID => 'asc'])
             ->where(Criteria::expr()->eq(SubscriptionCharge::USER, $this->user));
-        $invoices = $this->getRepository(SubscriptionCharge::class)->matching($criteria);
 
-        return view('app.invoices', ['invoices' => $invoices]);
+        if ($search) {
+            $criteria->andWhere(Criteria::expr()->contains(SubscriptionCharge::DOMAIN_URL, $search));
+        }
+
+        $countPages = ceil($this->getRepository(SubscriptionCharge::class)->matching($criteria)->count() / $perPage);
+
+        $criteria->setMaxResults($perPage)->setFirstResult(($page - 1) * $perPage);
+        $domains = collect($this->getRepository(SubscriptionCharge::class)->matching($criteria));
+
+        return view('app.invoices', ['invoices' => $domains, 'page' => $page, 'of' => $countPages]);
     }
 
     /**
