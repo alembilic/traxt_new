@@ -2,6 +2,9 @@
 @section('pageName')
     My Account
 @endsection
+@section('title-section')
+    <h1>My Account</h1>
+@endsection
 @section('content')
 
 <!-- Page Wrapper -->
@@ -74,34 +77,35 @@
 
 <div class="links-table-wrap">
     <div class="table-header">
-        <div class="panel-body">
+        <div>
             <h5>Your Information</h5>
-            <p></p>
-            <div class="col-sm-2 col-md-6">
+            <div class="form-group"></div>
+            <div>
                 <div style="color: red;">
                     @foreach($validationErrors ?? [] as $error)
-                        <p>{{ $error }}</p>
+                        <div class="form-group">{{ $error }}</div>
                     @endforeach
                 </div>
                 <form action="/app/myaccount" method="POST" id="myForm">
                     @csrf
-                    <p>
+                    <div class="form-group">
                         <label>Company</label>
                         <input class="form-control" type="text" name="company" value="{{ $formData['company'] ?? $user->getCompany() }}">
-                    <p>
+                    </div>
+                    <div class="form-group">
                         <label>Vat Number (DK40388737)</label>
                         <input class="form-control" type="text" name="vat_number" id="vat_number" value="{{ $formData['vat_number'] ?? $user->getVatNumber() }}">
                         <input type="hidden" name="vat_valid" id="vat_valid"  value="{{ $formData['vat_valid'] ?? $user->getVatValid() }}"/>
-                    </p>
-                    <p>
+                    </div>
+                    <div class="form-group">
                         <label>Address</label>
                         <input class="form-control" type="text" name="address" value="{{ $formData['address'] ?? $user->getAddress() }}" >
-                    </p>
-                    <p>
+                    </div>
+                    <div class="form-group">
                         <label>City</label>
                         <input class="form-control" type="text" name="city" value="{{ $formData['city'] ?? $user->getCity() }}">
-                    </p>
-                    <p>
+                    </div>
+                    <div class="form-group">
                         <label>Country</label>
                         <select name="country" id="country" class="form-control">
                             <option value="DK">Denmark</option>
@@ -355,29 +359,29 @@
                             <option value="ZM">Zambia</option>
                             <option value="ZW">Zimbabwe</option>
                         </select>
-                    </p>
-                    <p>
+                    </div>
+                    <div class="form-group">
                         <label>First Name</label>
                         <input class="form-control" type="text" name="firstname" value="{{ $formData['firstname'] ?? $user->getFirstName() }}">
-                    </p>
-                    <p>
+                    </div>
+                    <div class="form-group">
                         <label>Last Name</label>
                         <input class="form-control" type="text" name="lastname" value="{{ $formData['lastname'] ?? $user->getLastName() }}">
-                    </p>
-                    <p>
+                    </div>
+                    <div class="form-group">
                         <label>Email</label>
                         <input class="form-control" type="text" name="email" value="{{ $formData['email'] ?? $user->getEmail() }}" >
-                    </p>
-                    <p>
+                    </div>
+                    <div class="form-group">
                         <label>Display currency on dashboard</label>
                         <select name="id_valuta_display" class="form-control">
                             @foreach ($currencies as $currency)
                             <option value="{{ $currency->getId() }}" {{ $currency->getId() === ($formData['id_valuta_display'] ?? $user->getIdValutaDisplay()) ? 'selected="selected"' : '' }}>{{ $currency->getCode() }}</option>
                             @endforeach
                         </select>
-                    </p>
-                    <button type="submit" class="btn btn-main" data-toggle="modal">Update</button>
+                    </div>
 
+                    <a href="#" class="btn btn-primary default-btn">Update</a>
                 </form>
             </div>
         </div>

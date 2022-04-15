@@ -1,6 +1,9 @@
-@extends('app.layout')
+@extends('app.app_layout')
 @section('pageName')
     My Plan
+@endsection
+@section('title-section')
+    <h1>My Plan</h1>
 @endsection
 @section('content')
     @php

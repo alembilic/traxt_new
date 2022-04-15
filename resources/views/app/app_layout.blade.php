@@ -14,9 +14,12 @@
     <title>Traxr - @yield('pageName')</title>
     <!-- Bootstrap CSS -->
     <link href="/assets-app/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css" />
     <!-- Main CSS -->
-    <link href="/assets-app/css/style.css" rel="stylesheet">
-    <link href="/assets-app/css/custom-style.css" rel="stylesheet">
+    <link rel="stylesheet" href="/assets-app/css/all.min.css">
+    <link rel="stylesheet" href="/assets-app/css/style.css">
+    <link rel="stylesheet" href="/assets-app/css/table.css">
+    <link rel="stylesheet" href="/assets-app/css/custom-style.css">
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -26,6 +29,10 @@
     <script src="/assets-app/js/jquery.min.js"></script>
     <!-- Bootstrap JS -->
     <script src="/assets-app/js/bootstrap.bundle.min.js"></script>
+    <!--  -->
+    <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <!--  -->
+    <script src="https://cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
     <!-- Charts JS -->
     <script src="/assets-app/js/chart.min.js"></script>
     <!-- Main JS -->
@@ -341,7 +348,7 @@
                         <li class="breadcrumb-item active" aria-current="page">@yield('pageName')</li>
                     </ol>
                 </nav>
-                <h1>@yield('pageName')</h1>
+                @yield('title-section')
             </div>
             <div class="container-fluid">
                 @yield('content')

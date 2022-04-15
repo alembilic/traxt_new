@@ -2,6 +2,9 @@
 @section('pageName')
     Domains
 @endsection
+@section('title-section')
+    <h1>Domains</h1>
+@endsection
 @section('content')
 @php
 /* @var \App\Entities\Domain $domain */
@@ -16,8 +19,8 @@
             </a>
         </div>
         <div class="table-nav ms-auto d-flex align-items-center">
-            <form class="input-group search">
-                <input class="form-control" type="search" placeholder="input search text">
+            <form class="input-group search" method="get">
+                <input class="form-control" type="search" name="search" placeholder="input search text" value="{{ $search }}">
                 <button class="btn" type="submit">
                     <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path
@@ -34,13 +37,13 @@
     </div>
     <div class="table-body">
         @if(count($domains))
-        <table class="domains-table">
+        <table class="table table-data" id="dataTable">
             <thead>
-                <tr>
-                    <th style="min-width: 70px">Thumb</th>
-                    <th style="width: 90%">Name</th>
-                    <th>Actions</th>
-                </tr>
+            <tr>
+                <th style="width: 70px">Thumb</th>
+                <th>Name</th>
+                <th>Actions</th>
+            </tr>
             </thead>
             <tbody>
             @foreach ($domains as $domain)
@@ -67,15 +70,18 @@
             </tbody>
         </table>
         @else
-        <div class="mobile-buttons centred-button">
+            {!! $search ? '<div style="margin: 15px auto;text-align:center">Nothing found</div>' : '' !!}
+            <div class="mobile-buttons centred-button">
             <a href="#" class="btn btn-primary add-domain">
                 <img src="/assets-app/images/icon-plus.svg" alt="icon-plus">
-                Create Your First Domain
+                Create Domain
             </a>
         </div>
         @endif
     </div>
-    @include('app.page_nav')
+    @if($of)
+        @include('app.page_nav')
+    @endif
 </div>
 <script>
     function createDomain(domainName) {
@@ -138,22 +144,4 @@
         });
     });
 </script>
-<style>
-    .domain-popup .form-input {
-        display: inline-block;
-    }
-.domains-table {margin: 15px}
-.domains-table th {
-    background: #FAFAFA;
-    padding: 0.35rem 0rem;
-    font-size: 0.875rem;
-    font-weight: 500;
-    text-align: left;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.03);
-}
-.centred-button {
-    margin: 15px auto;
-    text-align: center;
-}
-</style>
 @endsection

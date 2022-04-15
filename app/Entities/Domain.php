@@ -25,6 +25,7 @@ class Domain implements IHasUser
 
     public const USER = 'createdBy';
     public const DELETED = 'deleted';
+    public const DOMAIN_URL = 'domainUrl';
 
     /**
      * @var int

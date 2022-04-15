@@ -95,20 +95,32 @@ class UserSectionController extends BaseWebController
         return view('app.links');
     }
 
+    /**
+     * Domains page.
+     *
+     * @param Request $request Request
+     *
+     * @return View
+     */
     public function domains(Request $request): View
     {
         $page = $request->get('page') ?? 1;
         $perPage = 30;
+        $search = $request->get('search');
         $criteria = Criteria::create()
             ->where(Criteria::expr()->eq(Domain::USER, $this->user))
             ->andWhere(Criteria::expr()->eq(Domain::DELETED, false));
+
+        if ($search) {
+            $criteria->andWhere(Criteria::expr()->contains(Domain::DOMAIN_URL, $search));
+        }
 
         $countPages = ceil($this->getRepository(Domain::class)->matching($criteria)->count() / $perPage);
 
         $criteria->setMaxResults($perPage)->setFirstResult(($page - 1) * $perPage);
         $domains = collect($this->getRepository(Domain::class)->matching($criteria));
 
-        return view('app.domains', ['domains' => $domains, 'page' => $page, 'of' => $countPages]);
+        return view('app.domains', ['domains' => $domains, 'page' => $page, 'of' => $countPages, 'search' => $search]);
     }
 
     /**
