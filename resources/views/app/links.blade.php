@@ -186,7 +186,7 @@
 /* @var \App\Entities\User $user */
 @endphp
 <script>
-    var maxLinks = '{{ $user->getSubscription()->getProduct()->getLinks() }}';
+    var maxLinks = '{{ $user->getSubscription() ? $user->getSubscription()->getProduct()->getLinks() : 0 }}';
 </script>
 <script src="/assets-app/js/links.js"></script>
 <div class="links-table-wrap">
