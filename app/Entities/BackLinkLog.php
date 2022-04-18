@@ -9,7 +9,7 @@ use LaravelDoctrine\Extensions\Timestamps\Timestamps;
 /**
  * BackLinkLog
  *
- * @ORM\Table(name="backlinks_logs")
+ * @ORM\Table(name="backlinks_log")
  *
  * @ORM\Entity
  */
@@ -31,7 +31,7 @@ class BackLinkLog
      *
      * @var BackLink
      *
-     * @ORM\ManyToOne(targetEntity="BackLink")
+     * @ORM\ManyToOne(targetEntity="BackLink", inversedBy="logs")
      *
      * @ORM\JoinColumn(name="backlink_id", referencedColumnName="id")
      */

@@ -7,6 +7,26 @@ var routes = {
         method: 'delete',
         url: '/domains/{domain}'
     },
+    backlinksRetrieve: {
+        method: 'get',
+        url: '/domain/{domain}/retrieveBackLinks'
+    },
+    backlinksSave: {
+        method: 'post',
+        url: '/domain/{domain}/importBackLinks'
+    },
+    removeBacklinkSection: {
+        method: 'delete',
+        url: '/backLinks/{backLink}/source'
+    },
+    storeBacklinkSection: {
+        method: 'post',
+        url: '/backLinks/{backLink}/source'
+    },
+    getBacklinkSection: {
+        method: 'get',
+        url: '/backLinks/{backLink}/source'
+    },
 };
 
 var Api = {
@@ -48,18 +68,17 @@ var Api = {
             if (options['data'] instanceof FormData) {
                 options = Object.assign(options, {
                     headers: {
-                        'X-Auth-Token': params['admin_token'] ? params['admin_token'] : admin_token,
-                        'X-Platform': 'admin'
+                        'X-Auth-Token': apiToken
                     }
                 });
             } else {
                 options = Object.assign(options, {
                     dataType: 'json',
                     headers: {
-                        'X-Auth-Token': params['admin_token'] ? params['admin_token'] : admin_token,
-                        'Content-Type': 'application/json',
-                        'X-Platform': 'admin'
-                    }
+                        'X-Auth-Token': apiToken,
+                        'Content-Type': 'application/json'
+                    },
+
                 });
             }
             $.ajax(options);
@@ -71,7 +90,7 @@ function parseErrorMessage(xhr) {
     if (xhr.readyState === 0) {
         return ['Please, try again later'];
     }
-    if (in_array(xhr.status, [201, 204])) {
+    if (xhr.status === 201 || xhr.status === 204) {
         return [''];
     }
     if (!xhr.responseText) {
@@ -89,9 +108,15 @@ function parseErrorMessage(xhr) {
 }
 function handleErrors(xhr) {
     if (xhr.readyState === 0) {
-        swal('Connection failed', 'Please, try again later', 'warning');
+        Swal.fire({
+            icon: 'warning',
+            title: 'Connection failed',
+            text: 'Please, try again later',
+            showConfirmButton: false,
+            timer: 1500
+        })
     }
-    if (in_array(xhr.status, [201, 204])) {
+    if (xhr.status === 201 || xhr.status === 204) {
         return ;
     }
     if (!xhr.responseText) {
@@ -106,7 +131,13 @@ function handleErrors(xhr) {
         });
     }
 
-    swal(err, title, type);
+    Swal.fire({
+        icon: type,
+        title: err,
+        text: title,
+        showConfirmButton: false,
+        timer: 1500
+    })
 }
 
 if (typeof Object.assign != 'function') {

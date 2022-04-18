@@ -183,7 +183,11 @@
 @php
 /* @var \App\Entities\BackLink $link */
 /* @var \App\Entities\Domain $domain */
+/* @var \App\Entities\User $user */
 @endphp
+<script>
+    var maxLinks = '{{ $user->getSubscription()->getProduct()->getLinks() }}';
+</script>
 <script src="/assets-app/js/links.js"></script>
 <div class="links-table-wrap">
     <div class="table-header">
@@ -252,11 +256,11 @@
             </thead>
             <tbody>
             @foreach($links as $link)
-            <tr>
+            <tr class="line-{{ $link->getId() }}">
                 <td>
                     <div class="d-flex align-items-xl-center flex-xl-row flex-column">
                         <div>
-                            <a href="#" class="link">
+                            <a href="#" class="open-section" data-id="{{ $link->getId() }}">
                                 {{ $link->getDomain()->getDomainName() }}
                                 <i class="fa fa-arrow-down"></i>
                             </a>
@@ -284,16 +288,7 @@
                 <td class="text-center">{{ $link->getFirstSeen()->format('d M Y') }},<br />{{$link->getLastSeen()->format('d M Y') }}</td>
                 <td>
                     <div class="d-flex align-items-center justify-content-end flex-wrap">
-                        <a href="#" class="d-inline-block mx-lg-2 mx-1">
-                            <img src="/assets-app/images/calendar.svg" alt="calendar" class="action-img">
-                        </a>
-                        <a href="#" class="d-inline-block mx-lg-2 mx-1">
-                            <img src="/assets-app/images/icon-bug.svg" alt="icon-bug" class="action-img">
-                        </a>
-                        <a href="#" class="d-inline-block mx-lg-2 mx-1">
-                            <img src="/assets-app/images/icon-edit.svg" alt="icon-edit" class="action-img">
-                        </a>
-                        <a href="#" class="d-inline-block mx-lg-2 mx-1">
+                        <a href="#" class="d-inline-block mx-lg-2 mx-1 delete-link" data-id="{{ $link->getId() }}">
                             <img src="/assets-app/images/icon-delete.svg" alt="icon-delete" class="action-img">
                         </a>
                     </div>

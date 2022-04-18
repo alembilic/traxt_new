@@ -25,6 +25,7 @@ class BackLinkTransformer extends TransformerAbstract
         return [
             'id' => $backLink->getId(),
             'rank' => $backLink->getRank(),
+            'spamScore' => $backLink->getSpamScore(),
             'sourceUrl' => $backLink->getSourceUrl(),
             'destUrl' => $backLink->getDestUrl(),
             'firstSeen' => $backLink->getFirstSeen()->format(DATE_W3C),

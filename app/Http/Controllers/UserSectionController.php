@@ -150,6 +150,7 @@ class UserSectionController extends BaseWebController
         return view('app.links', [
             'domains' => $this->user->getDomains(),
             'links' => $links,
+            'user' => $this->user,
             'page' => $page,
             'of' => $countPages,
             'search' => $filter->search,
@@ -181,7 +182,13 @@ class UserSectionController extends BaseWebController
         $criteria->setMaxResults($perPage)->setFirstResult(($page - 1) * $perPage);
         $domains = collect($this->getRepository(Domain::class)->matching($criteria));
 
-        return view('app.domains', ['domains' => $domains, 'page' => $page, 'of' => $countPages, 'search' => $search]);
+        return view('app.domains', [
+            'domains' => $domains,
+            'user' => $this->user,
+            'page' => $page,
+            'of' => $countPages,
+            'search' => $search,
+        ]);
     }
 
     /**
