@@ -800,7 +800,7 @@ class User extends Authenticatable implements INotifiable
             ])
         ));
         $currentSubscription = $currentSubscriptions->first();
-        if ($currentSubscription->getCancelDate()) {
+        if ($currentSubscription && $currentSubscription->getCancelDate()) {
             $currentSubscription = $currentSubscriptions->last();
         }
 
