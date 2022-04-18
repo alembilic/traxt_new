@@ -2055,6 +2055,11 @@ button:focus{box-shadow: none !important;outline: none !important;}
 }
 
 /* Found-modal */
+.Found-modal .modal-body {
+    height: 100%;
+    overflow: auto;
+    max-height: 70vh;
+}
 .Found-container .Found-popup{
     max-width: 910px;
     width: 100%;
@@ -2075,7 +2080,7 @@ button:focus{box-shadow: none !important;outline: none !important;}
 }
 .Found-modal-table thead tr th {
     vertical-align: middle;
-    font-size: 14px;
+    font-size: 13px;
     color: rgba(0, 0, 0, 0.85);
 }
 .Found-modal-table thead tr th .form-check {
@@ -2106,7 +2111,7 @@ button:focus{box-shadow: none !important;outline: none !important;}
     padding: 0 21px 0 0;
 }
 .Found-modal-table  tbody tr td:nth-child(2) a {
-    padding-right: 90px;
+    padding: 0 10px;
     display: inline-block;
     word-break: break-all;
     letter-spacing: 0.5px;
@@ -2118,3 +2123,8 @@ button:focus{box-shadow: none !important;outline: none !important;}
 .col__5 {width: 100px; }
 .col__6 {width: 84px; }
 .col__7 {width: 124px; } 
+
+@media(max-width: 800px){
+    .Found-modal-table  tbody tr td:nth-child(2) a {padding-right: 0 !important;}
+    .Found-modal-table  tbody tr td:nth-child(5) {padding: 0 !important;}
+}

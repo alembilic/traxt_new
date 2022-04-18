@@ -6,7 +6,8 @@ use App\Entities\BackLink;
 use App\Entities\Domain;
 use App\Enums\PolicyActions;
 use App\Exceptions\BusinessLogicException;
-use App\Http\Requests\SaveDomainRequest;
+use App\Http\Requests\SaveBackLinkSectionRequest;
+use App\Jobs\ParseBacklinksJob;
 use Doctrine\Common\Collections\Criteria;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
@@ -32,59 +33,50 @@ class BackLinkSourceApiController extends BaseApiController
     }
 
     /**
-     * Returns BackLink detail information.
+     * Creates new backlink.
      *
-     * @param BackLink $backLink BackLink
-     *
-     * @return JsonResponse
-     *
-     * @throws AuthorizationException
-     */
-    public function show(BackLink $backLink): JsonResponse
-    {
-        $this->authorize(PolicyActions::SHOW, $backLink);
-
-        return $this->item($backLink);
-    }
-
-    /**
-     * Creates new domain.
-     *
-     * @param SaveDomainRequest $request Request with domain data
+     * @param SaveBackLinkSectionRequest $request Request with links data
      *
      * @return JsonResponse
      *
      * @throws BusinessLogicException
      */
-    public function store(SaveDomainRequest $request): JsonResponse
+    public function store(SaveBackLinkSectionRequest $request): JsonResponse
     {
         $subscription = $this->user->getSubscription();
-        $domainsCount = $this->getRepository(Domain::class)->matching(
+        $linksCount = $this->getRepository(BackLink::class)->matching(
             Criteria::create()
-                ->where(Criteria::expr()->eq(Domain::USER, $this->user))
-                ->andWhere(Criteria::expr()->eq(Domain::DELETED, false))
-        )->count();
-        if ($subscription && ($domainsCount >= $subscription->getProduct()->getDomains())) {
-            throw new BusinessLogicException('Domains limit reached for your plan.');
+                ->where(Criteria::expr()->eq(BackLink::CREATED_BY, $this->user))
+        )->count() + count($request->links);
+        if ($subscription && ($linksCount >= $subscription->getProduct()->getLinks())) {
+            throw new BusinessLogicException('Backlinks limit reached for your plan.');
         }
 
-        preg_match(
-            '!(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z0-9][a-z0-9-]{0,61}[a-z0-9]!',
-            $request->domain,
-            $result
-        );
-        $domainName = $result[0];
-        $domainUrl = preg_match('!^http!i', $request->domain)
-            ? $request->domain
-            : 'https://' . $domainName . '/';
+        //TODO: move this code to job
+        $domains = collect($this->user->getDomains())->keyBy(function (Domain $domain) {
+            return $domain->getDomainName();
+        });
 
-        $domain = new Domain($domainName, $this->user);
-        $domain->setDomainUrl($domainUrl);
+        foreach ($request->links as $link) {
+            $linkData = explode('/', $link);
+            $domain = $domains->get($linkData[2] ?? '');
+            if (!$domain) {
+                preg_match('!(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z0-9][a-z0-9-]{0,61}[a-z0-9]!', $link, $result);
+                $domainName = $result[0];
+                $domainUrl = preg_match('!^http!i', $link) ? $link : 'https://' . $domainName . '/';
 
-        $this->entityManager->persist($domain);
-        $this->entityManager->flush();
+                $domain = new Domain($domainName, $this->user);
+                $domain->setDomainUrl($domainUrl);
 
-        return $this->item($domain)->setStatusCode(JsonResponse::HTTP_CREATED);
+                $this->entityManager->persist($domain);
+                $this->entityManager->flush();
+                $domains->put($domainName, $domain);
+            }
+
+            dispatch_sync(new ParseBacklinksJob($domain, [$link], $this->user));
+        }
+
+        return $this->collection([])->setStatusCode(JsonResponse::HTTP_CREATED);
     }
 
     /**

@@ -7,6 +7,9 @@ use App\Contracts\IHasUser;
 use App\Core\EntityManagerFresher;
 use App\Dto\BackLinks\BackLinksRawData;
 use DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\Selectable;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Illuminate\Contracts\Container\BindingResolutionException;
@@ -109,28 +112,28 @@ class BackLink implements IHasUser, IEntity
     private bool $anchor = false;
 
     /**
-     * @var bool
+     * @var boolean
      *
      * @ORM\Column(name="noindex", type="boolean", nullable=false)
      */
     private bool $noindex = false;
 
     /**
-     * @var bool
+     * @var boolean
      *
      * @ORM\Column(name="sponsored", type="boolean", nullable=false)
      */
     private bool $sponsored = false;
 
     /**
-     * @var bool
+     * @var boolean
      *
      * @ORM\Column(name="ugc", type="boolean", nullable=false)
      */
     private bool $ugc = false;
 
     /**
-     * @var bool
+     * @var boolean
      *
      * @ORM\Column(name="is_lost", type="boolean", nullable=false)
      */
@@ -179,6 +182,21 @@ class BackLink implements IHasUser, IEntity
     private DateTime $lastSeen;
 
     /**
+     * Logs.
+     *
+     * @ORM\OneToMany(
+     *     targetEntity="BackLinkLog",
+     *     mappedBy="backLink",
+     *     cascade={"persist", "remove"},
+     *     fetch="EXTRA_LAZY",
+     *     indexBy="id"
+     * )
+     *
+     * @var Collection<Notification>|Selectable
+     */
+    private $logs;
+
+    /**
      * @param string $sourceUrl source
      * @param string $destUrl dest
      * @param Domain $domain related Domain
@@ -194,6 +212,7 @@ class BackLink implements IHasUser, IEntity
         $this->lastSeen = new DateTime();
         $this->createdAt = new DateTime();
         $this->updatedAt = new DateTime();
+        $this->logs = new ArrayCollection();
     }
 
     /**

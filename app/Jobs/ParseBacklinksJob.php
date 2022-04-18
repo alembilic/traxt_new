@@ -68,16 +68,16 @@ class ParseBacklinksJob extends BaseJob implements ShouldBeUniqueUntilProcessing
         });
         $backLinks = $service->getBackLinksByPath($domain->getDomainName());
 
-        /* @var BackLinksRawData $linkData */
+        /* @var BackLinksRawData $backLinkData */
         foreach ($backLinks as $backLinkData) {
-            if (!in_array($linkData->destUrl . $linkData->sourceUrl, $this->linksFilter)) {
+            if (!in_array($backLinkData->destUrl . $backLinkData->sourceUrl, $this->linksFilter)) {
                 continue;
             }
 
             /* @var BackLink $backLink */
             $backLink = $map->get($backLinkData->getSearchKey());
-            if ($backLink) {
-                $backLink = new BackLink($linkData->sourceUrl, $linkData->destUrl, $domain, $user);
+            if (!$backLink) {
+                $backLink = new BackLink($backLinkData->sourceUrl, $backLinkData->destUrl, $domain, $user);
                 $backLink->fill($backLinkData);
                 $entityManager->persist($backLink);
                 $entityManager->flush();
