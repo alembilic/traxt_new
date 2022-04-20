@@ -76,7 +76,7 @@ class Domain implements IHasUser
     /**
      * User whose created this domain.
      *
-     * @var User|null
+     * @var User
      *
      * @Gedmo\Blameable(on="create")
      *
@@ -84,14 +84,14 @@ class Domain implements IHasUser
      *
      * @ORM\JoinColumn(name="created_by", referencedColumnName="id")
      */
-    private $createdBy;
+    private User $createdBy;
 
     /**
      * @var string|null
      *
      * @ORM\Column(name="thumb_url", type="string", length=100, nullable=true)
      */
-    private ?string $thumbUrl;
+    private ?string $thumbUrl = null;
 
     /**
      * @var bool
