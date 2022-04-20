@@ -70,7 +70,10 @@ class ParseBacklinksJob extends BaseJob implements ShouldBeUniqueUntilProcessing
 
         /* @var BackLinksRawData $backLinkData */
         foreach ($backLinks as $backLinkData) {
-            if (!in_array($backLinkData->destUrl . $backLinkData->sourceUrl, $this->linksFilter)) {
+            if (
+                !in_array($backLinkData->destUrl . $backLinkData->sourceUrl, $this->linksFilter) &&
+                !in_array($backLinkData->destUrl, $this->linksFilter)
+            ) {
                 continue;
             }
 

@@ -181,7 +181,7 @@
 @endsection
 @section('content')
 @php
-/* @var \App\Entities\BackLink $link */
+/* @var \App\Dto\BackLinks\BackLinksRawData $link */
 /* @var \App\Entities\Domain $domain */
 /* @var \App\Entities\User $user */
 @endphp
@@ -256,39 +256,48 @@
             </thead>
             <tbody>
             @foreach($links as $link)
-            <tr class="line-{{ $link->getId() }}">
+            <tr class="line-{{ $link->id }}">
                 <td>
                     <div class="d-flex align-items-xl-center flex-xl-row flex-column">
                         <div>
-                            <a href="#" class="open-section" data-id="{{ $link->getId() }}">
-                                {{ $link->getDomain()->getDomainName() }}
+                            <a href="#" class="open-section" data-id="{{ $link->id }}">
+                                @if($link->response !== 200)
+                                <span class="p-0 border-0 red-text table-font-14 me-2">
+                                    <i class="fa-solid fa-circle-xmark"></i>
+                                </span>
+                                @elseif($link->isLost)
+                                <span class="p-0 border-0 yellow-text table-font-14 me-2">
+                                    <i class="fa-solid fa-circle-exclamation"></i>
+                                </span>
+                                @endif
+                                {{ $link->domainName }}
                                 <i class="fa fa-arrow-down"></i>
                             </a>
                             <span class="text-grey d-block">
                                 <img src="/assets-app/images/icon-tag.svg" alt="icon-tag">
-                                {{ $link->getDestUrl() }}
+                                {{ $link->destUrl }}
                             </span>
                         </div>
                     </div>
                 </td>
                 <td>
-                    <input type="text" class="form-control table-font-14 black-text" value="{{ $link->getSectionPrice() ?: '' }}" disabled>
+                    <input type="text" class="form-control table-font-14 black-text" value="{{ $link->price ?: '' }}" disabled>
                 </td>
                 <td class="text-center">
-                    <span class="badge badge-orange d-inline-block">{{ $link->getRank() }}</span>
+                    <span class="badge badge-orange d-inline-block">{{ $link->rank }}</span>
                 </td>
                 <td class="text-center">
-                    {{ $link->getSpamScore() }}
+                    {{ $link->spamScore }}
                 </td>
                 <td>
-                    {{ $link->isNofollow() ? 'No' : 'Yes' }}
+                    {{ $link->relNofollow ? 'No' : 'Yes' }}
                 </td>
-                <td class="text-center">{{ $link->getStatusCode() }}</td>
+                <td class="text-center">{{ $link->response }}</td>
                 <td class="text-center">Not included</td>
-                <td class="text-center">{{ $link->getFirstSeen()->format('d M Y') }},<br />{{$link->getLastSeen()->format('d M Y') }}</td>
+                <td class="text-center">{{ $link->firstFound->format('d M Y') }},<br />{{$link->lastFound->format('d M Y') }}</td>
                 <td>
                     <div class="d-flex align-items-center justify-content-end flex-wrap">
-                        <a href="#" class="d-inline-block mx-lg-2 mx-1 delete-link" data-id="{{ $link->getId() }}">
+                        <a href="#" class="d-inline-block mx-lg-2 mx-1 delete-link" data-id="{{ $link->id }}">
                             <img src="/assets-app/images/icon-delete.svg" alt="icon-delete" class="action-img">
                         </a>
                     </div>

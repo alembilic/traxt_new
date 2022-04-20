@@ -40,6 +40,7 @@ class BackLink implements IHasUser, IEntity
     public const NO_FOLLOW = 'nofollow';
     public const NO_INDEX = 'noindex';
     public const STATUS_CODE = 'statusCode';
+    public const SPAM_SCORE = 'spamScore';
     public const RANK = 'rank';
     public const PRICE = 'price';
 

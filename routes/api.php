@@ -32,8 +32,9 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::post('domain/{domain}/importBackLinks', DomainApiController::class . '@importBackLinks');
     Route::get('domain/{domain}/retrieveBackLinks', DomainApiController::class . '@retrieveBackLinks');
     Route::resource('domains', DomainApiController::class);
+    Route::delete('backLinks/{backLink}', BackLinkSourceApiController::class . '@destroySingle');
     Route::get('backLinks/{backLink}/source', BackLinkSourceApiController::class . '@index');
-    Route::post('backLinks/{backLink}/source', BackLinkSourceApiController::class . '@store');
     Route::delete('backLinks/{backLink}/source', BackLinkSourceApiController::class . '@destroy');
+    Route::post('backLinks/source', BackLinkSourceApiController::class . '@store');
 });
 Route::any('webhook/{type}', WebhookApiController::class . '@handle');
