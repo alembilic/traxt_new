@@ -30,7 +30,7 @@
         <div class="col-md-6 image-element padding-sm-mob">
           <img src="/img/blog/blog_shape.svg" alt="" title="" class="blog-shape-right">
           <div class="img-wrap">
-            <img src="/img/blog/blog_jumbotron.svg" alt="" title="" class="w-100">
+            <img src="/img/blog/{{ $mainPost->getImage() }}" alt="" title="" class="w-100">
           </div>
         </div>
       </div>
@@ -40,7 +40,7 @@
     @foreach($posts as $post)
       <div class="col-md-4 mb-4">
         <div class="card border-0">
-          <img class="card-img-top w-100" src="/img/blog/blog_post.svg" alt="blogpost" title="image-{{ $post->getTitle() }}">
+          <img class="card-img-top w-100" src="/img/blog/{{ $post->getImage() }}" alt="blogpost" title="image-{{ $post->getTitle() }}">
           <div class="card-body">
             <p class="font-weight-bold text-primary">{{ $post->getCreatedAt()->format('M j, Y') }}</p>
             <h3 class="card-title text-left">{{ $post->getTitle() }}</h5>

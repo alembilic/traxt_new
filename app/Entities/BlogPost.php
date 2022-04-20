@@ -56,6 +56,13 @@ class BlogPost
     private string $fullContent;
 
     /**
+    * @var string
+    *
+    * @ORM\Column(name="image", type="string", length=255, nullable=false)
+    */
+    private string $image;
+
+    /**
      * @return int
      */
     public function getId(): int
@@ -93,5 +100,13 @@ class BlogPost
     public function getFullContent(): string
     {
         return $this->fullContent;
+    }
+
+    /**
+    * @return string
+    */
+    public function getImage(): string
+    {
+        return $this->image;
     }
 }

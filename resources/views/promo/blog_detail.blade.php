@@ -23,7 +23,7 @@
         <div class="row align-items-center pad-top-3 pad-bot-1 padding-sm-mob padding-lg-mob-top">
             <div class=col-md-12>
                 <div class="img-wrap">
-                    <img src="/img/blog/blog_details.svg" alt="" title="" class="w-100">
+                    <img src="/img/blog/{{ $post->getImage() }}" alt="" title="" class="w-100">
                 </div>
             </div>
         </div>        

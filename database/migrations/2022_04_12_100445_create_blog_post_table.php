@@ -19,6 +19,7 @@ class CreateBlogPostTable extends Migration
             $table->string('url_code');
             $table->text('short_content');
             $table->text('full_content');
+            $table->string('image');
             $table->timestamps();
         });
     }
