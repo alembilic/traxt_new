@@ -19,14 +19,18 @@ var routes = {
         method: 'delete',
         url: '/backLinks/{backLink}/source'
     },
-    storeBacklinkSection: {
-        method: 'post',
-        url: '/backLinks/{backLink}/source'
-    },
     getBacklinkSection: {
         method: 'get',
         url: '/backLinks/{backLink}/source'
     },
+    storeBacklinkSection: {
+        method: 'post',
+        url: '/backLinks/source'
+    },
+    removeBacklink: {
+        method: 'delete',
+        url: '/backLinks/{backLink}'
+    }
 };
 
 var Api = {

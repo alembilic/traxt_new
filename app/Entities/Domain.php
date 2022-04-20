@@ -27,6 +27,7 @@ class Domain implements IHasUser
     public const USER = 'createdBy';
     public const DELETED = 'deleted';
     public const DOMAIN_URL = 'domainUrl';
+    public const DOMAIN_NAME = 'domainName';
 
     /**
      * @var int
@@ -70,7 +71,7 @@ class Domain implements IHasUser
      *
      * @ORM\Column(name="domain_type", type="string", length=191, nullable=false)
      */
-    private string $domainType;
+    private string $domainType = 'url';
 
     /**
      * User whose created this domain.

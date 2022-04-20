@@ -35,6 +35,8 @@ class BackLinksRawData extends BaseDtoWrapper
     public const IS_LOST = 'isLost';
     public const ALT = 'alt';
     public const SPAM_SCORE = 'spamScore';
+    public const ID = 'id';
+    public const PRICE = 'price';
 
     public string $domainName;
     public string $sourceUrl;
@@ -56,6 +58,7 @@ class BackLinksRawData extends BaseDtoWrapper
     public ?bool $isLost = null;
     public ?bool $alt = null;
 
+    public ?int $id = null;
     public ?int $status = 1;
     public ?int $linkType = 1;
     public ?int $response = 200;
@@ -65,6 +68,8 @@ class BackLinksRawData extends BaseDtoWrapper
     public ?Carbon $lastChecked = null;
     public ?Carbon $lastFound = null;
     public ?Carbon $firstFound = null;
+
+    public ?float $price = null;
 
     /**
      * @return string

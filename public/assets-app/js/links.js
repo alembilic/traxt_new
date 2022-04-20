@@ -74,10 +74,13 @@ function getSectionItem(v, line) {
     return `<tr class="sub-line line-` + line + `">
             <td>
                 <div class="d-flex align-items-xl-center flex-xl-row flex-column">
-                    <div>
-                        <span class="text-grey d-block">
-                            <img src="/assets-app/images/icon-tag.svg" alt="icon-tag">
-                            ` + v['destUrl'] + `
+                    <div><span class="text-grey d-block">` +
+                        (v['statusCode'] !== 200
+                            ? '<i class="fa-solid fa-circle-xmark"></i> '
+                            : v['isLost']
+                                ? '<i class="fa-solid fa-circle-exclamation"></i> '
+                                : '<img src="/assets-app/images/icon-tag.svg" alt="icon-tag"> ') +
+                            v['sourceUrl'] + `
                         </span>
                     </div>
                 </div>
@@ -91,16 +94,16 @@ function getSectionItem(v, line) {
             <td class="text-center">` + firstSeen.toLocaleDateString("en-US", dateOptions) + `,<br />` + lastSeen.toLocaleDateString("en-US", dateOptions) + `</td>
             <td>
                 <div class="d-flex align-items-center justify-content-end flex-wrap">
-                    <a href="#" class="d-inline-block mx-lg-2 mx-1" data-id="` + v['id'] + `">
+                    <a href="#" class="d-inline-block mx-lg-2 mx-1" data-id="` + v['id'] + `" data-line="` + line + `">
                         <img src="/assets-app/images/calendar.svg" alt="calendar" class="action-img">
                     </a>
-                    <a href="#" class="d-inline-block mx-lg-2 mx-1" data-id="` + v['id'] + `">
+                    <a href="#" class="d-inline-block mx-lg-2 mx-1" data-id="` + v['id'] + `" data-line="` + line + `">
                         <img src="/assets-app/images/icon-bug.svg" alt="icon-bug" class="action-img">
                     </a>
-                    <a href="#" class="d-inline-block mx-lg-2 mx-1" data-id="` + v['id'] + `">
+                    <a href="#" class="d-inline-block mx-lg-2 mx-1" data-id="` + v['id'] + `" data-line="` + line + `">
                         <img src="/assets-app/images/icon-edit.svg" alt="icon-edit" class="action-img">
                     </a>
-                    <a href="#" class="d-inline-block mx-lg-2 mx-1 delete-link" data-id="` + v['id'] + `">
+                    <a href="#" class="d-inline-block mx-lg-2 mx-1 delete-single-link" data-id="` + v['id'] + `" data-line="` + line + `">
                         <img src="/assets-app/images/icon-delete.svg" alt="icon-delete" class="action-img">
                     </a>
                 </div>
@@ -205,6 +208,40 @@ $(function () {
 
             }
         }, {backLink: id});
+
+        return false;
+    });
+    $('body').on('click', '.delete-single-link', function () {
+        var id = $(this).data('id'), line = $(this).data('line');
+        Swal.fire({
+            title: 'Are you sure?',
+            text: 'you want to delete this backlink',
+            icon: 'warning',
+            closeOnConfirm: false,
+            showCancelButton: true,
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Api.makeRequest('removeBacklink', {
+                    complete: function (xhr) {
+                        if (xhr.status === 204) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'BackLink Removed',
+                                showConfirmButton: false,
+                                timer: 1500
+                            }).then(() => {
+                                if ($('[data-line=' + line + ']').length <= 2) {
+                                    location.reload()
+                                } else {
+                                    $('[data-id=' + id + ']').parent().parent().parent().remove();
+                                }
+                            });
+                        }
+                    }
+                }, {backLink: id});
+            }
+        });
 
         return false;
     });

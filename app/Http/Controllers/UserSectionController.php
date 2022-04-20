@@ -145,7 +145,7 @@ class UserSectionController extends BaseWebController
         /* @var BackLinkRepository $repository */
         $repository = $this->getRepository(BackLink::class);
         $countPages = ceil($repository->countLinksByFilter($filter) / $perPage);
-        $links = $repository->getSources($filter);
+        $links = $repository->getSections($filter);
 
         return view('app.links', [
             'domains' => $this->user->getDomains(),

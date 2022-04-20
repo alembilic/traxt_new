@@ -105,4 +105,23 @@ class BackLinkSourceApiController extends BaseApiController
 
         return response()->noContent();
     }
+
+    /**
+     * Remove Single BackLink.
+     *
+     * @param BackLink $backLink BackLink
+     *
+     * @return Response
+     *
+     * @throws AuthorizationException
+     */
+    public function destroySingle(BackLink $backLink): Response
+    {
+        $this->authorize(PolicyActions::DESTROY, $backLink);
+
+        $this->entityManager->remove($backLink);
+        $this->entityManager->flush();
+
+        return response()->noContent();
+    }
 }
