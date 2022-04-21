@@ -48,7 +48,7 @@ class BackLinksStatisticsService implements IStatisticsService
         $keys = ['Expired backlinks', 'Live backlinks'];
         switch ($filterDto->groupBy) {
             case StatisticsGroupByValues::DAYS:
-                $field = 'DATEFORMAT(bl.' . BackLink::UPDATED_AT . ", '%Y.%m.%d') as key";
+                $field = 'DATEFORMAT(bl.' . BackLink::UPDATED_AT . ", '%Y-%m-%d') as key";
                 break;
             case StatisticsGroupByValues::WEEKS:
                 $field = 'DATEFORMAT(bl.' . BackLink::UPDATED_AT . ", '%x.%v') as key";

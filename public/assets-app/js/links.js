@@ -85,7 +85,7 @@ function getSectionItem(v, line) {
                     </div>
                 </div>
             </td>
-            <td><input type="text" class="form-control table-font-14 black-text" value="` + (v['price'] ? v['price'] : '') + `"></td>
+            <td><input oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\\..*?)\\..*/g, '$1');" class="form-control table-font-14 black-text price" value="` + (v['price'] ? v['price'] : '') + '" data-id="' + v['id'] + '" data-price="' + v['price'] + `"></td>
             <td class="text-center"><span class="badge badge-orange d-inline-block">` + v['rank'] + `</span></td>
             <td class="text-center">` + v['spamScore'] + `</td>
             <td>` + (v['isNoFollow'] ? 'No' : 'Yes')  + `</td>
@@ -94,15 +94,6 @@ function getSectionItem(v, line) {
             <td class="text-center">` + firstSeen.toLocaleDateString("en-US", dateOptions) + `,<br />` + lastSeen.toLocaleDateString("en-US", dateOptions) + `</td>
             <td>
                 <div class="d-flex align-items-center justify-content-end flex-wrap">
-                    <a href="#" class="d-inline-block mx-lg-2 mx-1" data-id="` + v['id'] + `" data-line="` + line + `">
-                        <img src="/assets-app/images/calendar.svg" alt="calendar" class="action-img">
-                    </a>
-                    <a href="#" class="d-inline-block mx-lg-2 mx-1" data-id="` + v['id'] + `" data-line="` + line + `">
-                        <img src="/assets-app/images/icon-bug.svg" alt="icon-bug" class="action-img">
-                    </a>
-                    <a href="#" class="d-inline-block mx-lg-2 mx-1" data-id="` + v['id'] + `" data-line="` + line + `">
-                        <img src="/assets-app/images/icon-edit.svg" alt="icon-edit" class="action-img">
-                    </a>
                     <a href="#" class="d-inline-block mx-lg-2 mx-1 delete-single-link" data-id="` + v['id'] + `" data-line="` + line + `">
                         <img src="/assets-app/images/icon-delete.svg" alt="icon-delete" class="action-img">
                     </a>
@@ -111,6 +102,62 @@ function getSectionItem(v, line) {
         </tr>`;
 }
 
+function isChanged() {
+    return !!(Object.keys(changesCollection).length);
+}
+
+function validateChanges() {
+    if (isChanged()) {
+        $('.import-backlinks').hide();
+        $('.add-backlink').addClass('d-none').removeClass('d-lg-flex');
+
+        $('.save-price').addClass('d-block').removeClass('d-none');
+        $('.undo-price').addClass('d-block').removeClass('d-none');
+    } else {
+        $('.import-backlinks').show();
+        $('.add-backlink').removeClass('d-none').addClass('d-lg-flex');
+
+        $('.save-price').removeClass('d-block').addClass('d-none');
+        $('.undo-price').removeClass('d-block').addClass('d-none');
+    }
+}
+
+function clearChanges() {
+    changesCollection = {};
+    validateChanges();
+}
+
+function savePrices() {
+    Api.makeRequest('updateBacklinkPrices', {
+        data: {links: changesCollection},
+        complete: function (xhr) {
+            if (xhr.status === 201) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Prices Updated',
+                    showConfirmButton: false,
+                    timer: 1500
+                }).then(() => {
+                    clearChanges();
+                });
+            }
+        }
+    }, {});
+
+    return false;
+}
+
+function undoPrices () {
+    $('.price').each(function () {
+        this.value = $(this).data('price');
+    });
+
+    clearChanges();
+
+    return false;
+}
+
+var changesCollection = {};
 $(function () {
     $('body').on('click', '#select-all', function () {
         $('.select-url-item').prop('checked', this.checked);
@@ -245,7 +292,18 @@ $(function () {
 
         return false;
     });
+    $('body').on('keyup', '.price', function () {
+        var backLinkId = $(this).data('id'),
+            newValue = this.value,
+            currentValue = $(this).data('price');
 
+        if (currentValue !== newValue) {
+            changesCollection[backLinkId] = newValue;
+        } else {
+            delete changesCollection[backLinkId];
+        }
+        validateChanges();
+    });
     $('.add-backlink').on('click', function () {
         var form = document.createElement("div");
         form.innerHTML = `
@@ -386,4 +444,6 @@ $(function () {
 
         return false;
     });
+    $('.save-price').on('click', savePrices);
+    $('.undo-price').on('click', undoPrices);
 });

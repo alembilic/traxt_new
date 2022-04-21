@@ -36,5 +36,6 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::get('backLinks/{backLink}/source', BackLinkSourceApiController::class . '@index');
     Route::delete('backLinks/{backLink}/source', BackLinkSourceApiController::class . '@destroy');
     Route::post('backLinks/source', BackLinkSourceApiController::class . '@store');
+    Route::put('backLinks/syncPrices', BackLinkSourceApiController::class . '@syncPrices');
 });
 Route::any('webhook/{type}', WebhookApiController::class . '@handle');

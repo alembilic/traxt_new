@@ -206,7 +206,7 @@
         <!--<a href="#" class="btn btn-outline-secondary  d-lg-flex Import-btn">
             Import from CSV / Excel
         </a>-->
-        <div class="dorpdown position-static me-2 Automatically-dorpdown">
+        <div class="dorpdown position-static me-2 Automatically-dorpdown import-backlinks">
             <button class="btn btn-outline-secondary bg-transparent text-black d-block w-100 text-start" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                 Automatically import backlinks
             </button>
@@ -220,6 +220,9 @@
             <img src="/assets-app/images/icon-plus.svg" alt="icon-plus">
             Add New
         </a>
+
+        <a href="#" class="btn btn-outline-secondary bg-transparent text-black d-none undo-price">Undo</a>
+        <a href="#" class="btn btn-primary d-none save-price">Save</a>
     </div>
     <div class="table-body">
         <table class="table table-data" id="dataTable">

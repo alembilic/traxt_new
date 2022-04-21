@@ -124,4 +124,31 @@ class BackLinkSourceApiController extends BaseApiController
 
         return response()->noContent();
     }
+
+    /**
+     * Update backlink Prices.
+     *
+     * @param SaveBackLinkSectionRequest $request Request with price data
+     *
+     * @return JsonResponse
+     */
+    public function syncPrices(SaveBackLinkSectionRequest $request): JsonResponse
+    {
+        $ids = array_keys($request->links);
+        $filter = Criteria::create()
+            ->where(Criteria::expr()->eq(BackLink::CREATED_BY, $this->user))
+            ->andWhere(Criteria::expr()->in(BackLink::ID, $ids));
+        $links = collect($this->entityManager->getRepository(BackLink::class)->matching($filter))
+            ->keyBy(function (BackLink $backLink) { return $backLink->getId(); });
+
+        /* @var BackLink $link */
+        foreach ($request->links as $id => $price) {
+            $link = $links->get($id);
+            $link->setPrice($price);
+            $this->entityManager->persist($link);
+        }
+        $this->entityManager->flush();
+
+        return $this->collection([])->setStatusCode(JsonResponse::HTTP_CREATED);
+    }
 }
