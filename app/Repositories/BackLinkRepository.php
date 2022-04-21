@@ -40,7 +40,7 @@ class BackLinkRepository extends EntityRepository
                 BackLinksRawData::FIRST_FOUND => Carbon::parse($item[BackLink::FIRST_SEEN]),
                 BackLinksRawData::LAST_FOUND => Carbon::parse($item[BackLink::LAST_SEEN]),
                 BackLinksRawData::REL_NOFOLLOW => $item[BackLink::NO_FOLLOW],
-                BackLinksRawData::PRICE => floatval($item[BackLink::PRICE] ?? 0),
+                BackLinksRawData::PRICE => floatval($item[BackLink::PRICE] ?? 0) / 100,
                 BackLinksRawData::IS_LOST => (bool)$item[BackLink::LOST],
                 BackLinksRawData::DOMAIN_NAME => $item[Domain::DOMAIN_NAME],
             ]);

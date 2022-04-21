@@ -30,6 +30,10 @@ var routes = {
     removeBacklink: {
         method: 'delete',
         url: '/backLinks/{backLink}'
+    },
+    updateBacklinkPrices: {
+        method: 'put',
+        url: '/backLinks/syncPrices'
     }
 };
 

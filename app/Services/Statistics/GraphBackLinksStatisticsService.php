@@ -50,7 +50,7 @@ class GraphBackLinksStatisticsService implements IStatisticsService
         $titles = ['Total links', 'Total lost links', 'Total live links'];
         switch ($filterDto->groupBy) {
             case StatisticsGroupByValues::DAYS:
-                $field = 'DATEFORMAT(bl.' . BackLink::UPDATED_AT . ", '%Y.%m.%d') as key";
+                $field = 'DATEFORMAT(bl.' . BackLink::UPDATED_AT . ", '%Y-%m-%d') as key";
                 break;
             case StatisticsGroupByValues::WEEKS:
                 $field = 'DATEFORMAT(bl.' . BackLink::UPDATED_AT . ", '%x.%v') as key";
