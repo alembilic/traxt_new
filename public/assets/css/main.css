@@ -619,7 +619,21 @@ a.btn-custom:hover{
 	top: -55px;
 }
 
+.blog-details-shape-left{
+	position: absolute;
+	top: 50px;
+	left: -35px;
+	width: 250px;
+	z-index: -1;
+}
 
+.blog-shape-right{
+	position: absolute;
+	top: -50px;
+	right: -50px;
+	width: 250px;
+	z-index: -1;
+}
 
 /*Features*/
 

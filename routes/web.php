@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BlogController;
 use App\Http\Controllers\PromoController;
 use App\Http\Controllers\UserSectionController;
 use Illuminate\Support\Facades\Auth;
@@ -26,6 +27,9 @@ Route::group([], function () {
     Route::view('comparison-monitorbacklinks', 'promo.comparison-monitorbacklinks', ['page_class' => 'comp-page']);
     Route::view('comparison-linkokay', 'promo.comparison-linkokay', ['page_class' => 'comp-page']);
     Route::view('complete-comparison', 'promo.complete-comparison', ['page_class' => 'comp-page']);
+    //blog
+    Route::get('blog', BlogController::class . '@index');
+    Route::get('blog/{urlCode}', BlogController::class . '@show');
 
     Route::post('sendmail', PromoController::class . '@sendMail');
 

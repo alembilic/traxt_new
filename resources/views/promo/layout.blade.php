@@ -3,30 +3,30 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, height=device-height">
-    <link rel="apple-touch-icon" sizes="57x57" href="img/fav/apple-icon-57x57.png">
-    <link rel="apple-touch-icon" sizes="60x60" href="img/fav/apple-icon-60x60.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="img/fav/apple-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="img/fav/apple-icon-76x76.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="img/fav/apple-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="img/fav/apple-icon-120x120.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="img/fav/apple-icon-144x144.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="img/fav/apple-icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="img/fav/apple-icon-180x180.png">
+    <link rel="apple-touch-icon" sizes="57x57" href="/img/fav/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/img/fav/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/img/fav/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/img/fav/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/img/fav/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/img/fav/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/img/fav/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/img/fav/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/img/fav/apple-icon-180x180.png">
     <link rel="icon" type="image/png" sizes="192x192"  href="/android-icon-192x192.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="img/fav/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="96x96" href="img/fav/favicon-96x96.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="img/fav/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/img/fav/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/img/fav/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/img/fav/favicon-16x16.png">
     <link rel="manifest" href="/manifest.json">
     <meta name="msapplication-TileColor" content="#ffffff">
     <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
     <meta name="theme-color" content="#ffffff">
-    <link href="assets/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/assets/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
     <link href="https://fonts.googleapis.com/css?family=Baloo+2:400,500,600,700,800|Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i&display=swap" rel="stylesheet">
     <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-    <link href="assets/css/main.css" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/owl.carousel.min.css">
-    <link rel="stylesheet" href="assets/css/owl.theme.default.min.css">
+    <link href="/assets/css/main.css" rel="stylesheet">
+    <link rel="stylesheet" href="/assets/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="/assets/css/owl.theme.default.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     @sectionMissing('titles')
     <title>Track and Monitor your Links and Mentions online with Easy planning</title>
@@ -34,7 +34,7 @@
     <meta name="author" content="">
     <meta property="og:title" content="Monitor your Links with 100% accuracy 24/7 - get full value of all your links" />
     <meta property="og:description" content="Use Traxr.net to get full value of your link building efforts. Get full control of all your valuable links" />
-    <meta property="og:image" content="img/social/main.jpg"/>
+    <meta property="og:image" content="/img/social/main.jpg"/>
     <link rel="canonical" href="https://traxr.net/" />
     @endif
     @hasSection('titles') @yield('titles') @endif
@@ -66,7 +66,7 @@
 <nav class="nav">
     <div class="container">
         <div class="nav-logo">
-            <a href="/" class="nav-logo-link"><img src="img/traxr-logo-light.svg"></a>
+            <a href="/" class="nav-logo-link"><img src="/img/traxr-logo-light.svg"></a>
         </div>
         @php
             $page = str_replace('/', '', preg_replace('!(\?.*)!', '', $_SERVER['REQUEST_URI']));
@@ -156,12 +156,12 @@
 
 
 <!-- Bootstrap core JavaScript -->
-<script src="assets/jquery/jquery.slim.min.js"></script>
-<script src="assets/bootstrap/js/bootstrap.bundle.min.js"></script>
-<script src="assets/js/jquery-2.1.4.js"></script>
-<script src="assets/js/owl.carousel.min.js"></script>
-<script src="assets/js/custom.js"></script>
-<script src="assets/js/main.js"></script>
+<script src="/assets/jquery/jquery.slim.min.js"></script>
+<script src="/assets/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="/assets/js/jquery-2.1.4.js"></script>
+<script src="/assets/js/owl.carousel.min.js"></script>
+<script src="/assets/js/custom.js"></script>
+<script src="/assets/js/main.js"></script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-162383577-1"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/cookie-bar/cookiebar-latest.min.js?forceLang=en&tracking=1&thirdparty=1&always=1&privacyPage=https%3A%2F%2Ftraxr.net%2Fprivacy.php"></script>
 <script>
