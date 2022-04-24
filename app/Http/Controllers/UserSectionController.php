@@ -158,6 +158,16 @@ class UserSectionController extends BaseWebController
     }
 
     /**
+    * Contacts page.
+    * 
+    * @return View
+    */
+    public function contacts(): View
+    {
+        return view('app.contacts');
+    }
+
+    /**
      * Domains page.
      *
      * @param Request $request Request

@@ -44,6 +44,7 @@ Route::group(['middleware' => ['auth:web', 'authorizedOnly', 'verifyPlan'], 'pre
     Route::view('guide', 'app.guide')->name('guide');
     Route::get('dashboard', UserSectionController::class . '@dashboard')->name('dashboard');
     Route::get('links', UserSectionController::class . '@links')->name('links');
+    Route::get('contacts', UserSectionController::class . '@contacts')->name('contacts');
     Route::get('domains', UserSectionController::class . '@domains')->name('domains');
     Route::any('myaccount', UserSectionController::class . '@myAccount')->name('myaccount');
     Route::get('invoices', UserSectionController::class . '@invoices')->name('invoices');
