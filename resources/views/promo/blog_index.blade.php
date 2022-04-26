@@ -35,7 +35,7 @@
         </div>
       </div>
     @endif
-    
+
     <div class="card-deck">
     @foreach($posts as $post)
       <div class="col-md-4 mb-4">
@@ -44,7 +44,7 @@
           <div class="card-body">
             <p class="font-weight-bold text-primary">{{ $post->getCreatedAt()->format('M j, Y') }}</p>
             <h3 class="card-title text-left">{{ $post->getTitle() }}</h5>
-            <p class="card-text">{{ $post->getShortContent() }}</p>
+            <p class="card-text">{!! $post->getShortContent() !!}</p>
             <p>
               <a href="/blog/{{ $post->getUrlCode() }}">Read more</a>
             </p>
