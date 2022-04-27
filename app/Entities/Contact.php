@@ -1,6 +1,6 @@
 <?php
 
-
+namespace App\Entities;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -10,8 +10,11 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="contacts")
  * @ORM\Entity
  */
-class Contacts
+class Contact
 {
+    public const EMAIL = 'email';
+    public const DOMAINS = 'domains';
+
     /**
      * @var int
      *
@@ -63,5 +66,54 @@ class Contacts
      */
     private $updatedAt;
 
+    /**
+    * @return string
+    */
+    public function getFirstname(): string
+    {
+        return $this->firstname;
+    }
+
+    /**
+    * @return int
+    */
+    public function getId(): int
+    {
+        return $this->id;
+    } 
+
+    /**
+     * @return string
+     */
+    public function getLastname(): string
+    {
+        return $this->firstname;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFullname(): string
+    {
+        return $this->firstname . " " . $this->lastname;
+    }    
+
+    /**
+     * @return string
+     */
+    public function getEmail(): string
+    {
+        return $this->email;
+    }
+
+    /**
+     * @return array
+     */
+    public function getDomains(): string
+    {
+        $array = $this->domains ? explode(',', $this->domains) : []; 
+
+        return $array;
+    }    
 
 }

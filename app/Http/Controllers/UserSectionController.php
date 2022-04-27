@@ -8,6 +8,7 @@ use App\Dto\BackLinks\BackLinksFilter;
 use App\Dto\CursorDto;
 use App\Dto\Statistics\StatisticsFilterDto;
 use App\Entities\BackLink;
+use App\Entities\Contact;
 use App\Entities\Currency;
 use App\Entities\Domain;
 use App\Entities\Order;
@@ -162,9 +163,36 @@ class UserSectionController extends BaseWebController
     * 
     * @return View
     */
-    public function contacts(): View
+    public function contacts(Request $request): View
     {
-        return view('app.contacts');
+        
+
+        // SELECT * FROM `contacts` where find_in_set('rohdes.net',domains);  
+        $search = $request->get('search');
+        $repository = $this->getRepository(Contact::class);
+        //$query = $repository->createQueryBuilder("c");
+        $criteria = Criteria::create();
+
+        if ($search) {
+            // search for email
+            $criteria->where(Criteria::expr()->eq(Contact::EMAIL, $search));
+            // search for domains
+            $criteria->orWhere(Criteria::expr()->contains(Contact::DOMAINS, $search));
+                       
+            //$query->where($query->expr()->andX(...$criteria));
+            //$query->Where($query->expr()->eq('c.'.Contact::EMAIL, ':email'));
+            //$query->OrWhere("FIND_IN_SET('rohdes.net',c.domains) <> 0");
+            //$query->setParameter('email', $search);
+            //$query->setParameter('domains', $search);
+        }
+
+        $contacts = collect($repository->matching($criteria));
+        //$contacts = $query->getQuery()->execute();
+
+        return view('app.contacts', [
+            'contacts' => $contacts,
+            'search' => $search
+        ]);
     }
 
     /**

@@ -1,6 +1,6 @@
 <?php
 
-
+namespace App\Entities;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="ratings", indexes={@ORM\Index(name="ratings_user_id_foreign", columns={"user_id"}), @ORM\Index(name="ratings_contact_id_foreign", columns={"contact_id"})})
  * @ORM\Entity
  */
-class Ratings
+class Rating
 {
     /**
      * @var int
@@ -62,5 +62,19 @@ class Ratings
      */
     private $user;
 
+    /**
+     * @return int
+     */
+    public function getId(): int
+    {
+        return $this->id;
+    }    
 
+    /**
+     * @return int
+     */
+    public function getValue(): int
+    {
+        return $this->value;
+    }
 }

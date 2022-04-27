@@ -18,7 +18,7 @@ class CreateContactsTable extends Migration
             $table->string('email', 255)->nullable(false);
             $table->string('firstname', 255)->nullable(false);
             $table->string('lastname', 255)->nullable(false);
-            $table->json('domains');
+            $table->text('domains');
             $table->timestamps();
         });
     }
