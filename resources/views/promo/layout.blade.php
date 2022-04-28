@@ -71,12 +71,13 @@
         @php
             $page = str_replace('/', '', preg_replace('!(\?.*)!', '', $_SERVER['REQUEST_URI']));
         @endphp
-        <div class="nav-menu" {!! $page == 'login' || $page == 'signup' || $page == 'plans' ? 'style="display:none"': '' !!}>
-            <a href="/" class="nav-menu-link {!!($page == 'index' || !$page ? 'active': ''); !!}">Home</a>
-            <a href="/features" class="nav-menu-link {!!($page == 'features' ? 'active': ''); !!}">Features</a>
-            <a href="/pricing" class="nav-menu-link {!!($page == 'pricing' ? 'active': ''); !!}">Pricing</a>
-            <a href="/contact" class="nav-menu-link {!!($page == 'contact' ? 'active': ''); !!}">Contact</a>
-            <a href="/about" class="nav-menu-link {!!($page == 'about' ? 'active': ''); !!}">About</a>
+        <div class="nav-menu" {!! $page === 'login' || $page === 'signup' || $page === 'plans' ? 'style="display:none"': '' !!}>
+            <a href="/" class="nav-menu-link {!!($page === 'index' || !$page ? 'active': ''); !!}">Home</a>
+            <a href="/features" class="nav-menu-link {!!($page === 'features' ? 'active': ''); !!}">Features</a>
+            <a href="/pricing" class="nav-menu-link {!!($page === 'pricing' ? 'active': ''); !!}">Pricing</a>
+            <a href="/contact" class="nav-menu-link {!!($page === 'contact' ? 'active': ''); !!}">Contact</a>
+            <a href="/about" class="nav-menu-link {!!($page === 'about' ? 'active': ''); !!}">About</a>
+            <a href="/blog" class="nav-menu-link {!!($page === 'blog' ? 'active': ''); !!}">Blog</a>
             <a href="/app/login" class="nav-menu-link btn-nav">Login</a>
             <a class="btn-custom btn-price bc-btn-primary btn-price-mob" href="">Sign up a 7 Days free trial</a>
         </div>
