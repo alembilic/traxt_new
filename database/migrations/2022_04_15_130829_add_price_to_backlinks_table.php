@@ -34,5 +34,9 @@ class AddPriceToBacklinksTable extends Migration
             $table->dropColumn('price');
             $table->dropColumn('spam_score');
         });
+        Schema::table('backlinks_log', function (Blueprint $table) {
+            $table->dropColumn('price');
+            $table->dropColumn('spam_score');
+        });
     }
 }
