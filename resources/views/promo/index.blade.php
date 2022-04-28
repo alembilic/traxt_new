@@ -19,7 +19,30 @@
             </div>
         </div>
     </section>
+    <section>
+        <div class="container">
+            <div class="row align-items-center pad-top-3 pad-bot-6 padding-lg-mob">
+                <img src="img/shapes/left-light-blue.svg" alt="" title="" class="home-shape-left">
+                <div class="col-md-4">
+                    <div class="text-content">
+                        <p class="pt-3 align-center text-md-light text-cen-wid-70" style="font-size: 1.8rem"><span class="fw-700" id="money-stat">+6000</span> $ saved for our customers <br /> </p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="text-content">
+                        <p class="pt-3 align-center text-md-light text-cen-wid-70"  style="font-size: 1.8rem"> <span class="fw-700" id="backlink-stat">3000+</span> Backlinks scanned daily<br /> </p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="text-content">
+                        <p class="pt-3 align-center text-md-light text-cen-wid-70"  style="font-size: 1.8rem"> <span class="fw-700" id="customer-stat">200+</span> Satisfied customers<br /> </p>
+                    </div>
+                </div>
+            </div>
+        </div>
 
+
+    </section>
     <section class="">
         <div class="container">
             <div class="row align-items-center pad-top-3 pad-bot-6 padding-lg-mob">
@@ -169,4 +192,51 @@
             </div>
         </div>
     </section>
+
+    <script>
+        const ANIMATION_DURATION = 600 // in miliseconds
+        const ANIMATION_INTERVAL = 40
+        const MONEY_AMOUNT = 6_000
+        const BACKLINK_AMOUNT = 3_000
+        const CUSTOMER_AMOUNT = 200
+        let moneyAmount = 0
+        let customerAmount = 0
+        let backlinksAmount = 0
+
+
+        const moneyElement = document.querySelector('#money-stat')
+        const customerElement = document.querySelector('#customer-stat')
+        const backlinksElement = document.querySelector('#backlink-stat')
+
+        let moneyIntervalId = setInterval(() =>{
+            const moneyIncreaseAmount = Math.floor(MONEY_AMOUNT / (ANIMATION_DURATION / ANIMATION_INTERVAL))
+            moneyAmount += moneyIncreaseAmount
+            moneyElement.innerHTML = moneyAmount
+            if(moneyAmount >= MONEY_AMOUNT){
+                moneyElement.innerHTML = `${MONEY_AMOUNT} +`
+                clearInterval(moneyIntervalId)
+            }
+        }, ANIMATION_INTERVAL)
+
+        let customerIntervalId = setInterval(() =>{
+            const customerIncreaseAmount = Math.floor(CUSTOMER_AMOUNT / (ANIMATION_DURATION / ANIMATION_INTERVAL))
+            customerAmount += customerIncreaseAmount
+            customerElement.innerHTML = customerAmount
+            if(customerAmount >= CUSTOMER_AMOUNT){
+                customerElement.innerHTML = `${CUSTOMER_AMOUNT} +`
+                clearInterval(customerIntervalId)
+            }
+        }, ANIMATION_INTERVAL)
+
+        let backlinksIntervalId = setInterval(() =>{
+            const backlinksIncreaseAmount = Math.floor(BACKLINK_AMOUNT / (ANIMATION_DURATION / ANIMATION_INTERVAL))
+            backlinksAmount += Math.floor(backlinksIncreaseAmount)
+            backlinksElement.innerHTML = backlinksAmount
+            if(backlinksAmount >= BACKLINK_AMOUNT){
+                backlinksElement.innerHTML = `${BACKLINK_AMOUNT} +`
+                clearInterval(backlinksIntervalId)
+            }
+        }, ANIMATION_INTERVAL)
+
+    </script>
 @endsection
