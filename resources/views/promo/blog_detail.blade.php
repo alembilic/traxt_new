@@ -26,18 +26,18 @@
                     <img src="/img/blog/{{ $post->getImage() }}" alt="" title="" class="w-100">
                 </div>
             </div>
-        </div>        
+        </div>
         <div class="row pad-top-3 pad-bot-1 padding-lg-mob">
             <div class="col-md-4 align-top">
                 <h3 class="text-primary text-left">
                     Summary
                 </h3>
                 <p>
-                    {{ $post->getShortContent() }}
+                    {!! $post->getShortContent() !!}
                 </p>
             </div>
             <div class="col-md-8">
-                {{ $post->getFullContent() }}
+                {!! $post->getFullContent() !!}
 
                 <p><a class="btn-custom bc-btn-primary" href="#">Share</a></p>
             </div>

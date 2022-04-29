@@ -77,6 +77,7 @@
             <a href="/pricing" class="nav-menu-link {!!($page == 'pricing' ? 'active': ''); !!}">Pricing</a>
             <a href="/contact" class="nav-menu-link {!!($page == 'contact' ? 'active': ''); !!}">Contact</a>
             <a href="/about" class="nav-menu-link {!!($page == 'about' ? 'active': ''); !!}">About</a>
+            <a href="/blog" class="nav-menu-link {!!($page === 'blog' ? 'active': ''); !!}">Blog</a>
             <a href="{{ config('app.admin_url') }}/app/login" class="nav-menu-link btn-nav">Login</a>
             <a class="btn-custom btn-price bc-btn-primary btn-price-mob" href="">Sign up a 7 Days free trial</a>
         </div>
