@@ -12,6 +12,8 @@ use App\Http\Controllers\NotificationsApiController;
 use App\Http\Transformers\BackLinkTransformer;
 use App\Http\Transformers\DomainTransformer;
 use App\Http\Transformers\NotificationTransformer;
+use App\Http\Controllers\RatingApiController;
+use App\Http\Transformers\RatingTransformer;
 use App\Services\Dinero\DineroService;
 use App\Services\PaymentServices\QuickPayPaymentServiceService;
 use GuzzleHttp\Client as GuzzleClient;
@@ -64,6 +66,9 @@ class AppServiceProvider extends ServiceProvider
         $this->app->when(BackLinkSourceApiController::class)
             ->needs(TransformerAbstract::class)
             ->give(BackLinkTransformer::class);
+        $this->app->when(RatingApiController::class)
+            ->needs(TransformerAbstract::class)
+            ->give(RatingTransformer::class);            
 
         if (!$this->app->environment('local')) {
             URL::forceScheme('https');

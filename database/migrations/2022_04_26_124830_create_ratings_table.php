@@ -18,6 +18,7 @@ class CreateRatingsTable extends Migration
             $table->unsignedInteger('user_id')->nullable(false);
             $table->unsignedBigInteger('contact_id')->nullable(false);
             $table->integer('value')->nullable(false);
+            $table->string('comment', 500)->nullable(true);
             $table->foreign(['user_id'])
             ->on('users')
             ->references('id')

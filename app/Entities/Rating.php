@@ -12,6 +12,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Rating
 {
+    public const CONTACT = 'contact';
+
     /**
      * @var int
      *
@@ -27,6 +29,13 @@ class Rating
      * @ORM\Column(name="value", type="integer", nullable=false)
      */
     private $value;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="comment", type="string", length=500, nullable=true)
+     */
+    private $comment;
 
     /**
      * @var \DateTime|null
@@ -45,7 +54,7 @@ class Rating
     /**
      * @var \Contacts
      *
-     * @ORM\ManyToOne(targetEntity="Contacts")
+     * @ORM\ManyToOne(targetEntity="Contact")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="contact_id", referencedColumnName="id")
      * })
@@ -55,7 +64,7 @@ class Rating
     /**
      * @var \Users
      *
-     * @ORM\ManyToOne(targetEntity="Users")
+     * @ORM\ManyToOne(targetEntity="User")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      * })
@@ -77,4 +86,12 @@ class Rating
     {
         return $this->value;
     }
+
+    /**
+     * @return string
+     */
+    public function getComment(): string
+    {
+        return $this->comment;
+    }    
 }

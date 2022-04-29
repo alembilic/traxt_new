@@ -5,6 +5,7 @@ use App\Http\Controllers\DomainApiController;
 use App\Http\Controllers\NotificationsApiController;
 use App\Http\Controllers\VatApiController;
 use App\Http\Controllers\WebhookApiController;
+use App\Http\Controllers\RatingApiController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -37,5 +38,6 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::delete('backLinks/{backLink}/source', BackLinkSourceApiController::class . '@destroy');
     Route::post('backLinks/source', BackLinkSourceApiController::class . '@store');
     Route::put('backLinks/syncPrices', BackLinkSourceApiController::class . '@syncPrices');
+    Route::get('rating', RatingApiController::class . '@getRatings');
 });
 Route::any('webhook/{type}', WebhookApiController::class . '@handle');
