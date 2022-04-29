@@ -12,10 +12,10 @@
     <section class="">
         <div class="container">
             <div class="row align-items-center pad-top-3 pad-bot-1 padding-sm-mob padding-lg-mob-top">
-                <img src="img/shapes/left-light-blue.svg" alt="" title="" class="home-shape-left">
+                <img src="/img/shapes/left-light-blue.svg" alt="" title="" class="home-shape-left">
                 <div class="col-md-12">
                     <div class="text-content">
-                        <img src="img/shapes/right-small-blue.svg" alt="" title="" class="home-shape-right">
+                        <img src="/img/shapes/right-small-blue.svg" alt="" title="" class="home-shape-right">
                         <h1 class="pt-2 align-center">About Traxr</h1>
                         <p class="pt-2 align-center text-md-light text-cen-wid-70">
                             <span class="fw-700">The true story of Traxr.net</span></p>
@@ -45,7 +45,7 @@
                 <div class="col-md-6 padding-sm-mob">
                     <div class="features-box pad-10">
                         <div class="text-content">
-                            <center><img src="img/profile-lennart.png" title="Founder of Traxr" style="width:50%">
+                            <center><img src="/img/profile-lennart.png" title="Founder of Traxr" style="width:50%">
                                 <h3 class="pt-2 align-center">Lennart Øster<br />Founder</h3>
                             </center>
                             <p class="pt-3 align-left ">
@@ -65,7 +65,7 @@
                 <div class="col-md-6 padding-sm-mob">
                     <div class="features-box pad-10">
                         <div class="text-content">
-                            <center><img src="img/profile-tim.png" title="Founder of Traxr" style="width:50%">
+                            <center><img src="/img/profile-tim.png" title="Founder of Traxr" style="width:50%">
                                 <h3 class="pt-2 align-center">Tim Peterssen<br />Co-Founder</h3>
                             </center>
                             <p class="pt-3 align-left ">

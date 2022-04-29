@@ -13,10 +13,10 @@
     <section class="">
         <div class="container">
             <div class="row align-items-center pad-top-3 pad-bot-1 padding-sm-mob padding-lg-mob-top">
-                <img src="img/shapes/left-light-blue.svg" alt="" title="" class="home-shape-left">
+                <img src="/img/shapes/left-light-blue.svg" alt="" title="" class="home-shape-left">
                 <div class="col-md-12">
                     <div class="text-content">
-                        <img src="img/shapes/right-small-blue.svg" alt="" title="" class="home-shape-right">
+                        <img src="/img/shapes/right-small-blue.svg" alt="" title="" class="home-shape-right">
                         <h1 class="pt-2 align-center">Simple and Flexible Pricing</h1>
                         <p class="pt-2 align-center text-md-light text-cen-wid-70">
                             <span class="fw-700">Choose a plan that fits your needs best. Save huge with yearly billing.</span></p>
@@ -59,19 +59,19 @@
                                                         </div>
                                                         <div class="price-featutes-list-wrapper pad-10">
                                                             <ul class="price-featutes-list align-center">
-                                                                <li><img src="img/icons/price-check-icon.svg" class="price-check-icon">1 Domain</li>
-                                                                <li><img src="img/icons/price-check-icon.svg" class="price-not-icon">25 Links</li>
-                                                                <li><img src="img/icons/price-check-icon.svg" class="price-check-icon">Response Headers</li>
-                                                                <li><img src="img/icons/price-check-icon.svg" class="price-not-icon">HTML Headers</li>
-                                                                <li class="opacity-md"><img src="img/icons/price-not-icon.svg" class="price-check-icon"> (Redirect chain)</li>
-                                                                <li class="opacity-md"><img src="img/icons/price-not-icon.svg" class="price-not-icon">Manuel update</li>
-                                                                <li class="opacity-md"><img src="img/icons/price-not-icon.svg" class="price-check-icon">JS Status</li>
-                                                                <li class="opacity-md"><img src="img/icons/price-not-icon.svg" class="price-not-icon">Canonical check</li>
-                                                                <li class="opacity-md"><img src="img/icons/price-not-icon.svg" class="price-check-icon">Index Status</li>
+                                                                <li><img src="/img/icons/price-check-icon.svg" class="price-check-icon">1 Domain</li>
+                                                                <li><img src="/img/icons/price-check-icon.svg" class="price-not-icon">25 Links</li>
+                                                                <li><img src="/img/icons/price-check-icon.svg" class="price-check-icon">Response Headers</li>
+                                                                <li><img src="/img/icons/price-check-icon.svg" class="price-not-icon">HTML Headers</li>
+                                                                <li class="opacity-md"><img src="/img/icons/price-not-icon.svg" class="price-check-icon"> (Redirect chain)</li>
+                                                                <li class="opacity-md"><img src="/img/icons/price-not-icon.svg" class="price-not-icon">Manuel update</li>
+                                                                <li class="opacity-md"><img src="/img/icons/price-not-icon.svg" class="price-check-icon">JS Status</li>
+                                                                <li class="opacity-md"><img src="/img/icons/price-not-icon.svg" class="price-not-icon">Canonical check</li>
+                                                                <li class="opacity-md"><img src="/img/icons/price-not-icon.svg" class="price-check-icon">Index Status</li>
 
                                                             </ul>
                                                         </div>
-                                                        <a class="btn-custom btn-price bc-btn-primary" href="/app/signup?plan=ae6379ade7fc410284499a3afceb91a8-1">Sign up for free</a>
+                                                        <a class="btn-custom btn-price bc-btn-primary" href="{{ config('app.admin_url') }}/app/signup?plan=ae6379ade7fc410284499a3afceb91a8-1">Sign up for free</a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -87,19 +87,19 @@
                                                         </div>
                                                         <div class="price-featutes-list-wrapper pad-10">
                                                             <ul class="price-featutes-list align-center">
-                                                                <li><img src="img/icons/price-check-icon.svg" class="price-check-icon">1 Domain</li>
-                                                                <li><img src="img/icons/price-check-icon.svg" class="price-not-icon">100 Links</li>
-                                                                <li><img src="img/icons/price-check-icon.svg" class="price-check-icon">Response Headers</li>
-                                                                <li><img src="img/icons/price-check-icon.svg" class="price-not-icon">HTML Headers</li>
-                                                                <li class="opacity-md"><img src="img/icons/price-not-icon.svg" class="price-check-icon">Redirect chain</li>
-                                                                <li class="opacity-md"><img src="img/icons/price-not-icon.svg" class="price-not-icon">Manuel update</li>
-                                                                <li class="opacity-md"><img src="img/icons/price-not-icon.svg" class="price-check-icon">JS Status</li>
-                                                                <li class="opacity-md"><img src="img/icons/price-not-icon.svg" class="price-not-icon">Canonical check</li>
-                                                                <li class="opacity-md"><img src="img/icons/price-not-icon.svg" class="price-check-icon">Index Status</li>
+                                                                <li><img src="/img/icons/price-check-icon.svg" class="price-check-icon">1 Domain</li>
+                                                                <li><img src="/img/icons/price-check-icon.svg" class="price-not-icon">100 Links</li>
+                                                                <li><img src="/img/icons/price-check-icon.svg" class="price-check-icon">Response Headers</li>
+                                                                <li><img src="/img/icons/price-check-icon.svg" class="price-not-icon">HTML Headers</li>
+                                                                <li class="opacity-md"><img src="/img/icons/price-not-icon.svg" class="price-check-icon">Redirect chain</li>
+                                                                <li class="opacity-md"><img src="/img/icons/price-not-icon.svg" class="price-not-icon">Manuel update</li>
+                                                                <li class="opacity-md"><img src="/img/icons/price-not-icon.svg" class="price-check-icon">JS Status</li>
+                                                                <li class="opacity-md"><img src="/img/icons/price-not-icon.svg" class="price-not-icon">Canonical check</li>
+                                                                <li class="opacity-md"><img src="/img/icons/price-not-icon.svg" class="price-check-icon">Index Status</li>
 
                                                             </ul>
                                                         </div>
-                                                        <a class="btn-custom btn-price bc-btn-primary" href="/app/signup?plan=d425b8d61a9ef3a86d89217db6a5d964dh1-1">Sign me up!</a>
+                                                        <a class="btn-custom btn-price bc-btn-primary" href="{{ config('app.admin_url') }}/app/signup?plan=d425b8d61a9ef3a86d89217db6a5d964dh1-1">Sign me up!</a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -116,19 +116,19 @@
                                                         </div>
                                                         <div class="price-featutes-list-wrapper pad-10">
                                                             <ul class="price-featutes-list align-center">
-                                                                <li><img src="img/icons/price-check-icon.svg" class="price-check-icon">15 Domain</li>
-                                                                <li><img src="img/icons/price-check-icon.svg" class="price-not-icon">1000 Links</li>
-                                                                <li><img src="img/icons/price-check-icon.svg" class="price-check-icon">Response Headers</li>
-                                                                <li><img src="img/icons/price-check-icon.svg" class="price-not-icon">HTML Headers</li>
-                                                                <li><img src="img/icons/price-check-icon.svg" class="price-check-icon">Redirect chain</li>
-                                                                <li><img src="img/icons/price-check-icon.svg" class="price-not-icon">Manuel update</li>
-                                                                <li><img src="img/icons/price-check-icon.svg" class="price-check-icon">JS Status</li>
-                                                                <li><img src="img/icons/price-check-icon.svg" class="price-not-icon">Canonical check</li>
-                                                                <li><img src="img/icons/price-check-icon.svg" class="price-check-icon">Index Status</li>
+                                                                <li><img src="/img/icons/price-check-icon.svg" class="price-check-icon">15 Domain</li>
+                                                                <li><img src="/img/icons/price-check-icon.svg" class="price-not-icon">1000 Links</li>
+                                                                <li><img src="/img/icons/price-check-icon.svg" class="price-check-icon">Response Headers</li>
+                                                                <li><img src="/img/icons/price-check-icon.svg" class="price-not-icon">HTML Headers</li>
+                                                                <li><img src="/img/icons/price-check-icon.svg" class="price-check-icon">Redirect chain</li>
+                                                                <li><img src="/img/icons/price-check-icon.svg" class="price-not-icon">Manuel update</li>
+                                                                <li><img src="/img/icons/price-check-icon.svg" class="price-check-icon">JS Status</li>
+                                                                <li><img src="/img/icons/price-check-icon.svg" class="price-not-icon">Canonical check</li>
+                                                                <li><img src="/img/icons/price-check-icon.svg" class="price-check-icon">Index Status</li>
 
                                                             </ul>
                                                         </div>
-                                                        <a class="btn-custom btn-price bc-btn-primary" href="/app/signup?plan=5f82f7965d26581dbc685eb840853fee-1">Sign me up!</a>
+                                                        <a class="btn-custom btn-price bc-btn-primary" href="{{ config('app.admin_url') }}/app/signup?plan=5f82f7965d26581dbc685eb840853fee-1">Sign me up!</a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -145,19 +145,19 @@
                                                         </div>
                                                         <div class="price-featutes-list-wrapper pad-10">
                                                             <ul class="price-featutes-list align-center">
-                                                                <li><img src="img/icons/price-check-icon.svg" class="price-check-icon">100 Domain</li>
-                                                                <li><img src="img/icons/price-check-icon.svg" class="price-not-icon">10000 Links</li>
-                                                                <li><img src="img/icons/price-check-icon.svg" class="price-check-icon">Response Headers</li>
-                                                                <li><img src="img/icons/price-check-icon.svg" class="price-not-icon">HTML Headers</li>
-                                                                <li><img src="img/icons/price-check-icon.svg" class="price-check-icon">Redirect chain</li>
-                                                                <li><img src="img/icons/price-check-icon.svg" class="price-not-icon">Manuel update</li>
-                                                                <li><img src="img/icons/price-check-icon.svg" class="price-check-icon">JS Status</li>
-                                                                <li><img src="img/icons/price-check-icon.svg" class="price-not-icon">Canonical check</li>
-                                                                <li><img src="img/icons/price-check-icon.svg" class="price-check-icon">Index Status</li>
+                                                                <li><img src="/img/icons/price-check-icon.svg" class="price-check-icon">100 Domain</li>
+                                                                <li><img src="/img/icons/price-check-icon.svg" class="price-not-icon">10000 Links</li>
+                                                                <li><img src="/img/icons/price-check-icon.svg" class="price-check-icon">Response Headers</li>
+                                                                <li><img src="/img/icons/price-check-icon.svg" class="price-not-icon">HTML Headers</li>
+                                                                <li><img src="/img/icons/price-check-icon.svg" class="price-check-icon">Redirect chain</li>
+                                                                <li><img src="/img/icons/price-check-icon.svg" class="price-not-icon">Manuel update</li>
+                                                                <li><img src="/img/icons/price-check-icon.svg" class="price-check-icon">JS Status</li>
+                                                                <li><img src="/img/icons/price-check-icon.svg" class="price-not-icon">Canonical check</li>
+                                                                <li><img src="/img/icons/price-check-icon.svg" class="price-check-icon">Index Status</li>
 
                                                             </ul>
                                                         </div>
-                                                        <a class="btn-custom btn-price bc-btn-primary" href="/app/signup?plan=d18d38a9ffb712cb6435b77dfda8ddbb-1">Sign me up!</a>
+                                                        <a class="btn-custom btn-price bc-btn-primary" href="{{ config('app.admin_url') }}/app/signup?plan=d18d38a9ffb712cb6435b77dfda8ddbb-1">Sign me up!</a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -183,19 +183,19 @@
                                                         </div>
                                                         <div class="price-featutes-list-wrapper pad-10">
                                                             <ul class="price-featutes-list align-center">
-                                                                <li><img src="img/icons/price-check-icon.svg" class="price-check-icon">1 Domain</li>
-                                                                <li><img src="img/icons/price-check-icon.svg" class="price-not-icon">25 Links</li>
-                                                                <li><img src="img/icons/price-check-icon.svg" class="price-check-icon">Response Headers</li>
-                                                                <li><img src="img/icons/price-check-icon.svg" class="price-not-icon">HTML Headers</li>
-                                                                <li class="opacity-md"><img src="img/icons/price-not-icon.svg" class="price-check-icon">Redirect chain</li>
-                                                                <li class="opacity-md"><img src="img/icons/price-not-icon.svg" class="price-not-icon">Manuel update</li>
-                                                                <li class="opacity-md"><img src="img/icons/price-not-icon.svg" class="price-check-icon">JS Status</li>
-                                                                <li class="opacity-md"><img src="img/icons/price-not-icon.svg" class="price-not-icon">Canonical check</li>
-                                                                <li class="opacity-md"><img src="img/icons/price-not-icon.svg" class="price-check-icon">Index Status</li>
+                                                                <li><img src="/img/icons/price-check-icon.svg" class="price-check-icon">1 Domain</li>
+                                                                <li><img src="/img/icons/price-check-icon.svg" class="price-not-icon">25 Links</li>
+                                                                <li><img src="/img/icons/price-check-icon.svg" class="price-check-icon">Response Headers</li>
+                                                                <li><img src="/img/icons/price-check-icon.svg" class="price-not-icon">HTML Headers</li>
+                                                                <li class="opacity-md"><img src="/img/icons/price-not-icon.svg" class="price-check-icon">Redirect chain</li>
+                                                                <li class="opacity-md"><img src="/img/icons/price-not-icon.svg" class="price-not-icon">Manuel update</li>
+                                                                <li class="opacity-md"><img src="/img/icons/price-not-icon.svg" class="price-check-icon">JS Status</li>
+                                                                <li class="opacity-md"><img src="/img/icons/price-not-icon.svg" class="price-not-icon">Canonical check</li>
+                                                                <li class="opacity-md"><img src="/img/icons/price-not-icon.svg" class="price-check-icon">Index Status</li>
 
                                                             </ul>
                                                         </div>
-                                                        <a class="btn-custom btn-price bc-btn-primary" href="/app/signup?plan=ae6379ade7fc410284499a3afceb91a8-1">Sign up for free</a>
+                                                        <a class="btn-custom btn-price bc-btn-primary" href="{{ config('app.admin_url') }}/app/signup?plan=ae6379ade7fc410284499a3afceb91a8-1">Sign up for free</a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -211,19 +211,19 @@
                                                         </div>
                                                         <div class="price-featutes-list-wrapper pad-10">
                                                             <ul class="price-featutes-list align-center">
-                                                                <li><img src="img/icons/price-check-icon.svg" class="price-check-icon">1 Domain</li>
-                                                                <li><img src="img/icons/price-check-icon.svg" class="price-not-icon">100 Links</li>
-                                                                <li><img src="img/icons/price-check-icon.svg" class="price-check-icon">Response Headers</li>
-                                                                <li><img src="img/icons/price-check-icon.svg" class="price-not-icon">HTML Headers</li>
-                                                                <li class="opacity-md"><img src="img/icons/price-not-icon.svg" class="price-check-icon">Redirect chain</li>
-                                                                <li class="opacity-md"><img src="img/icons/price-not-icon.svg" class="price-not-icon">Manuel update</li>
-                                                                <li class="opacity-md"><img src="img/icons/price-not-icon.svg" class="price-check-icon">JS Status</li>
-                                                                <li class="opacity-md"><img src="img/icons/price-not-icon.svg" class="price-not-icon">Canonical check</li>
-                                                                <li class="opacity-md"><img src="img/icons/price-not-icon.svg" class="price-check-icon">Index Status</li>
+                                                                <li><img src="/img/icons/price-check-icon.svg" class="price-check-icon">1 Domain</li>
+                                                                <li><img src="/img/icons/price-check-icon.svg" class="price-not-icon">100 Links</li>
+                                                                <li><img src="/img/icons/price-check-icon.svg" class="price-check-icon">Response Headers</li>
+                                                                <li><img src="/img/icons/price-check-icon.svg" class="price-not-icon">HTML Headers</li>
+                                                                <li class="opacity-md"><img src="/img/icons/price-not-icon.svg" class="price-check-icon">Redirect chain</li>
+                                                                <li class="opacity-md"><img src="/img/icons/price-not-icon.svg" class="price-not-icon">Manuel update</li>
+                                                                <li class="opacity-md"><img src="/img/icons/price-not-icon.svg" class="price-check-icon">JS Status</li>
+                                                                <li class="opacity-md"><img src="/img/icons/price-not-icon.svg" class="price-not-icon">Canonical check</li>
+                                                                <li class="opacity-md"><img src="/img/icons/price-not-icon.svg" class="price-check-icon">Index Status</li>
 
                                                             </ul>
                                                         </div>
-                                                        <a class="btn-custom btn-price bc-btn-primary" href="/app/signup?plan=d425b8d61a9ef3a86d89217db6a5d964dh1-2">Sign me up!</a>
+                                                        <a class="btn-custom btn-price bc-btn-primary" href="{{ config('app.admin_url') }}/app/signup?plan=d425b8d61a9ef3a86d89217db6a5d964dh1-2">Sign me up!</a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -240,19 +240,19 @@
                                                         </div>
                                                         <div class="price-featutes-list-wrapper pad-10">
                                                             <ul class="price-featutes-list align-center">
-                                                                <li><img src="img/icons/price-check-icon.svg" class="price-check-icon">15 Domain</li>
-                                                                <li><img src="img/icons/price-check-icon.svg" class="price-not-icon">1000 Links</li>
-                                                                <li><img src="img/icons/price-check-icon.svg" class="price-check-icon">Response Headers</li>
-                                                                <li><img src="img/icons/price-check-icon.svg" class="price-not-icon">HTML Headers</li>
-                                                                <li><img src="img/icons/price-check-icon.svg" class="price-check-icon">Redirect chain</li>
-                                                                <li><img src="img/icons/price-check-icon.svg" class="price-not-icon">Manuel update</li>
-                                                                <li><img src="img/icons/price-check-icon.svg" class="price-check-icon">JS Status</li>
-                                                                <li><img src="img/icons/price-check-icon.svg" class="price-not-icon">Canonical check</li>
-                                                                <li><img src="img/icons/price-check-icon.svg" class="price-check-icon">Index Status</li>
+                                                                <li><img src="/img/icons/price-check-icon.svg" class="price-check-icon">15 Domain</li>
+                                                                <li><img src="/img/icons/price-check-icon.svg" class="price-not-icon">1000 Links</li>
+                                                                <li><img src="/img/icons/price-check-icon.svg" class="price-check-icon">Response Headers</li>
+                                                                <li><img src="/img/icons/price-check-icon.svg" class="price-not-icon">HTML Headers</li>
+                                                                <li><img src="/img/icons/price-check-icon.svg" class="price-check-icon">Redirect chain</li>
+                                                                <li><img src="/img/icons/price-check-icon.svg" class="price-not-icon">Manuel update</li>
+                                                                <li><img src="/img/icons/price-check-icon.svg" class="price-check-icon">JS Status</li>
+                                                                <li><img src="/img/icons/price-check-icon.svg" class="price-not-icon">Canonical check</li>
+                                                                <li><img src="/img/icons/price-check-icon.svg" class="price-check-icon">Index Status</li>
 
                                                             </ul>
                                                         </div>
-                                                        <a class="btn-custom btn-price bc-btn-primary" href="/app/signup?plan=5f82f7965d26581dbc685eb840853fee-2">Sign me up!</a>
+                                                        <a class="btn-custom btn-price bc-btn-primary" href="{{ config('app.admin_url') }}/app/signup?plan=5f82f7965d26581dbc685eb840853fee-2">Sign me up!</a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -269,19 +269,19 @@
                                                         </div>
                                                         <div class="price-featutes-list-wrapper pad-10">
                                                             <ul class="price-featutes-list align-center">
-                                                                <li><img src="img/icons/price-check-icon.svg" class="price-check-icon">100 Domain</li>
-                                                                <li><img src="img/icons/price-check-icon.svg" class="price-not-icon">10000 Links</li>
-                                                                <li><img src="img/icons/price-check-icon.svg" class="price-check-icon">Response Headers</li>
-                                                                <li><img src="img/icons/price-check-icon.svg" class="price-not-icon">HTML Headers</li>
-                                                                <li><img src="img/icons/price-check-icon.svg" class="price-check-icon">Redirect chain</li>
-                                                                <li><img src="img/icons/price-check-icon.svg" class="price-not-icon">Manuel update</li>
-                                                                <li><img src="img/icons/price-check-icon.svg" class="price-check-icon">JS Status</li>
-                                                                <li><img src="img/icons/price-check-icon.svg" class="price-not-icon">Canonical check</li>
-                                                                <li><img src="img/icons/price-check-icon.svg" class="price-check-icon">Index Status</li>
+                                                                <li><img src="/img/icons/price-check-icon.svg" class="price-check-icon">100 Domain</li>
+                                                                <li><img src="/img/icons/price-check-icon.svg" class="price-not-icon">10000 Links</li>
+                                                                <li><img src="/img/icons/price-check-icon.svg" class="price-check-icon">Response Headers</li>
+                                                                <li><img src="/img/icons/price-check-icon.svg" class="price-not-icon">HTML Headers</li>
+                                                                <li><img src="/img/icons/price-check-icon.svg" class="price-check-icon">Redirect chain</li>
+                                                                <li><img src="/img/icons/price-check-icon.svg" class="price-not-icon">Manuel update</li>
+                                                                <li><img src="/img/icons/price-check-icon.svg" class="price-check-icon">JS Status</li>
+                                                                <li><img src="/img/icons/price-check-icon.svg" class="price-not-icon">Canonical check</li>
+                                                                <li><img src="/img/icons/price-check-icon.svg" class="price-check-icon">Index Status</li>
 
                                                             </ul>
                                                         </div>
-                                                        <a class="btn-custom btn-price bc-btn-primary" href="/app/signup?plan=d18d38a9ffb712cb6435b77dfda8ddbb-2">Sign me up!</a>
+                                                        <a class="btn-custom btn-price bc-btn-primary" href="{{ config('app.admin_url') }}/app/signup?plan=d18d38a9ffb712cb6435b77dfda8ddbb-2">Sign me up!</a>
                                                     </div>
                                                 </div>
                                             </div>
