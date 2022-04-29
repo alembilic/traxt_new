@@ -29,7 +29,7 @@ class DomainApiController extends BaseApiController
      */
     public function importBackLinks(Domain $domain, Request $request): Response
     {
-        dispatch_sync(new ParseBacklinksJob($domain, $request->get('links', []), $this->user));
+        dispatch(new ParseBacklinksJob($domain, $request->get('links', []), $this->user));
 
         return response()->noContent();
     }

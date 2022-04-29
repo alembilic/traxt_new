@@ -29,7 +29,7 @@ class ParseBacklinksJob extends BaseJob implements ShouldBeUniqueUntilProcessing
 
     private int $domainId;
     private int $userId;
-    private array $linksFilter = [];
+    private array $linksFilter;
 
     /**
      * CheckOrderJob constructor.

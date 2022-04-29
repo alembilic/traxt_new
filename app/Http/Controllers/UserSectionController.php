@@ -154,6 +154,7 @@ class UserSectionController extends BaseWebController
             'page' => $page,
             'of' => $countPages,
             'search' => $filter->search,
+            'linksCount' => $repository->count([BackLink::CREATED_BY => $this->user->getId()]),
         ]);
     }
 
