@@ -17,10 +17,6 @@ class RatingApiController extends BaseApiController
     {
         $contactId = $request->get('contactId');
 
-        //make route for rating api
-
-        // make get reviews for contact and save rating
-
         $ratings = collect($this->entityManager->getRepository(Rating::class)->findBy([
             Rating::CONTACT => $contactId
         ]));
@@ -36,6 +32,8 @@ class RatingApiController extends BaseApiController
      */
     public function createOrUpdate(SaveRatingRequest $request): JsonResponse
     {
+        $jsonResponse = JsonResponse::HTTP_CREATED;
+
         $rating = collect($this->entityManager->getRepository(Rating::class)->findBy([
             Rating::CONTACT => $request->contactId,
             Rating::USER => $this->user
@@ -48,12 +46,12 @@ class RatingApiController extends BaseApiController
         else{
             $rating->setRatingValue($request->value); 
             $rating->setComment($request->comment); 
-            return $this->item($rating)->setStatusCode(JsonResponse::HTTP_NO_CONTENT);
+            $jsonResponse = JsonResponse::HTTP_NO_CONTENT;
         }
         $this->entityManager->persist($rating);
         $this->entityManager->flush();
 
-        return $this->item($rating)->setStatusCode(JsonResponse::HTTP_CREATED);
+        return $this->item($rating)->setStatusCode($jsonResponse);
     }
 
 }
