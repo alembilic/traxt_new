@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Entities\Contact;
 use App\Entities\Rating;
+use App\Http\Requests\SaveRatingRequest;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -25,4 +26,34 @@ class RatingApiController extends BaseApiController
         ]));
         return $this->collection($ratings);
     }
+
+    /**
+     * Create rating.
+     *
+     * @param Rating $rating Rating
+     *
+     * @return JsonResponse
+     */
+    public function createOrUpdate(SaveRatingRequest $request): JsonResponse
+    {
+        $rating = collect($this->entityManager->getRepository(Rating::class)->findBy([
+            Rating::CONTACT => $request->contactId,
+            Rating::USER => $this->user
+        ]))->first();
+
+        if(!$rating){
+            $contact = $this->entityManager->getRepository(Contact::class)->find($request->contactId);
+            $rating = new Rating($request->value, $request->comment, $this->user, $contact);
+        }
+        else{
+            $rating->setRatingValue($request->value); 
+            $rating->setComment($request->comment); 
+            return $this->item($rating)->setStatusCode(JsonResponse::HTTP_NO_CONTENT);
+        }
+        $this->entityManager->persist($rating);
+        $this->entityManager->flush();
+
+        return $this->item($rating)->setStatusCode(JsonResponse::HTTP_CREATED);
+    }
+
 }

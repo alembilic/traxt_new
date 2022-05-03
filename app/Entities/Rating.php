@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Rating
 {
     public const CONTACT = 'contact';
-
+    public const USER = 'user';
     /**
      * @var int
      *
@@ -72,6 +72,20 @@ class Rating
     private $user;
 
     /**
+     * @param int $value value
+     * @param string $comment comment
+     * @param User $user user
+     * @param Contact $contact contact
+     */
+    public function __construct(int $value, string $comment, User $user, Contact $contact)
+    {
+        $this->value = $value;
+        $this->comment = $comment;
+        $this->user = $user;
+        $this->contact = $contact;
+    }
+
+    /**
      * @return int
      */
     public function getId(): int
@@ -94,4 +108,20 @@ class Rating
     {
         return $this->comment;
     }    
+
+    /**
+     * @param int $value
+     */
+    public function setRatingValue(int $value): void
+    {
+        $this->value = $value;
+    }    
+
+    /**
+     * @param string $comment
+     */
+    public function setComment(string $comment): void
+    {
+        $this->comment = $comment;
+    }       
 }

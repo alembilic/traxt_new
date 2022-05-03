@@ -39,5 +39,6 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::post('backLinks/source', BackLinkSourceApiController::class . '@store');
     Route::put('backLinks/syncPrices', BackLinkSourceApiController::class . '@syncPrices');
     Route::get('rating', RatingApiController::class . '@getRatings');
+    Route::post('rating/create', RatingApiController::class . '@createOrUpdate');
 });
 Route::any('webhook/{type}', WebhookApiController::class . '@handle');
