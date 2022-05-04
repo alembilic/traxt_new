@@ -34,6 +34,10 @@ var routes = {
     updateBacklinkPrices: {
         method: 'put',
         url: '/backLinks/syncPrices'
+    },
+    rating: {
+        method: 'get',
+        url: '/rating?contactId={contactId}'
     }
 };
 

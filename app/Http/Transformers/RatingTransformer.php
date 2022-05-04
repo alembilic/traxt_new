@@ -20,6 +20,8 @@ class RatingTransformer extends TransformerAbstract
             'id' => $rating->getId(),
             'value' => $rating->getValue(),
             'comment' => $rating->getComment(),
+            'name' => $rating->getName(),
+            'created' => $rating->getCreated()
         ];
     }
 }

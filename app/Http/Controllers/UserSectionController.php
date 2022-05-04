@@ -165,10 +165,11 @@ class UserSectionController extends BaseWebController
     */
     public function contacts(Request $request): View
     {
-        // SELECT * FROM `contacts` where find_in_set('rohdes.net',domains);  
+
+        // TODO fix: SELECT * FROM `contacts` where find_in_set('rohdes.net',domains);  
+        
         $search = $request->get('search');
         $repository = $this->getRepository(Contact::class);
-        //$query = $repository->createQueryBuilder("c");
         $criteria = Criteria::create();
 
         if ($search) {
@@ -176,13 +177,9 @@ class UserSectionController extends BaseWebController
             $criteria->where(Criteria::expr()->eq(Contact::EMAIL, $search));
             // search for domains
             $criteria->orWhere(Criteria::expr()->contains(Contact::DOMAINS, $search));
-    
-            //$query->Where($query->expr()->eq('c.'.Contact::EMAIL, ':email'));
-            //$query->setParameter('email', $search);
         }
 
         $contacts = collect($repository->matching($criteria));
-        //$contacts = $query->getQuery()->execute();
 
         return view('app.contacts', [
             'contacts' => $contacts,

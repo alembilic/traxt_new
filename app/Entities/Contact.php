@@ -53,6 +53,11 @@ class Contact
     private $domains;
 
     /**
+     * @ORM\OneToMany(targetEntity="Rating", mappedBy="contact", cascade={"persist", "remove"})
+     **/
+    private $ratings;
+
+    /**
      * @var \DateTime|null
      *
      * @ORM\Column(name="created_at", type="datetime", nullable=true)
@@ -65,6 +70,10 @@ class Contact
      * @ORM\Column(name="updated_at", type="datetime", nullable=true)
      */
     private $updatedAt;
+
+    public function __construct() {
+        $this->ratings = new ArrayCollection();
+    }
 
     /**
     * @return string
@@ -97,6 +106,23 @@ class Contact
     {
         return $this->firstname . " " . $this->lastname;
     }    
+
+     /**
+     * @return float
+     */
+    public function getRating(): float
+    {
+        if(count($this->ratings)==0){
+            return 0;
+        }
+
+        $total = 0;
+        foreach ($this->ratings as $rating) {
+            $total += $rating->getValue();
+        }
+
+        return round(($total/count($this->ratings))*2)/2;
+    }
 
     /**
      * @return string

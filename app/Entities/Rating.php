@@ -3,6 +3,7 @@
 namespace App\Entities;
 
 use Doctrine\ORM\Mapping as ORM;
+use DateTime;
 
 /**
  * Ratings
@@ -54,7 +55,7 @@ class Rating
     /**
      * @var \Contacts
      *
-     * @ORM\ManyToOne(targetEntity="Contact")
+     * @ORM\ManyToOne(targetEntity="Contact", inversedBy="ratings", cascade={"persist"})
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="contact_id", referencedColumnName="id")
      * })
@@ -110,6 +111,24 @@ class Rating
     }    
 
     /**
+     * @return string
+     */
+    public function getName(): string
+    {
+        return $this->user->getFirstname() . " " . $this->user->getLastname();
+    }
+
+    /**
+     * @return string
+     */
+    public function getCreated(): string
+    {
+        $now = new DateTime();
+        $days = $this->dateDiffInDays($this->createdAt, $now);
+        return $days;
+    }
+
+    /**
      * @param int $value
      */
     public function setRatingValue(int $value): void
@@ -124,4 +143,13 @@ class Rating
     {
         $this->comment = $comment;
     }       
+
+    // Function to find the difference 
+    // between two dates.
+    private function dateDiffInDays($date1, $date2) 
+    {
+        $abs_diff = $date1->diff($date2)->format("%a"); //3
+
+        return $abs_diff;
+    }
 }
