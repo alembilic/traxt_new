@@ -53,7 +53,7 @@
                 <p class="mb-0 secondary-color mb-2 font-12 text-start"><span class="pe-2">${rating.name}</span><span>${rating.created} days ago</span></p>
                 <p class="review-text pb-1 mb-2 black-color-85 text-start font-14">${rating.comment}</p>
                 <div class="star-bg">
-                    <span class="star-rating" style="width: 100%;"></span>
+                    <span class="star-rating" style="width: ${rating.percent}%;"></span>
                 </div>
             </div>
         `;

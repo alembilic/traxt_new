@@ -103,6 +103,14 @@ class Rating
     }
 
     /**
+     * @return int
+     */
+    public function getValueAsPercent(): int
+    {
+        return $this->value * 100 / 5;
+    }    
+
+    /**
      * @return string
      */
     public function getComment(): string

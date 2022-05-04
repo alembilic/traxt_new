@@ -21,6 +21,7 @@ class RatingTransformer extends TransformerAbstract
             'value' => $rating->getValue(),
             'comment' => $rating->getComment(),
             'name' => $rating->getName(),
+            'percent' => $rating->getValueAsPercent(),
             'created' => $rating->getCreated()
         ];
     }
