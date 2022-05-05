@@ -7,6 +7,56 @@
                     <div>
                         <div class="testimonial-grid-item-wrapper">
                             <div class="testimonial-grid-item">
+                                <img src="/img/testimonial1.jpg" alt="" title="" class="author-img">
+                                <p class="fw-700 testimonial-grid-title">
+                                    Sten Løck
+                                </p>
+                                <h6 class="testimonial-grid-subtitle">
+                                    CEO at <a href="https://www.writenow.dk/">WriteNow.dk</a>
+                                </h6>
+                                <div class="testimonials-stars">
+                                    <span class="fa fa-star checked"></span>
+                                    <span class="fa fa-star checked"></span>
+                                    <span class="fa fa-star checked"></span>
+                                    <span class="fa fa-star checked"></span>
+                                    <span class="fa fa-star checked"></span>
+                                    <span class="fa fa-star checked"></span>
+                                </div>
+                                <img src="/img/homepage-testimonials-quote.svg" alt="" title="" class="testimonial-grid-quote-icon align-center">
+                                <p class="testimonial-grid-description">
+                                    Traxr gives a great overview to manage my backlinks. The CRM features make it easy to align my backlinks to the output my business is getting. I would recommend this to anyone who is serious about having a backlinks CRM system</p>
+                                <img src="/img/testimonials-light-blue.svg" alt="" title="" class="testimonials-grid-shappe">
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="testimonial-grid-item-wrapper">
+                            <div class="testimonial-grid-item">
+                                <img src="/img/testimonial2.jpg" alt="" title="" class="author-img">
+                                <p class="fw-700 testimonial-grid-title">
+                                    Alexander Hellowell
+                                </p>
+                                <h6 class="testimonial-grid-subtitle">
+                                    CEO & Co-founder at <a href="https://relusolutions.com">Relusolutions.com</a> & <a href="https://dedi.app">dedi.app</a>
+                                </h6>
+                                <div class="testimonials-stars">
+                                    <span class="fa fa-star checked"></span>
+                                    <span class="fa fa-star checked"></span>
+                                    <span class="fa fa-star checked"></span>
+                                    <span class="fa fa-star checked"></span>
+                                    <span class="fa fa-star checked"></span>
+                                    <span class="fa fa-star checked"></span>
+                                </div>
+                                <img src="/img/homepage-testimonials-quote.svg" alt="" title="" class="testimonial-grid-quote-icon align-center">
+                                <p class="testimonial-grid-description">
+                                    Best link tracking service for SEO and link building. Traxr really helped get an overview of how well our link building performs continuously over time, with the dashboards and KPIs available we are able to see all the data and analytics we need. Traxr has enabled us to keep track of the links and articles we purchase, meaning we can follow up on sites that delete our content and links earlier than agreed or makes changes to the link type over time. It’s super cool! I can highly recommend it if you want to improve your online search engine performance and visibility.</p>
+                                <img src="/img/testimonials-light-blue.svg" alt="" title="" class="testimonials-grid-shappe">
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="testimonial-grid-item-wrapper">
+                            <div class="testimonial-grid-item">
                                 <img src="/img/miklas-kroager.jpg" alt="" title="" class="author-img">
                                 <p class="fw-700 testimonial-grid-title">
                                     Miklas Kroager
@@ -85,8 +135,6 @@
                             </div>
                         </div>
                     </div>
-
-
                 </div>
                 <div class="shadow-edge"></div>
                 <div class="shadow-start"></div>
