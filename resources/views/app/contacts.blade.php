@@ -79,6 +79,11 @@
             comment = $("#comment").val();
             contactId = $("#contactId").val();
 
+            if(!comment || !rating){
+                new swal('', 'Please give a rating and write a review', 'warning');
+                return;
+            }
+
             Api.makeRequest('createRating', {
                 data: {value: rating, comment: comment, contactId: contactId},
                 success: function () {

@@ -40,6 +40,7 @@ use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
 use Psr\SimpleCache\InvalidArgumentException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use PDO;
 
 class UserSectionController extends BaseWebController
 {
@@ -165,10 +166,10 @@ class UserSectionController extends BaseWebController
     */
     public function contacts(Request $request): View
     {
-
         // TODO fix: SELECT * FROM `contacts` where find_in_set('rohdes.net',domains);  
         
         $search = $request->get('search');
+        
         $repository = $this->getRepository(Contact::class);
         $criteria = Criteria::create();
 
