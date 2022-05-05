@@ -84,6 +84,8 @@ class Rating
         $this->comment = $comment;
         $this->user = $user;
         $this->contact = $contact;
+        $this->createdAt = new DateTime();
+        $this->updatedAt = new DateTime();
     }
 
     /**
@@ -150,7 +152,15 @@ class Rating
     public function setComment(string $comment): void
     {
         $this->comment = $comment;
-    }       
+    }   
+    
+    /**
+     * @param DateTime $updatedAt
+     */
+    public function setUpdatedAt(DateTime $updatedAt): void
+    {
+        $this->updatedAt = $updatedAt;
+    }         
 
     // Function to find the difference 
     // between two dates.

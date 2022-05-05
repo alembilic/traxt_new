@@ -73,6 +73,20 @@
             }, {contactId: contactId});
         }
 
+        const saveRating = () => {
+
+            rating = $("input[name='rating']:checked").val();
+            comment = $("#comment").val();
+            contactId = $("#contactId").val();
+
+            Api.makeRequest('createRating', {
+                data: {value: rating, comment: comment, contactId: contactId},
+                success: function () {
+                    new swal('', 'Rating saved', 'success');
+                }
+            }, {});
+        }
+
         const showModal = (ratings, contactId) => {
             var form = document.createElement("div");
             form.innerHTML = `
@@ -109,7 +123,7 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-primary">Add Review</button>
+                            <button type="button" class="btn btn-primary" onclick="saveRating()">Add Review</button>
                         </div>
                     </div>
                 `;

@@ -19,7 +19,7 @@ class RatingApiController extends BaseApiController
 
         $ratings = collect($this->entityManager->getRepository(Rating::class)->findBy([
             Rating::CONTACT => $contactId
-        ]));
+        ],array('createdAt' => 'DESC')));
         return $this->collection($ratings);
     }
 
