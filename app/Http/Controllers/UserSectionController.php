@@ -40,7 +40,6 @@ use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
 use Psr\SimpleCache\InvalidArgumentException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use PDO;
 
 class UserSectionController extends BaseWebController
 {
