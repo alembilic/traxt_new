@@ -26,7 +26,7 @@
                 </div>
                 <div class="col-md-6 image-element padding-sm-mob">
                     <div class="img-wrap">
-                        <img src="img/vectors/features-vector-1.svg" alt="" title="" class="w-100">
+                        <img src="/img/vectors/features-vector-1.svg" alt="" title="" class="w-100">
                     </div>
                 </div>
             </div>
@@ -38,7 +38,7 @@
             <div class="row align-items-center pad-top-6 pad-bot-6 padding-lg-mob">
                 <div class="col-md-6 image-element padding-sm-mob">
                     <div class="img-wrap">
-                        <img src="img/vectors/features-vector-2.svg" alt="" title="" class="w-100">
+                        <img src="/img/vectors/features-vector-2.svg" alt="" title="" class="w-100">
                     </div>
                 </div>
                 <div class="col-md-6">
@@ -74,7 +74,7 @@
                 </div>
                 <div class="col-md-6 image-element padding-sm-mob">
                     <div class="img-wrap">
-                        <img src="img/vectors/features-vector-3.svg" alt="" title="" class="w-100">
+                        <img src="/img/vectors/features-vector-3.svg" alt="" title="" class="w-100">
                     </div>
                 </div>
             </div>
@@ -84,10 +84,10 @@
     <section class="">
         <div class="container">
             <div class="row align-items-center pad-top-6 pad-bot-3 padding-lg-mob">
-                <img src="img/shapes/left-light-blue.svg" alt="" title="" class="home-shape-left">
+                <img src="/img/shapes/left-light-blue.svg" alt="" title="" class="home-shape-left">
                 <div class="col-md-12">
                     <div class="text-content">
-                        <img src="img/shapes/right-small-blue.svg" alt="" title="" class="home-shape-right">
+                        <img src="/img/shapes/right-small-blue.svg" alt="" title="" class="home-shape-right">
                         <h2 class="pt-2 align-center">The only tool you will ever need to Monitor your Links</h2>
                         <p class="pt-3 align-center text-md-light text-cen-wid-70">
                             <span class="fw-700">Traxr is an all in one solution to monitor the status and value of your links. Just look at these features</span></p>
@@ -103,7 +103,7 @@
                 <div class="col-md-4 padding-sm-mob">
                     <div class="features-box-2 pad-10">
                         <div class="text-content">
-                            <img src="img/icons/features-icon-1.svg" alt="" title="" class="feature-icon">
+                            <img src="/img/icons/features-icon-1.svg" alt="" title="" class="feature-icon">
                             <h3 class="pt-2 align-left">Index Status</h3>
                             <p class="pt-3 align-left ">
                                 Each url linking to your site is checked to see if its indexed in Google.
@@ -120,7 +120,7 @@
                 <div class="col-md-4 padding-sm-mob">
                     <div class="features-box-2 pad-10">
                         <div class="text-content">
-                            <img src="img/icons/features-icon-2.svg" alt="" title="" class="feature-icon">
+                            <img src="/img/icons/features-icon-2.svg" alt="" title="" class="feature-icon">
                             <h3 class="pt-2 align-left">Canonical Check</h3>
                             <p class="pt-3 align-left ">
                                 We make sure you know if the URL points to a different location than where you get your link from.
@@ -137,7 +137,7 @@
                 <div class="col-md-4 padding-sm-mob">
                     <div class="features-box-2 pad-10">
                         <div class="text-content">
-                            <img src="img/icons/features-icon-3.svg" alt="" title="" class="feature-icon">
+                            <img src="/img/icons/features-icon-3.svg" alt="" title="" class="feature-icon">
                             <h3 class="pt-2 align-left">Client Rendering</h3>
                             <p class="pt-3 align-left ">
                                 We monitor if a site is rendered on the client side i.e. JavaScript
@@ -154,7 +154,7 @@
                 <div class="col-md-4 padding-sm-mob">
                     <div class="features-box-2 pad-10">
                         <div class="text-content">
-                            <img src="img/icons/features-icon-4.svg" alt="" title="" class="feature-icon">
+                            <img src="/img/icons/features-icon-4.svg" alt="" title="" class="feature-icon">
                             <h3 class="pt-2 align-left">Endpoint Check</h3>
                             <p class="pt-3 align-left ">
                                 We follow any 3xx redirects and show you the chain and endpoint.
@@ -171,7 +171,7 @@
                 <div class="col-md-4 padding-sm-mob">
                     <div class="features-box-2 pad-10">
                         <div class="text-content">
-                            <img src="img/icons/features-icon-5.svg" alt="" title="" class="feature-icon">
+                            <img src="/img/icons/features-icon-5.svg" alt="" title="" class="feature-icon">
                             <h3 class="pt-2 align-left">HTML Headers</h3>
                             <p class="pt-3 align-left ">
                                 Monitors changes in HTML headers like nofollow, noindex, ugc and sponsored
@@ -188,7 +188,7 @@
                 <div class="col-md-4 padding-sm-mob">
                     <div class="features-box-2 pad-10">
                         <div class="text-content">
-                            <img src="img/icons/features-icon-6.svg" alt="" title="" class="feature-icon">
+                            <img src="/img/icons/features-icon-6.svg" alt="" title="" class="feature-icon">
                             <h3 class="pt-2 align-left">Response Headers</h3>
                             <p class="pt-3 align-left ">
                                 As with HTML headers, which are visible in the to you, the Response headers are not.
@@ -205,7 +205,7 @@
                 <div class="col-md-4 padding-sm-mob">
                     <div class="features-box-3 pad-10">
                         <div class="text-content">
-                            <img src="img/icons/features-icon-7.svg" alt="" title="" class="feature-icon">
+                            <img src="/img/icons/features-icon-7.svg" alt="" title="" class="feature-icon">
                             <h3 class="pt-2 align-left">Manual update</h3>
                             <p class="pt-3 align-left ">
                                 We made it easy for you to update link status at any time you want
@@ -216,7 +216,7 @@
                 <div class="col-md-4 padding-sm-mob">
                     <div class="features-box-3 pad-10">
                         <div class="text-content">
-                            <img src="img/icons/features-icon-8.svg" alt="" title="" class="feature-icon">
+                            <img src="/img/icons/features-icon-8.svg" alt="" title="" class="feature-icon">
                             <h3 class="pt-2 align-left">Anchor text changes</h3>
                             <p class="pt-3 align-left ">
                                 We monitor if the anchor text is changed for your link
@@ -227,7 +227,7 @@
                 <div class="col-md-4 padding-sm-mob">
                     <div class="features-box-3 pad-10">
                         <div class="text-content">
-                            <img src="img/icons/features-icon-9.svg" alt="" title="" class="feature-icon">
+                            <img src="/img/icons/features-icon-9.svg" alt="" title="" class="feature-icon">
                             <h3 class="pt-2 align-left">Number of domains & Links</h3>
                             <p class="pt-3 align-left ">
                                 You can monitor multiple domains and links in the same package.

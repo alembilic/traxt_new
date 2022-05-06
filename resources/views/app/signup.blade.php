@@ -113,7 +113,7 @@
                             <p>{{ $error }}</p>
                         @endforeach
                     </div>
-                    <form action="/app/signup" method="post" id="myForm" class="sign-up-form">
+                    <form action="/app/signup.php" method="post" id="myForm" class="sign-up-form">
                         @csrf
                         <input type="hidden" name="username" placeholder="Username" value="{{ $formData['username'] ?? '' }}"/>
                         <input type="text" name="firstname" placeholder="First Name" value="{{ $formData['firstname'] ?? '' }}" required/>

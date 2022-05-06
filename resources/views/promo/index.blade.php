@@ -13,7 +13,7 @@
                 </div>
                 <div class="col-md-6 image-element padding-sm-mob">
                     <div class="img-wrap">
-                        <img src="img/vectors/homepage-vector-hero.svg" alt="" title="" class="w-100">
+                        <img src="/img/vectors/homepage-vector-hero.svg" alt="" title="" class="w-100">
                     </div>
                 </div>
             </div>
@@ -46,10 +46,10 @@
     <section class="">
         <div class="container">
             <div class="row align-items-center pad-top-3 pad-bot-6 padding-lg-mob">
-                <img src="img/shapes/left-light-blue.svg" alt="" title="" class="home-shape-left">
+                <img src="/img/shapes/left-light-blue.svg" alt="" title="" class="home-shape-left">
                 <div class="col-md-12">
                     <div class="text-content">
-                        <img src="img/shapes/right-small-blue.svg" alt="" title="" class="home-shape-right">
+                        <img src="/img/shapes/right-small-blue.svg" alt="" title="" class="home-shape-right">
                         <h2 class="pt-2 align-center">Traxr is different!</h2>
                         <p class="pt-3 align-center text-md-light text-cen-wid-70">
                             <span class="fw-700">With Traxr you don’t get more than you need.</span> We have built it to monitor your links with surgical precision to a very affordable price. We don’t believe in huge systems that tries to do everything. <span class="fw-700">We believe in building specific functionality to solve specific problems with as low cost as possible for the user.</span></p>
@@ -65,7 +65,7 @@
                 <div class="col-md-4 padding-sm-mob">
                     <div class="features-box pad-10">
                         <div class="text-content">
-                            <img src="img/icons/homepage-icon-1.svg" alt="" title="" class="feature-icon">
+                            <img src="/img/icons/homepage-icon-1.svg" alt="" title="" class="feature-icon">
                             <h3 class="pt-2 align-left">Link Monitoring 24/7</h3>
                             <p class="pt-3 align-left ">
                                 Once your link is added you will get instant updates if they change or if anything is wrong with your link. Including
@@ -82,7 +82,7 @@
                 <div class="col-md-4 padding-sm-mob">
                     <div class="features-box pad-10">
                         <div class="text-content">
-                            <img src="img/icons/homepage-icon-2.svg" alt="" title="" class="feature-icon">
+                            <img src="/img/icons/homepage-icon-2.svg" alt="" title="" class="feature-icon">
                             <h3 class="pt-2 align-left">Index Status</h3>
                             <p class="pt-3 align-left ">
                                 Get the status of your links in Google Serps. Find out if the links has any value to you and fix it easily.
@@ -99,7 +99,7 @@
                 <div class="col-md-4 padding-sm-mob">
                     <div class="features-box pad-10">
                         <div class="text-content">
-                            <img src="img/icons/homepage-icon-3.svg" alt="" title="" class="feature-icon">
+                            <img src="/img/icons/homepage-icon-3.svg" alt="" title="" class="feature-icon">
                             <h3 class="pt-2 align-left">Best pricing in the World</h3>
                             <p class="pt-3 align-left ">
                                 We believe in giving you the best ROI on your link building campaigns. This is why, our plans start at only 1USD
@@ -138,7 +138,7 @@
                 </div>
                 <div class="col-md-6 image-element padding-sm-mob">
                     <div class="img-wrap">
-                        <img src="img/vectors/homepage-vector-1.svg" alt="" title="" class="w-100">
+                        <img src="/img/vectors/homepage-vector-1.svg" alt="" title="" class="w-100">
                     </div>
                 </div>
             </div>
@@ -150,7 +150,7 @@
             <div class="row align-items-center pad-top-6 pad-bot-6 padding-lg-mob">
                 <div class="col-md-6 image-element padding-sm-mob">
                     <div class="img-wrap">
-                        <img src="img/vectors/homepage-vector-2.svg" alt="" title="" class="w-100">
+                        <img src="/img/vectors/homepage-vector-2.svg" alt="" title="" class="w-100">
                     </div>
                 </div>
                 <div class="col-md-6">

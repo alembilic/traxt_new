@@ -18,7 +18,7 @@
             <div class="row align-items-center pad-top-6 pad-bot-6 padding-lg-mob">
                 <div class="col-md-12 pad-bot-6 padding-lg-mob">
                     <div class="text-content">
-                        <img src="img/shapes/right-small-blue.svg" alt="" title="" class="home-shape-right">
+                        <img src="/img/shapes/right-small-blue.svg" alt="" title="" class="home-shape-right">
                         <h1 class="pt-2 align-center">Traxr vs SE Ranking</h1>
                         <p class="pt-2 align-center text-md-light">
                             <span class="fw-700">Even though SE Ranking is more a Rank tracker it has some features to monitor your backlinks</span></p>
@@ -28,9 +28,9 @@
                 </div>
 
                 <div class="col-md-6 image-element padding-sm-mob pad-6 bc-dark-blue align-center traxr-box">
-                    <img src="img/icons/best-choice.svg" alt="" title="" class="best-choice">
+                    <img src="/img/icons/best-choice.svg" alt="" title="" class="best-choice">
                     <div class="traxr-box-inner">
-                        <img src="img/traxr-logo-light.svg" alt="" title="" class="pad-bot-8 traxr-box-logo padding-sm-mob">
+                        <img src="/img/traxr-logo-light.svg" alt="" title="" class="pad-bot-8 traxr-box-logo padding-sm-mob">
                         <p class="color-white">
                             <sup class="price-sup">$</sup><span class="price">19</span><span class="price-month"> /mo</span>
                         </p>
@@ -65,7 +65,7 @@
                         <div class="cd-products-table">
                             <div class="features">
                                 <div class="top-info">
-                                    <img src="img/traxr-logo-letter-dark.svg" class="logo-letter">
+                                    <img src="/img/traxr-logo-letter-dark.svg" class="logo-letter">
                                 </div>
                                 <ul class="cd-features-list">
                                     <li>Number of domains</li>
@@ -89,7 +89,7 @@
                                 <ul class="cd-products-columns cd-producs-columns-single">
                                     <li class="product product-single selected event-pointer-no">
                                         <div class="top-info">
-                                            <img src="img/traxr-logo-dark.svg" alt="product image">
+                                            <img src="/img/traxr-logo-dark.svg" alt="product image">
                                             <p class="pt-3 price-comp-wrapper">
                                                 <sup class="price-sup-comp">$</sup><span class="price-comp">29</span><span class="price-month-comp"> /mo</span>
                                             </p>
@@ -98,18 +98,18 @@
                                         <ul class="cd-features-list cd-features-list-inner">
                                             <li>100</li>
                                             <li>10.000</li>
-                                            <li><img src="img/icons/check.svg" class="price-check-icon-table"></li>
-                                            <li><img src="img/icons/check.svg" class="price-check-icon-table"></li>
-                                            <li><img src="img/icons/check.svg" class="price-check-icon-table"></li>
-                                            <li><img src="img/icons/check.svg" class="price-check-icon-table"><br><span class="table-sub-text">(Follow, nofollow, sponsored, ugc)</span></li>
-                                            <li><img src="img/icons/check.svg" class="price-check-icon-table"></li>
-                                            <li><img src="img/icons/check.svg" class="price-check-icon-table"></li>
-                                            <li><img src="img/icons/check.svg" class="price-check-icon-table"></li>
-                                            <li><img src="img/icons/check.svg" class="price-check-icon-table"></li>
-                                            <li><img src="img/icons/check.svg" class="price-check-icon-table"></li>
-                                            <li><img src="img/icons/check.svg" class="price-check-icon-table"></li>
-                                            <li><img src="img/icons/check.svg" class="price-check-icon-table"></li>
-                                            <li><img src="img/icons/check.svg" class="price-check-icon-table"></li>
+                                            <li><img src="/img/icons/check.svg" class="price-check-icon-table"></li>
+                                            <li><img src="/img/icons/check.svg" class="price-check-icon-table"></li>
+                                            <li><img src="/img/icons/check.svg" class="price-check-icon-table"></li>
+                                            <li><img src="/img/icons/check.svg" class="price-check-icon-table"><br><span class="table-sub-text">(Follow, nofollow, sponsored, ugc)</span></li>
+                                            <li><img src="/img/icons/check.svg" class="price-check-icon-table"></li>
+                                            <li><img src="/img/icons/check.svg" class="price-check-icon-table"></li>
+                                            <li><img src="/img/icons/check.svg" class="price-check-icon-table"></li>
+                                            <li><img src="/img/icons/check.svg" class="price-check-icon-table"></li>
+                                            <li><img src="/img/icons/check.svg" class="price-check-icon-table"></li>
+                                            <li><img src="/img/icons/check.svg" class="price-check-icon-table"></li>
+                                            <li><img src="/img/icons/check.svg" class="price-check-icon-table"></li>
+                                            <li><img src="/img/icons/check.svg" class="price-check-icon-table"></li>
                                         </ul>
                                     </li> <!-- .product -->
 
@@ -124,18 +124,18 @@
                                         <ul class="cd-features-list cd-features-list-inner">
                                             <li>10</li>
                                             <li>5.000</li>
-                                            <li><img src="img/icons/check.svg" class="price-check-icon-table"></li>
-                                            <li><img src="img/icons/close.svg" class="price-close-icon-table"></li>
-                                            <li><img src="img/icons/close.svg" class="price-close-icon-table"></li>
-                                            <li><img src="img/icons/check.svg" class="price-check-icon-table"><br><span class="table-sub-text">(Follow, nofollow)</span></li>
-                                            <li><img src="img/icons/close.svg" class="price-close-icon-table"></li>
-                                            <li><img src="img/icons/close.svg" class="price-close-icon-table"></li>
-                                            <li><img src="img/icons/close.svg" class="price-close-icon-table"></li>
-                                            <li><img src="img/icons/close.svg" class="price-close-icon-table"></li>
-                                            <li><img src="img/icons/check.svg" class="price-check-icon-table"></li>
-                                            <li><img src="img/icons/close.svg" class="price-close-icon-table"></li>
-                                            <li><img src="img/icons/check.svg" class="price-check-icon-table"></li>
-                                            <li><img src="img/icons/close.svg" class="price-close-icon-table"></li>
+                                            <li><img src="/img/icons/check.svg" class="price-check-icon-table"></li>
+                                            <li><img src="/img/icons/close.svg" class="price-close-icon-table"></li>
+                                            <li><img src="/img/icons/close.svg" class="price-close-icon-table"></li>
+                                            <li><img src="/img/icons/check.svg" class="price-check-icon-table"><br><span class="table-sub-text">(Follow, nofollow)</span></li>
+                                            <li><img src="/img/icons/close.svg" class="price-close-icon-table"></li>
+                                            <li><img src="/img/icons/close.svg" class="price-close-icon-table"></li>
+                                            <li><img src="/img/icons/close.svg" class="price-close-icon-table"></li>
+                                            <li><img src="/img/icons/close.svg" class="price-close-icon-table"></li>
+                                            <li><img src="/img/icons/check.svg" class="price-check-icon-table"></li>
+                                            <li><img src="/img/icons/close.svg" class="price-close-icon-table"></li>
+                                            <li><img src="/img/icons/check.svg" class="price-check-icon-table"></li>
+                                            <li><img src="/img/icons/close.svg" class="price-close-icon-table"></li>
                                         </ul>
                                     </li> <!-- .product -->
                                 </ul> <!-- .cd-products-columns -->
@@ -152,10 +152,10 @@
     <section class="">
         <div class="container">
             <div class="row align-items-center pad-top-3 pad-bot-6 padding-lg-mob">
-                <img src="img/shapes/left-light-blue.svg" alt="" title="" class="home-shape-left">
+                <img src="/img/shapes/left-light-blue.svg" alt="" title="" class="home-shape-left">
                 <div class="col-md-12">
                     <div class="text-content">
-                        <img src="img/shapes/right-small-blue.svg" alt="" title="" class="home-shape-right">
+                        <img src="/img/shapes/right-small-blue.svg" alt="" title="" class="home-shape-right">
                         <h2 class="pt-2 align-center">Alternative to SE Ranking</h2>
                         <p class="pt-3 align-center text-md-light text-cen-wid-70">
                     </div>

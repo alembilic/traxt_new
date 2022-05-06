@@ -12,10 +12,10 @@
     <section class="">
         <div class="container">
             <div class="row align-items-center pad-top-3 pad-bot-1 padding-sm-mob padding-lg-mob-top">
-                <img src="img/shapes/left-light-blue.svg" alt="" title="" class="home-shape-left">
+                <img src="/img/shapes/left-light-blue.svg" alt="" title="" class="home-shape-left">
                 <div class="col-md-12">
                     <div class="text-content">
-                        <img src="img/shapes/right-small-blue.svg" alt="" title="" class="home-shape-right">
+                        <img src="/img/shapes/right-small-blue.svg" alt="" title="" class="home-shape-right">
                         <h1 class="pt-2 align-center">Cookies (EU)</h1>
                         <p class="pt-2 align-center text-md-light text-cen-wid-70">
                             <span class="fw-700">This cookie statement was last updated on 15. April 2020 and applies to citizens of the European Economic Area.</span></p>
