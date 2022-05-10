@@ -103,9 +103,9 @@ class BackLinkLog
     /**
      * @var int
      *
-     * @ORM\Column(name="rank", type="integer", length=3, nullable=false)
+     * @ORM\Column(name="`rank`", type="integer", nullable=false)
      */
-    private int $rank = 0;
+    private int $pageRank = 0;
 
     /**
      * @var int
@@ -171,7 +171,7 @@ class BackLinkLog
             $this->lost = (bool)$data->isLost;
         }
         if (in_array(BackLinksRawData::RANK, $fields)) {
-            $this->rank = (int)$data->rank;
+            $this->pageRank = (int)$data->rank;
         }
         if (in_array(BackLinksRawData::RESPONSE, $fields)) {
             $this->statusCode = (int)$data->response;
@@ -264,9 +264,9 @@ class BackLinkLog
     /**
      * @return int
      */
-    public function getRank(): int
+    public function getPageRank(): int
     {
-        return $this->rank;
+        return $this->pageRank;
     }
 
     /**

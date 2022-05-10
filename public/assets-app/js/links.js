@@ -42,7 +42,8 @@ function loadBackLinks(domain_id) {
             $(data.data).each(function (key, item) {
                 $('.Found-modal-table tbody').append('<tr>' +
                     '<td>' +
-                    '<div class="form-check"><input type="checkbox" class="form-check-input select-url-item" value="' + item['destUrl'] + item['sourceUrl'] + '"></div>' +
+                    '<div class="form-check"><input type="checkbox" class="form-check-input select-url-item" value="' +
+                        item['destUrl'] + item['sourceUrl'] + '"' + ((maxLinks - linksCount) <= 0 ? ' disabled=""' : '') + '></div>' +
                     '<input type="hidden" class="searchable-data" value="' + item['destUrl'] + item['sourceUrl'] + '">' +
                     '</td>' +
                     '<td><a href="' + item['sourceUrl'] + '">' + item['sourceUrl'] + '</a></td>' +
@@ -164,7 +165,7 @@ $(function () {
         $('#count-selected').html(parseInt($('.select-url-item:checked').length));
     });
     $('body').on('change', '.select-url-item', function () {
-        if (parseInt($('.select-url-item:checked').length) >= maxLinks) {
+        if (parseInt($('.select-url-item:checked').length) >= (maxLinks - linksCount)) {
             $('.select-url-item').prop('disabled', true);
             $('.select-url-item:checked').prop('disabled', false);
         } else {
@@ -375,11 +376,11 @@ $(function () {
                                 <tr>
                                     <th>
                                         <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="" id="select-all">
+                                            <input class="form-check-input" type="checkbox" value="" id="select-all" ` + (maxLinks - linksCount ? '' : ' disabled') + `>
                                         </div>
                                     </th>
                                     <th class="col__2">Domain From</th>
-                                    <th width="82">Ranks</th>
+                                    <th width="82">Rank</th>
                                     <th width="114">Do follow</th>
                                     <th class="col__5">Active since</th>
                                     <th width="80">Link lost</th>

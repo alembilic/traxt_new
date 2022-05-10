@@ -72,6 +72,9 @@ class BackLinkSourceApiController extends BaseApiController
                 $this->entityManager->flush();
                 $domains->put($domainName, $domain);
             }
+            $backLink = new BackLink('', $link, $domain, $this->user);
+            $this->entityManager->persist($backLink);
+            $this->entityManager->flush();
 
             dispatch_sync(new ParseBacklinksJob($domain, [$link], $this->user));
         }
