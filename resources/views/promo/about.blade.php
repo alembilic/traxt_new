@@ -30,12 +30,16 @@
             <div class="row align-items-center pad-top-3 pad-bot-1 padding-lg-mob">
                 <div class="col-md-12">
                     Traxr is a backlink CRM system created by Jimmi Meilstrup and Kristoffer Tølbøll. The inspiration for creating the system was the idea of many companies managing their backlinks in Large Excel Spreadsheets and other documents without having the ability to manage their backlinks in a user-friendly and dynamic fashion.
-                    <br /><br />
+                    <br />
+                    <br />
                     Traxr aims to solve this issue with state-of-the-art technology that allows you to see your KPIs and have analytical insight into how their backlinks are performing over time.
-                    <br /><br />
+                    <br />
+                    <br />
                     We are constantly aiming to improve Traxr and become an industry-leading tool in the SEO and backlinking industry.
-                    <br /><br />
-                    Feedback and inquires should be sent to <a href="mailto:info@traxr.net">info@traxr.net</a><br />
+                    <br />
+                    <br />
+                    Feedback and inquires should be sent to <a href="mailto:info@traxr.net">info@traxr.net</a>
+                    <br />
                 </div>
             </div>
         </div>
@@ -84,6 +88,9 @@
                                 <div class="list-icon"></div>
                                 <p class="pt-3 align-left fw-700 features-bottom-text">
                                     Mail: kristofferlocktolboll@gmail.com<br />
+                                </p>
+                                <p class="pt-3 align-left fw-700 features-bottom-text">
+                                <a href="https://kristoffer.dk">Website: Kristoffer.dk</a>
                                 </p>
                             </div>
                         </div>
