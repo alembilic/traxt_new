@@ -18,7 +18,7 @@ Route::group([], function () {
     Route::view('about', 'promo.about');
     Route::view('privacy', 'promo.privacy');
     Route::view('cookie', 'promo.cookie');
-    //Gallery
+    //Gallery view listed below
     Route::view('gallery', 'promo.gallery');
     Route::view('conditions', 'promo.conditions');
     Route::view('how_traxr_works', 'promo.how_traxr_works');
