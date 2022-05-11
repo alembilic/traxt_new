@@ -7,13 +7,13 @@
                     <div class="text-content">
                         <h1 class="pt-2 align-left">Monitor links with 100% accuracy 24/7</h1>
                         <p class="pt-3 align-left text-md text-lef-wid-70">
-                            Make sure the links you get provides value</p>
+                            Make sure to get value with your links</p>
                     </div>
-                    <a class="btn-custom bc-btn-primary" href="/pricing">Sign up for Free now - No Creditcard needed</a>
+                    <a class="btn-custom bc-btn-primary" href="/pricing">Sign up for free now - no credit card needed</a>
                 </div>
                 <div class="col-md-6 image-element padding-sm-mob">
                     <div class="img-wrap">
-                        <img src="/img/vectors/homepage-vector-hero.svg" alt="" title="" class="w-100">
+                        <img src="img/vectors/homepage-vector-hero.svg" alt="homepage-vector-hero" title="homepage-hero" class="w-100">
                     </div>
                 </div>
             </div>
@@ -24,20 +24,26 @@
             <div class="row align-items-center pad-top-3 pad-bot-6 padding-lg-mob">
                 <img src="img/shapes/left-light-blue.svg" alt="" title="" class="home-shape-left">
                 <div class="col-md-4">
-                    <div class="text-content">
-                        <p class="pt-3 align-center text-md-light text-cen-wid-70" style="font-size: 1.8rem"><span class="fw-700" id="money-stat">+6000</span> $ saved for our customers <br /> </p>
+                    <div class="text-content" id="text-bg-1" style="background-image: url('img/icons/bg-3.png'); background-size: 100% 100%;">
+                        <img src="img/icons/money.svg" alt="money-svg" title="money-svg" width="100rem" height="100rem" style="display: block; margin: auto">
+                        <p class="pt-3 align-center text-md-light text-cen-wid-70" style="font-size: 1.8rem"><span class="fw-700" id="money-stat"></span> saved for our customers <br /> </p>
                     </div>
                 </div>
+                <br />
                 <div class="col-md-4">
-                    <div class="text-content">
-                        <p class="pt-3 align-center text-md-light text-cen-wid-70"  style="font-size: 1.8rem"> <span class="fw-700" id="backlink-stat">3000+</span> Backlinks scanned daily<br /> </p>
+                    <div class="text-content"  id="text-bg-2" style="background-image: url('img/icons/bg-2.png'); background-size: 100% 100%;">
+                        <img src="img/icons/statistics.svg" alt="statistics" width="100rem" height="100rem" style="display: block; margin: auto">
+                        <p class="pt-3 align-center text-md-light text-cen-wid-70"  style="font-size: 1.8rem"> <span class="fw-700" id="backlink-stat"></span> Backlinks scanned daily<br /> </p>
                     </div>
                 </div>
+                <br />
                 <div class="col-md-4">
-                    <div class="text-content">
-                        <p class="pt-3 align-center text-md-light text-cen-wid-70"  style="font-size: 1.8rem"> <span class="fw-700" id="customer-stat">200+</span> Satisfied customers<br /> </p>
+                    <div class="text-content" id="text-bg-3" style="background-image: url('img/icons/bg-1.png'); background-size: 100% 100%;">
+                        <img src="img/icons/traxr-user.svg" alt="traxr-user" width="100rem" height="100rem" style="display: block; margin: auto">
+                        <p class="pt-3 align-center text-md-light text-cen-wid-70"  style="font-size: 1.8rem"> <span class="fw-700" id="customer-stat"></span> Satisfied customers<br /> </p>
                     </div>
                 </div>
+                <br />
             </div>
         </div>
 
@@ -46,13 +52,13 @@
     <section class="">
         <div class="container">
             <div class="row align-items-center pad-top-3 pad-bot-6 padding-lg-mob">
-                <img src="/img/shapes/left-light-blue.svg" alt="" title="" class="home-shape-left">
+                <img src="img/shapes/left-light-blue.svg" alt="" title="" class="home-shape-left">
                 <div class="col-md-12">
                     <div class="text-content">
-                        <img src="/img/shapes/right-small-blue.svg" alt="" title="" class="home-shape-right">
-                        <h2 class="pt-2 align-center">Traxr is different!</h2>
+                        <img src="img/shapes/right-small-blue.svg" alt="right-small-blue" title="" class="home-shape-right">
+                        <h2 class="pt-2 align-center">Traxr is different! With Traxr, you only get what you need.</h2>
                         <p class="pt-3 align-center text-md-light text-cen-wid-70">
-                            <span class="fw-700">With Traxr you don’t get more than you need.</span> We have built it to monitor your links with surgical precision to a very affordable price. We don’t believe in huge systems that tries to do everything. <span class="fw-700">We believe in building specific functionality to solve specific problems with as low cost as possible for the user.</span></p>
+                            <span class="fw-700">Traxr is different! With Traxr, you only get what you need,</span> We don't believe in huge systems that try to do everything.  We provide excellent customer support and nurture an active community to help you get the best product experience. We have built Traxr to monitor your links with surgical precision and offer an easy-to-use CRM system <span class="fw-700">to manage all your links with crucial information such as KPIs and other financial insights.</span></p>
                     </div>
                 </div>
             </div>
@@ -65,15 +71,15 @@
                 <div class="col-md-4 padding-sm-mob">
                     <div class="features-box pad-10">
                         <div class="text-content">
-                            <img src="/img/icons/homepage-icon-1.svg" alt="" title="" class="feature-icon">
+                            <img src="img/icons/homepage-icon-1.svg" alt="traxr-icon" title="" class="feature-icon">
                             <h3 class="pt-2 align-left">Link Monitoring 24/7</h3>
                             <p class="pt-3 align-left ">
-                                Once your link is added you will get instant updates if they change or if anything is wrong with your link. Including
+                                Once your link is added, you will get instant updates in case of:
                             </p>
                             <div class="features-bottom-text-wrapper">
                                 <div class="list-icon"></div>
                                 <p class="pt-3 align-left fw-700 features-bottom-text">
-                                    Html rel tags<br>Response headers<br>and Javascript rendered sites
+                                    Changes<br>Security issues<br>Technical issues
                                 </p>
                             </div>
                         </div>
@@ -82,15 +88,15 @@
                 <div class="col-md-4 padding-sm-mob">
                     <div class="features-box pad-10">
                         <div class="text-content">
-                            <img src="/img/icons/homepage-icon-2.svg" alt="" title="" class="feature-icon">
+                            <img src="img/icons/homepage-icon-2.svg" alt="traxr-icon-2" title="" class="feature-icon">
                             <h3 class="pt-2 align-left">Index Status</h3>
                             <p class="pt-3 align-left ">
-                                Get the status of your links in Google Serps. Find out if the links has any value to you and fix it easily.
+                                Find out how your links are performing through analytics data. Are they working correctly? How much value are they providing? Are you getting your money's worth?
                             </p>
                             <div class="features-bottom-text-wrapper">
                                 <div class="list-icon"></div>
                                 <p class="pt-3 align-left fw-700 features-bottom-text">
-                                    Make sure to get the most out of any link you get.
+                                    Our easy-to-use dashboard gives you a complete overview of all important parameters, including performance over time.
                                 </p>
                             </div>
                         </div>
@@ -99,10 +105,11 @@
                 <div class="col-md-4 padding-sm-mob">
                     <div class="features-box pad-10">
                         <div class="text-content">
-                            <img src="/img/icons/homepage-icon-3.svg" alt="" title="" class="feature-icon">
+                            <img src="img/icons/homepage-icon-3.svg" alt="traxr-icon-3" title="" class="feature-icon">
                             <h3 class="pt-2 align-left">Best pricing in the World</h3>
                             <p class="pt-3 align-left ">
-                                We believe in giving you the best ROI on your link building campaigns. This is why, our plans start at only 1USD
+                                We believe in giving you the best ROI on your link-building campaigns.
+                                You can start by trying our free version, and when you are ready to get serious, our plans start at only 19 USD.
                             </p>
                             <div class="features-bottom-text-wrapper">
                                 <div class="list-icon"></div>
@@ -125,20 +132,20 @@
                     <div class="text-content">
                         <h2 class="pt-2 align-left">Save thousands of dollars</h2>
                         <p class="pt-3 align-left ">
-                            Every marketer knows that link building is expensive and cumbersome and once you have gotten a link it would be really bad for your business to lose it.
+                            Link building is one of the most important aspects of SEO and online marketing.
                         </p>
                         <p class="pt-3 align-left ">
-                            Sites are closed, owners change, or articles disappears. With Traxr you will know, when this happened and not days, weeks or months after.
+                            But it can be expensive and cumbersome, especially if you are not on top of what goes on.
                         </p>
                         <p class="pt-3 align-left fw-700">
-                            We give you the ability to react almost in real time, making sure your efforts are not in vain.
+                            Sites are closed, owners change, or articles disappear. With Traxr, you will instantly know when changes occur and can act on them immediately.
                         </p>
                     </div>
                     <a class="btn-custom bc-btn-primary" href="/pricing">Sign up for Free now</a>
                 </div>
                 <div class="col-md-6 image-element padding-sm-mob">
                     <div class="img-wrap">
-                        <img src="/img/vectors/homepage-vector-1.svg" alt="" title="" class="w-100">
+                        <img src="img/vectors/homepage-vector-1.svg" alt="traxr-vector-icon" title="" class="w-100">
                     </div>
                 </div>
             </div>
@@ -150,23 +157,26 @@
             <div class="row align-items-center pad-top-6 pad-bot-6 padding-lg-mob">
                 <div class="col-md-6 image-element padding-sm-mob">
                     <div class="img-wrap">
-                        <img src="/img/vectors/homepage-vector-2.svg" alt="" title="" class="w-100">
+                        <img src="img/vectors/homepage-vector-2.svg" alt="traxr-vector-icon-2" title="" class="w-100">
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="text-content">
-                        <h2 class="pt-2 align-left">False positives are the worst</h2>
+                        <h2 class="pt-2 align-left">Aiming for accuracy </h2>
                         <p class="pt-3 align-left ">
-                            Today most marketers use some kind of system to track rankings of their most valuable keywords. Many of these systems also find new links automatically and tries to monitor the ones they already know.
+                            Today, most marketers manage their links manually in a spreadsheet as they do not want to pay hundreds of dollars for a backlink management system that does not address all their needs. One of the major problems with current systems is accuracy. They only find 60-80% of the links to your site.
                         </p>
                         <p class="pt-3 align-left ">
-                            The problem is accuracy. They only find 60-80% of the links to your site. It’s can take a long time and still not be 100%
+                            We have done extensive research among backlink experts and users to identify the most important features necessary in a backlink management system.
                         </p>
                         <p class="pt-3 align-left ">
-                            With Traxr you add the links you want to check manually, and you will only get relevant notifications so you can act of actual problems.
+                            On that basis, we have developed the most competitive system at the lowest possible price.
                         </p>
                         <p class="pt-3 align-left  fw-700">
-                            You often receive notifications saying you lost or gained a link. When you check it, nothing has changed? With Traxr you add the links you want to check manually, and you will only get relevant notifications so you can act of actual problems.
+                            Our features include 100% accuracy, an intuitive interface, and instant notification of changes.
+
+                            We are constantly working on making our system even better to meet the demands of our customers.
+
                         </p>
                     </div>
                     <a class="btn-custom bc-btn-primary" href="/pricing">Sign up for Free now</a>
@@ -183,9 +193,9 @@
                 <div class="row align-items-center">
                     <div class="col-md-12">
                         <div class="text-content align-center">
-                            <h2 class="pt-2 align-center color-white">Want an easy to understand system ?</h2>
-                            <p class="pt-3 align-center text-md-light text-cen-wid-70 color-white">This is what you get. We have made our dashboard as easy as possible and it will give you exactly what you need to monitor how your links are doing.</p>
-                            <a class="btn-custom bc-btn-primary align-center text-cen-wid-70" href="/pricing">Sign up for Free now - No Creditcard needed</a>
+                            <h2 class="pt-2 align-center color-white">Start using Traxr today!</h2>
+                            <p class="pt-3 align-center text-md-light text-cen-wid-70 color-white">The proof is in the pudding. Try out Traxr for free, and let us convince you that our system gives you all the necessary information to manage your backlinks efficiently. </p>
+                            <a class="btn-custom bc-btn-primary align-center text-cen-wid-70" href="/pricing">This is what you get. - Our dashboard is intuitive and gives you a complete overview. You get exactly what you need to monitor how your links are doing. </a>
                         </div>
                     </div>
                 </div>
@@ -194,11 +204,22 @@
     </section>
 
     <script>
+
+        const isMobile = true
+        if(isMobile){
+            const bg1 = document.querySelector('#text-bg-1')
+            const bg2 = document.querySelector('#text-bg-2')
+            const bg3 = document.querySelector('#text-bg-3')
+            bg1.style.backgroundImage = null
+            bg2.style.backgroundImage = null
+            bg3.style.backgroundImage = null
+        }
+
         const ANIMATION_DURATION = 600 // in miliseconds
         const ANIMATION_INTERVAL = 40
-        const MONEY_AMOUNT = 6_000
+        const MONEY_AMOUNT = 30_000
         const BACKLINK_AMOUNT = 3_000
-        const CUSTOMER_AMOUNT = 200
+        const CUSTOMER_AMOUNT = 1000
         let moneyAmount = 0
         let customerAmount = 0
         let backlinksAmount = 0
@@ -213,7 +234,7 @@
             moneyAmount += moneyIncreaseAmount
             moneyElement.innerHTML = moneyAmount
             if(moneyAmount >= MONEY_AMOUNT){
-                moneyElement.innerHTML = `${MONEY_AMOUNT} +`
+                moneyElement.innerHTML = `${MONEY_AMOUNT}$ +`
                 clearInterval(moneyIntervalId)
             }
         }, ANIMATION_INTERVAL)
