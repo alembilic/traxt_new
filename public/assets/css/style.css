@@ -1,4 +1,4 @@
-/* --------------------------------
+/* -------------------------------- 
 
 Primary style
 
@@ -85,9 +85,9 @@ span.table-sub-text {
 }
 
 
-/* --------------------------------
+/* -------------------------------- 
 
-Main Components
+Main Components 
 
 -------------------------------- */
 .cd-products-comparison-table {
@@ -731,7 +731,7 @@ span.table-sub-text {
 }
 }
 
-/* --------------------------------
+/* -------------------------------- 
 
 No JS
 
@@ -753,7 +753,7 @@ No JS
   display: none;
 }
 
-/* --------------------------------
+/* -------------------------------- 
 
 Single comparisson
 
@@ -804,7 +804,7 @@ Single comparisson
 
 .cd-products-table.top-fixed .product-single .top-info{
     width: calc(50% - 105px) !important;
-}
+}   
 
 .cd-products-table .product-single .top-info img{
   width: 160px;

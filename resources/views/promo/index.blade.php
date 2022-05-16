@@ -24,21 +24,21 @@
             <div class="row align-items-center pad-top-3 pad-bot-6 padding-lg-mob">
                 <img src="img/shapes/left-light-blue.svg" alt="" title="" class="home-shape-left">
                 <div class="col-md-4">
-                    <div class="text-content" id="text-bg-1" style="background-image: url('img/icons/icon-bg-3.svg'); background-size: 100% 100%;">
+                    <div class="text-content" id="text-bg-1" style="background-image: url('img/icons/bg-3.png'); background-size: 100% 100%;">
                         <img src="img/icons/money.svg" alt="money-svg" title="money-svg" width="100rem" height="100rem" style="display: block; margin: auto">
                         <p class="pt-3 align-center text-md-light text-cen-wid-70" style="font-size: 1.8rem"><span class="fw-700" id="money-stat"></span> saved for our customers <br /> </p>
                     </div>
                 </div>
                 <br />
                 <div class="col-md-4">
-                    <div class="text-content"  id="text-bg-2" style="background-image: url('img/icons/icon-bg-2.svg'); background-size: 100% 100%;">
+                    <div class="text-content"  id="text-bg-2" style="background-image: url('img/icons/bg-2.png'); background-size: 100% 100%;">
                         <img src="img/icons/statistics.svg" alt="statistics" width="100rem" height="100rem" style="display: block; margin: auto">
                         <p class="pt-3 align-center text-md-light text-cen-wid-70"  style="font-size: 1.8rem"> <span class="fw-700" id="backlink-stat"></span> Backlinks scanned daily<br /> </p>
                     </div>
                 </div>
                 <br />
                 <div class="col-md-4">
-                    <div class="text-content" id="text-bg-3" style="background-image: url('img/icons/icon-bg-1.svg'); background-size: 100% 100%;">
+                    <div class="text-content" id="text-bg-3" style="background-image: url('img/icons/bg-1.png'); background-size: 100% 100%;">
                         <img src="img/icons/traxr-user.svg" alt="traxr-user" width="100rem" height="100rem" style="display: block; margin: auto">
                         <p class="pt-3 align-center text-md-light text-cen-wid-70"  style="font-size: 1.8rem"> <span class="fw-700" id="customer-stat"></span> Satisfied customers<br /> </p>
                     </div>
@@ -205,7 +205,7 @@
 
     <script>
 
-        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
+        const isMobile = true
         if(isMobile){
             const bg1 = document.querySelector('#text-bg-1')
             const bg2 = document.querySelector('#text-bg-2')
