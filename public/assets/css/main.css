@@ -799,7 +799,7 @@ img.price-check-icon {
 	width: 18px;
 	position: absolute;
 	left: 40px;
-	margin-top: 1px; 
+	margin-top: 1px;
 }
 
 .tab-box.business-plan{
@@ -1010,7 +1010,7 @@ img.price-check-icon {
 	font-family: 'Baloo 2', cursive;
 	font-size: 28px;
 	font-weight: 600;
-	margin-top: 15px; 
+	margin-top: 15px;
 }
 
 
@@ -1130,7 +1130,7 @@ select#country,
 input[type="checkbox"] {
 	-webkit-appearance: checkbox !important;
 	-moz-appearance: checkbox !important;
-	-ms-appearance: checkbox !important; 
+	-ms-appearance: checkbox !important;
 }
 
 select#country {
@@ -1222,7 +1222,7 @@ span.terms {
 }
 
 .pre-payment-box ul li{
-	padding-top: 3px; 
+	padding-top: 3px;
 	color: #777;
 }
 
@@ -1377,7 +1377,7 @@ table.pre-payment-pricing-table tr:nth-child(3){
 	}
 
 	.logo-letter{
-		width: 50% !important;    
+		width: 50% !important;
 	}
 
 	.form-box.wide-box-pre-payment{
@@ -1405,6 +1405,66 @@ table.pre-payment-pricing-table tr:nth-child(3){
 }
 
 
+@media only screen and (max-width: 1200px){
+    .nav {
+        padding: 15px 0px 15px 0;
+    }
+
+    .nav-menu {
+        position: fixed;
+        top: 0;
+        right: 0;
+        background-color: #002543;
+        flex-direction: column;
+        width: 100vw;
+        height: 100vh;
+        justify-content: center;
+        align-items: center;
+        transform: translateX(100%);
+        transition: all .5s ease;
+        z-index: 1;
+        display: inline-flex;
+    }
+
+    .nav-menu.open {
+        transform: translateX(0);
+    }
+
+    .nav-burger {
+        display: block;
+        position: absolute;
+        top: 3px;
+        right: 10px;
+        z-index: 2;
+    }
+
+
+    .nav-logo-link img {
+        width: 115px;
+        position: absolute;
+        top: 20px;
+        z-index: 2;
+    }
+
+    .nav-menu-link:link, .nav-menu-link:visited {
+        text-decoration: none;
+        color: #fff;
+        transition: all .4s ease;
+        font-size: 24px;
+        line-height: 42px;
+        margin: 12px auto;
+        font-weight: 700 !important;
+        transform: translateY(-40px);
+    }
+
+    .nav-menu-link.btn-nav{
+        background: #39b3d1;
+        padding: 5px 40px;
+        color: #0E374D !important;
+    }
+}
+
+
 
 @media only screen and (max-width: 768px){
 
@@ -1412,7 +1472,7 @@ table.pre-payment-pricing-table tr:nth-child(3){
 		width: 100%;
 		max-width: 100%;
 		flex: inherit;
-	} 
+	}
 
 	h1 {
 
@@ -1456,63 +1516,6 @@ table.pre-payment-pricing-table tr:nth-child(3){
 	.reverse-col-mob{
 		flex-direction: column-reverse;
 	}
-
-	.nav {
-		padding: 15px 0px 15px 0;
-	}
-
-	.nav-menu {
-		position: fixed;
-		top: 0px;
-		right: 0;
-		background-color: #002543;
-		flex-direction: column;
-		width: 100vw;
-		height: 100vh;
-		justify-content: center;
-		align-items: center;
-		transform: translateX(100%);
-		transition: all .5s ease;
-		z-index: 1;
-		display: inline-flex;
-	}
-
-	.nav-menu.open {
-		transform: translateX(0);  
-	}
-
-	.nav-burger {
-		display: block;
-		position: absolute;
-		top: 3px;
-		right: 10px;
-		z-index: 2;
-	}
-
-
-	.nav-logo-link img {
-		width: 115px;
-		position: absolute;
-		top: 20px;
-		z-index: 2;
-	}
-
-	.nav-menu-link:link, .nav-menu-link:visited {
-		text-decoration: none;
-		color: #fff;
-		transition: all .4s ease;
-		font-size: 24px;
-		line-height: 42px;
-		margin: 12px auto;
-		font-weight: 700 !important;
-		transform: translateY(-40px);
-	}
-
-	.nav-menu-link.btn-nav{
-		background: #39b3d1;
-		padding: 5px 40px;
-		color: #0E374D !important;
-	} 
 
 	.text-lef-wid-70{
 		width: 100%;
@@ -1583,7 +1586,7 @@ table.pre-payment-pricing-table tr:nth-child(3){
 		padding: 6% 29%;
 		background: #001b42;
 		border-radius: 8px;
-	}  
+	}
 
 	.traxr-box-inner .btn-custom{
 		margin-top: 25px;
@@ -1698,7 +1701,7 @@ table.pre-payment-pricing-table tr:nth-child(3){
   display: block;
   transition: all .4s ease;
   margin-bottom: 25px;
-  margin-top: 40px;  
+  margin-top: 40px;
 }
 
 .author-img{
@@ -1743,8 +1746,8 @@ table.pre-payment-pricing-table tr:nth-child(3){
   width: 30px !important;
   padding: 4px;
   margin-left: 20px;
-  margin-top: 10px;  
-  margin-bottom: 5px;: 
+  margin-top: 10px;
+  margin-bottom: 5px;:
 }
 
 .testimonials-grid-shappe{
