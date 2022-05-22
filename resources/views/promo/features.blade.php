@@ -92,8 +92,8 @@
                         <img src="/img/shapes/right-small-blue.svg" alt="" title="" class="home-shape-right">
                         <h2 class="pt-2 align-center">Add backlinks any way you want</h2>
                         <p class="pt-3 align-center text-md-light text-cen-wid-70">
-                            <span class="fw-700">Traxr has a bunch of features and import strategies you can read about below.</span></p>
-                        <h3>Import strategies:</h3>
+                            <span class="fw-700">Import strategies are one of Traxr's most exciting features. Read about it below.</span></p>
+
                         <br />
                         <ul class="list-group">
                             <li class="list-group-item">Import backlinks via CSV or Spreadsheet <img src="/img/icons/spreadsheet.svg" style="float: right" height="70" width="70"/>
@@ -214,7 +214,7 @@
                             <div class="features-bottom-text-wrapper">
                                 <div class="list-icon"></div>
                                 <p class="pt-3 align-left fw-700 features-bottom-text">
-                                    We monitor all HTTP status codes and HTTP headers.
+                                    We monitor all status codes and headers.
                                 </p>
                             </div>
                         </div>

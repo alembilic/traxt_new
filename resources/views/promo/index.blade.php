@@ -58,7 +58,7 @@
                         <img src="img/shapes/right-small-blue.svg" alt="right-small-blue" title="" class="home-shape-right">
                         <h2 class="pt-2 align-center">Traxr is different! With Traxr, you only get what you need.</h2>
                         <p class="pt-3 align-center text-md-light text-cen-wid-70">
-                            <span class="fw-700">Traxr is different! With Traxr, you only get what you need,</span> We don't believe in huge systems that try to do everything.  We provide excellent customer support and nurture an active community to help you get the best product experience. We have built Traxr to monitor your links with surgical precision and offer an easy-to-use CRM system <span class="fw-700">to manage all your links with crucial information such as KPIs and other financial insights.</span></p>
+                            <span class="fw-700">Traxr is different! With Traxr, you only get what you need,</span> We don't believe in huge systems that try to do everything.  We provide excellent customer support and nurture an active community to help you get the best product experience. We have built Traxr to monitor your links with surgical precision and offer an easy-to-use system <span class="fw-700">to manage all your links with crucial information such as KPIs and other financial insights.</span></p>
                     </div>
                 </div>
             </div>
@@ -74,8 +74,10 @@
                             <img src="img/icons/homepage-icon-1.svg" alt="traxr-icon" title="" class="feature-icon">
                             <h3 class="pt-2 align-left">Link Monitoring 24/7</h3>
                             <p class="pt-3 align-left ">
-                                Once your link is added, you will get instant updates in case of:
+                                Keeping track of links in real time is essential to running an online business.
+                                In our system once your link is added, you will get instant updates in case of:
                             </p>
+                            <br />
                             <div class="features-bottom-text-wrapper">
                                 <div class="list-icon"></div>
                                 <p class="pt-3 align-left fw-700 features-bottom-text">
@@ -195,7 +197,7 @@
                         <div class="text-content align-center">
                             <h2 class="pt-2 align-center color-white">Start using Traxr today!</h2>
                             <p class="pt-3 align-center text-md-light text-cen-wid-70 color-white">The proof is in the pudding. Try out Traxr for free, and let us convince you that our system gives you all the necessary information to manage your backlinks efficiently. </p>
-                            <a class="btn-custom bc-btn-primary align-center text-cen-wid-70" href="/pricing">This is what you get. - Our dashboard is intuitive and gives you a complete overview. You get exactly what you need to monitor how your links are doing. </a>
+                            <a class="btn-custom bc-btn-primary align-center text-cen-wid-70" href="/pricing">Our dashboard is intuitive and gives you a complete overview. You get exactly what you need to monitor how your links are doing. </a>
                         </div>
                     </div>
                 </div>
