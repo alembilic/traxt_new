@@ -12,6 +12,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Product
 {
+    public const MIX_ID = 'mixId';
+
     /**
      * @var int
      *
