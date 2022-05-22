@@ -45,6 +45,31 @@ class UserSectionController extends BaseWebController
 {
     use EntityManagerFresher;
 
+
+    private function getTotalSpending(StatisticsFilterDto $filterDto): array {
+
+        $user = $filterDto -> user;
+        $totalBackLinksSpending = $this-> getEntityManager() -> getRepository(BackLink::class) -> createQueryBuilder('bl')
+            -> andWhere('bl.createdBy = :user')
+            -> setParameter('user', $user)
+            -> select('SUM(bl.price) as totalSpending')
+            -> getQuery()
+            -> getOneOrNullResult();
+
+        $lostSpending = $this-> getEntityManager() -> getRepository(BackLink::class) -> createQueryBuilder('bl')
+            -> andWhere('bl.createdBy = :user')
+            -> setParameter('user', $user)
+            -> andWhere('bl.lost = :bool')
+            -> setParameter('bool', true)
+            -> select('SUM(bl.price) as lostSpending')
+            -> getQuery()
+            -> getOneOrNullResult();
+
+        $activeSpending = $totalBackLinksSpending["totalSpending"] - $lostSpending["lostSpending"];
+
+        return [$totalBackLinksSpending, $lostSpending, $activeSpending];
+
+    }
     /**
      * Dashboard page.
      *
@@ -60,6 +85,14 @@ class UserSectionController extends BaseWebController
         /* @var User $user */
         $user = $this->user;
 
+
+        $totalBackLinksSpending = $this ->getTotalSpending(new StatisticsFilterDto(['user' => $user]));
+        /*
+        $totalBackLinksSpending = $statisticsServicesFactory ->build(StatisticsTypes::BACKLINKS)
+            ->getTotalSpending(new StatisticsFilterDto([
+                StatisticsFilterDto::USER => $user
+            ]));
+        */
         $backLinksTotal = $statisticsServicesFactory->build(StatisticsTypes::BACKLINKS)
             ->getStatistics(new StatisticsFilterDto([
                 StatisticsFilterDto::USER => $user,
@@ -91,6 +124,7 @@ class UserSectionController extends BaseWebController
             'backLinksDaily' => $backLinksDaily,
             'backLinksDailyGraph' => $backLinksDailyGraph,
             'domains' => $domains,
+            'totalSpending' => $totalBackLinksSpending,
             'user' => $user,
         ]);
     }

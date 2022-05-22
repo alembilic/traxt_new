@@ -22,4 +22,5 @@ interface IStatisticsService
      * @throws Exception
      */
     public function getStatistics(StatisticsFilterDto $filterDto): IStatisticsObject;
+
 }
