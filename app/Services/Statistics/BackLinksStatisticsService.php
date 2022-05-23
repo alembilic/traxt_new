@@ -87,6 +87,10 @@ class BackLinksStatisticsService implements IStatisticsService
             $criteria[] = $query->expr()->eq('bl.' . BackLink::CREATED_BY, $filterDto->user->getId());
         }
 
+
+
+        $items = collect();
+
         $rawItems = $query
             ->select([
                 'count(bl.' . BackLink::ID . ') as value',
@@ -96,7 +100,6 @@ class BackLinksStatisticsService implements IStatisticsService
             ->groupBy('key')
             ->getQuery();
 
-        $items = collect();
         foreach ($rawItems->getArrayResult() as $item) {
             $items->put($item['key'], new BaseStatisticsItem([
                 BaseStatisticsItem::KEY => (string)$item['key'],
@@ -104,6 +107,7 @@ class BackLinksStatisticsService implements IStatisticsService
                 BaseStatisticsItem::COUNT => $item['value'],
             ]));
         }
+
 
         // Add empty keys if it is necessary
         foreach ($keys as $key => $name) {

@@ -1,4 +1,4 @@
-var routes = {
+const routes = {
     createDomain: {
         method: 'post',
         url: '/domains'
@@ -45,17 +45,18 @@ var routes = {
     }
 };
 
-var Api = {
+const Api = {
     makeRequest: function (routeName, options, params) {
+        console.log('making request in api ' )
         if (routes[routeName]) {
-            var route = Object.assign({}, routes[routeName]),
-                domain;
+            const route = Object.assign({}, routes[routeName])
+             let domain = null;
 
             domain = '/api';
 
             if (params) {
-                for (var prop in params) {
-                    var reg = new RegExp('\{' + prop + '\}');
+                for (const prop in params) {
+                    const reg = new RegExp('\{' + prop + '\}');
                     if (params.hasOwnProperty(prop)) {
                         route.url = route.url.replace(reg, params[prop]);
                     }
@@ -72,8 +73,8 @@ var Api = {
             if (!options['error']) {
                 options['error'] = function (xhr) {
                     handleErrors(xhr);
-                    loaded = false;
-                    ldg = false;
+                    let loaded = false;
+                    let ldg = false;
                 };
             }
             options = Object.assign(options, {
@@ -97,7 +98,8 @@ var Api = {
 
                 });
             }
-            $.ajax(options);
+
+             $.ajax(options);
         }
     }
 };

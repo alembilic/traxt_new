@@ -60,6 +60,7 @@ Route::group(['middleware' => ['auth:web', 'authorizedOnly', 'verifyPlan'], 'pre
     Route::get('plans/{mixId}/{type}', UserSectionController::class . '@changePlan');
     Route::get('subscription/pay', UserSectionController::class . '@paySubscription');
     Route::get('subscription/{subscription}/terminate', UserSectionController::class . '@terminateSubscription');
+
 });
 
 Route::get('app', function () {
