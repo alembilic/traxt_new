@@ -29,13 +29,13 @@
     <link rel="stylesheet" href="/assets/css/owl.theme.default.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     @sectionMissing('titles')
-    <title>Track and Monitor your Links and Mentions online with Easy planning</title>
-    <meta name="description" content="Finally you you can monitor and track your backlinks and mentions online in one single software with extraordinary planning tools and measuring. Free Trial">
-    <meta name="author" content="">
-    <meta property="og:title" content="Monitor your Links with 100% accuracy 24/7 - get full value of all your links" />
-    <meta property="og:description" content="Use Traxr.net to get full value of your link building efforts. Get full control of all your valuable links" />
-    <meta property="og:image" content="/img/social/main.jpg"/>
-    <link rel="canonical" href="https://traxr.net/" />
+        <title>Track and Monitor your Links and Mentions online with Easy planning</title>
+        <meta name="description" content="Finally you you can monitor and track your backlinks and mentions online in one single software with extraordinary planning tools and measuring. Free Trial">
+        <meta name="author" content="">
+        <meta property="og:title" content="Monitor your Links with 100% accuracy 24/7 - get full value of all your links" />
+        <meta property="og:description" content="Use Traxr.net to get full value of your link building efforts. Get full control of all your valuable links" />
+        <meta property="og:image" content="/img/social/main.jpg"/>
+        <link rel="canonical" href="https://traxr.net/" />
     @endif
     @hasSection('titles') @yield('titles') @endif
     <!-- Facebook Pixel Code -->
@@ -72,14 +72,14 @@
             $page = str_replace('/', '', preg_replace('!(\?.*)!', '', $_SERVER['REQUEST_URI']));
         @endphp
         <div class="nav-menu" {!! $page == 'login' || $page == 'signup' || $page == 'plans' ? 'style="display:none"': '' !!}>
-            <a href="/" class="nav-menu-link {!!($page == 'index' || !$page ? 'active': ''); !!}">Home</a>
-            <a href="/features" class="nav-menu-link {!!($page == 'features' ? 'active': ''); !!}">Features</a>
-            <a href="/pricing" class="nav-menu-link {!!($page == 'pricing' ? 'active': ''); !!}">Pricing</a>
-            <a href="/contact" class="nav-menu-link {!!($page == 'contact' ? 'active': ''); !!}">Contact</a>
-            <a href="/about" class="nav-menu-link {!!($page == 'about' ? 'active': ''); !!}">About</a>
-            <a href="/blog" class="nav-menu-link {!!($page === 'blog' ? 'active': ''); !!}">Blog</a>
+            <a href="/" class="nav-menu-link {!!($page == 'index' || !$page ? 'active': ''); !!}" id="nav-bar-home">Home</a>
+            <a href="/features" class="nav-menu-link {!!($page == 'features' ? 'active': ''); !!}" id="nav-bar-features">Features</a>
+            <a href="/pricing" class="nav-menu-link {!!($page == 'pricing' ? 'active': ''); !!}" id="nav-bar-pricing">Pricing</a>
+            <a href="/contact" class="nav-menu-link {!!($page == 'contact' ? 'active': ''); !!}" id="nav-bar-contact">Contact</a>
+            <a href="/about" class="nav-menu-link {!!($page == 'about' ? 'active': ''); !!}" id="nav-bar-about">About</a>
+            <a href="/gallery" class="nav-menu-link {!!($page === 'gallery' ? 'active': ''); !!}" id="nav-bar-gallery">Gallery</a>
+            <a href="/blog" class="nav-menu-link {!!($page === 'blog' ? 'active': ''); !!}" id="nav-bar-blog">Blog</a>
             <a href="{{ config('app.admin_url') }}/app/" class="nav-menu-link btn-nav">Login</a>
-            <a class="btn-custom btn-price bc-btn-primary btn-price-mob" href="">Sign up a 7 Days free trial</a>
         </div>
         <div class="nav-burger">
             <a href="#" class="nav-burger-link">
@@ -165,12 +165,34 @@
 <script src="/assets/js/main.js"></script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-162383577-1"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/cookie-bar/cookiebar-latest.min.js?forceLang=en&tracking=1&thirdparty=1&always=1&privacyPage=https%3A%2F%2Ftraxr.net%2Fprivacy.php"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
 
     gtag('config', 'UA-162383577-1');
+
+    function removeHeadersOnBreakpoint() {
+        const windowWidth = $(window).width()
+
+        const linksIdsToRemove = ['nav-bar-gallery', 'nav-bar-blog', 'nav-bar-contact']
+        if (windowWidth <= 990 && windowWidth >= 755 ) {
+            for (const link of linksIdsToRemove) {
+                $(`#${link}`).css({'display': 'none'})
+            }
+        }else {
+            for (const link of linksIdsToRemove) {
+                $(`#${link}`).css({'display': ''})
+            }
+        }
+    }
+    removeHeadersOnBreakpoint()
+    window.onresize = function() {
+        removeHeadersOnBreakpoint()
+    }
+
+
 </script>
 </body>
 </html>

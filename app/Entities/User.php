@@ -13,6 +13,7 @@ use Doctrine\Common\Collections\Selectable;
 use Doctrine\ORM\Mapping as ORM;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
 /**
@@ -311,8 +312,23 @@ class User extends Authenticatable implements INotifiable
      */
     public function __construct(array $attributes = [])
     {
+        $this->fillable = array_keys($attributes);
         parent::__construct($attributes);
 
+        $this->username = $attributes['username'];
+        $this->firstname = $attributes['firstname'];
+        $this->lastname = $attributes['lastname'];
+        $this->timestamp = (string)time();
+        $this->userLevel = 0;
+        $this->ip ='127.0.0.1';
+        $this->regDate = (new DateTime())->format('Y-m-d');
+        $this->company = (string)$attributes['company'];
+        $this->vatNumber = (string)$attributes['vat_number'];
+        $this->country = (string)($attributes['country'] ?: $attributes['land']);
+        $this->address = (string)$attributes['address'];
+        $this->city = (string)$attributes['city'];
+        $this->plan = (string)$attributes['plan'];
+        $this->password = Hash::make((string)$attributes['password']);
         $this->nextDueDate = new DateTime();
     }
 
@@ -894,14 +910,14 @@ class User extends Authenticatable implements INotifiable
     {
         return [
             'username' => ['string'],
-            'firstname' => ['required', 'string'],
-            'lastname' => ['required', 'string'],
+            'firstname',
+            'lastname',
             'company' => ['string'],
             'vat_number' => ['string'],
             'vat_valid' => ['string'],
             'city' => ['string'],
             'address' => ['string'],
-            'country' => ['required', 'string'],
+            'country',
             'email' => ['required', 'email'],
         ];
     }
