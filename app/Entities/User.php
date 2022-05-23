@@ -316,8 +316,8 @@ class User extends Authenticatable implements INotifiable
         parent::__construct($attributes);
 
         $this->username = $attributes['username'];
-        $this->firstname = $attributes['firstname'];
-        $this->lastname = $attributes['lastname'];
+        $this->firstName = $attributes['firstname'];
+        $this->lastName = $attributes['lastname'];
         $this->timestamp = (string)time();
         $this->userLevel = 0;
         $this->ip ='127.0.0.1';

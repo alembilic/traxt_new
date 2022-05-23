@@ -58,7 +58,7 @@ class AccountingSystemPaymentJob extends BaseJob implements ShouldBeUniqueUntilP
         $user = $charge->getCreatedBy();
         $subscription = $charge->getSubscription();
 
-        $userGuid = $service->createUser($charge);
+        $userGuid = $service->createUser($user);
         $user->setDineroAddGuid($userGuid);
         $entityManager->persist($user);
 

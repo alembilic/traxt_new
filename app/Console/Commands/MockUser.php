@@ -4,8 +4,11 @@ namespace App\Console\Commands;
 
 use App\Core\EntityManagerFresher;
 use App\Entities\Product;
+use App\Entities\Subscription;
+use App\Entities\SubscriptionCharge;
 use App\Entities\User;
 use Auth;
+use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
@@ -40,6 +43,7 @@ class MockUser extends Command
         $email = $this->option('email');
         $password = Str::random('10');
 
+        /* @var Product $product */
         $product = $em->getRepository(Product::class)->findOneBy([
             Product::MIX_ID => $planId,
         ]);
@@ -80,6 +84,19 @@ class MockUser extends Command
             $this->info('User created.');
             $this->info('Login: ' . $email);
             $this->info('Password: ' . $password);
+
+            if ($product) {
+                $subscription = new Subscription($user, $product, 12);
+                $subscription->setNextDueDate(Carbon::now()->addYear());
+                $subscription->activate();
+                $em->persist($subscription);
+                $em->flush();
+
+//                $charge = new SubscriptionCharge($subscription, 100, 10);
+//                $em->persist($charge);
+//                $em->flush();
+            }
+            $this->info('Plan: ' . ($product ? $product->getProductName() : 'not assigned'));
         } else {
             $this->error('Error: ' . collect($validator->errors()->toArray())->join(', '));
         }
