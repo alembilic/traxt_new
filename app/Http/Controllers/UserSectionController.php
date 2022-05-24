@@ -87,12 +87,9 @@ class UserSectionController extends BaseWebController
 
 
         $totalBackLinksSpending = $this ->getTotalSpending(new StatisticsFilterDto(['user' => $user]));
-        /*
-        $totalBackLinksSpending = $statisticsServicesFactory ->build(StatisticsTypes::BACKLINKS)
-            ->getTotalSpending(new StatisticsFilterDto([
-                StatisticsFilterDto::USER => $user
-            ]));
-        */
+
+        $hasFinancialData = $totalBackLinksSpending[0]["totalSpending"] !== null;
+
         $backLinksTotal = $statisticsServicesFactory->build(StatisticsTypes::BACKLINKS)
             ->getStatistics(new StatisticsFilterDto([
                 StatisticsFilterDto::USER => $user,
@@ -125,6 +122,7 @@ class UserSectionController extends BaseWebController
             'backLinksDailyGraph' => $backLinksDailyGraph,
             'domains' => $domains,
             'totalSpending' => $totalBackLinksSpending,
+            'hasFinancialData' => $hasFinancialData,
             'user' => $user,
         ]);
     }
@@ -195,15 +193,15 @@ class UserSectionController extends BaseWebController
 
     /**
     * Contacts page.
-    * 
+    *
     * @return View
     */
     public function contacts(Request $request): View
     {
-        // TODO fix: SELECT * FROM `contacts` where find_in_set('rohdes.net',domains);  
-        
+        // TODO fix: SELECT * FROM `contacts` where find_in_set('rohdes.net',domains);
+
         $search = $request->get('search');
-        
+
         $repository = $this->getRepository(Contact::class);
         $criteria = Criteria::create();
 
@@ -383,7 +381,7 @@ class UserSectionController extends BaseWebController
     {
         $currentSubscription = $this->user->getSubscription();
 
-        return view('app.my_plan', [
+        return view('app.my_plan_new', [
             'plan' => $currentSubscription ? $currentSubscription->getProduct() : null,
             'subscription' => $currentSubscription,
             'user' => $this->user,

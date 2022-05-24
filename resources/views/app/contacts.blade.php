@@ -103,8 +103,13 @@
 
             Api.makeRequest('createRating', {
                 data: {value: rating, comment: comment, contactId: contactId},
-                success: function () {
+                success: function (data) {
                     new swal('', 'Rating saved', 'success');
+                    //TODO make better implementation, that returns new data from the api
+                    setTimeout(() =>{
+                        window.location.reload()
+                    }, 500)
+
                 }
             }, {});
         }

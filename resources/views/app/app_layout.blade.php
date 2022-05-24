@@ -311,7 +311,8 @@
                         </span>
                         <ul class="sub-menu">
                             <li{!! Route::has('myaccount') ? ' class="active"' : '' !!}>
-                                <a href="{!! route('myaccount') !!}">{{ trans('template.my_account') }}</a>
+                                <a href="{!! route('myaccount') !!}">
+                                </a>
                             </li>
                             <li{!! Route::has('invoices') ? ' class="active"' : '' !!}>
                                 <a href="{!! route('invoices') !!}">{{ trans('template.invoices') }}</a>

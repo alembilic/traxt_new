@@ -53,8 +53,10 @@
             </div>
         </div>
     </div>
+
     <div class="col col-12 col-lg-4">
         <div class="total-card total-card-red">
+            @if($hasFinancialData)
             <div class="total-link">
                 <div class="icon">
                     <img src="/assets-app/images/dollar-icon.svg" alt="icon-total-red">
@@ -78,6 +80,16 @@
                     <a href="#" class="number">${{ $totalSpending[1]["lostSpending"] }}</a>
                 </div>
             </div>
+            @else
+                <div>
+          <div style="text-align: center;">
+              <a href={!! route('links') !!}><img src="/assets-app/images/financial-icon.svg" style="cursor: pointer" /></a>
+          </div>
+                    <div style="text-align: center; padding: 10px">
+                        <a href={!! route('links') !!}>Add prices</a> to your links to see financial data.
+                    </div>
+                </div>
+            @endif
         </div>
     </div>
     <div class="col col-12 col-lg-4">
