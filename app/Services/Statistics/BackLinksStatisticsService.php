@@ -34,9 +34,6 @@ class BackLinksStatisticsService implements IStatisticsService
         ]);
     }
 
-
-
-
     /**
      * Returns order statistics grouped by some period (days/weeks/months/years).
      *
@@ -87,8 +84,6 @@ class BackLinksStatisticsService implements IStatisticsService
             $criteria[] = $query->expr()->eq('bl.' . BackLink::CREATED_BY, $filterDto->user->getId());
         }
 
-
-
         $items = collect();
 
         $rawItems = $query
@@ -107,7 +102,6 @@ class BackLinksStatisticsService implements IStatisticsService
                 BaseStatisticsItem::COUNT => $item['value'],
             ]));
         }
-
 
         // Add empty keys if it is necessary
         foreach ($keys as $key => $name) {

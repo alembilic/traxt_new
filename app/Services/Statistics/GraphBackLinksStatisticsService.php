@@ -94,8 +94,6 @@ class GraphBackLinksStatisticsService implements IStatisticsService
                     $criteria[] = $query->expr()->eq('bl.' . BackLink::LOST, 0);
                     break;
             }
-
-
             $rawItems = $query
                 ->select([
                     'count(bl.' . BackLink::ID . ') as value',
@@ -113,10 +111,7 @@ class GraphBackLinksStatisticsService implements IStatisticsService
                     BaseStatisticsItem::DATE => Carbon::parse($item['key']),
                 ]));
             }
-
         }
-
-
         return $items->all();
     }
 }
