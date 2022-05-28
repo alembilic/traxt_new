@@ -283,8 +283,8 @@
                         </a>
                     </li>
                     @endif
-                    <li class="list-group-item{!! Route::is('contact') ? ' active' : '' !!}">
-                        <a href="{!! route('contact') !!}">
+                    <li class="list-group-item{!! Route::is('contacts') ? ' active' : '' !!}">
+                        <a href="{!! route('contacts') !!}">
                             <div class="icon-wrap">
                                 <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <g clip-path="url(#clip0_360_22717)">

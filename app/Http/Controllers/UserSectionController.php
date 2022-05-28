@@ -8,6 +8,7 @@ use App\Dto\BackLinks\BackLinksFilter;
 use App\Dto\CursorDto;
 use App\Dto\Statistics\StatisticsFilterDto;
 use App\Entities\BackLink;
+use App\Entities\Contact;
 use App\Entities\Currency;
 use App\Entities\Domain;
 use App\Entities\Order;
@@ -155,6 +156,35 @@ class UserSectionController extends BaseWebController
             'of' => $countPages,
             'search' => $filter->search,
             'linksCount' => $repository->count([BackLink::CREATED_BY => $this->user->getId()]),
+        ]);
+    }
+
+    /**
+    * Contacts page.
+    * 
+    * @return View
+    */
+    public function contacts(Request $request): View
+    {
+        // TODO fix: SELECT * FROM `contacts` where find_in_set('rohdes.net',domains);  
+        
+        $search = $request->get('search');
+        
+        $repository = $this->getRepository(Contact::class);
+        $criteria = Criteria::create();
+
+        if ($search) {
+            // search for email
+            $criteria->where(Criteria::expr()->eq(Contact::EMAIL, $search));
+            // search for domains
+            $criteria->orWhere(Criteria::expr()->contains(Contact::DOMAINS, $search));
+        }
+
+        $contacts = collect($repository->matching($criteria));
+
+        return view('app.contacts', [
+            'contacts' => $contacts,
+            'search' => $search
         ]);
     }
 
