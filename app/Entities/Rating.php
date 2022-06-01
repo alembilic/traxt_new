@@ -8,13 +8,18 @@ use DateTime;
 /**
  * Ratings
  *
- * @ORM\Table(name="ratings", indexes={@ORM\Index(name="ratings_user_id_foreign", columns={"user_id"}), @ORM\Index(name="ratings_contact_id_foreign", columns={"contact_id"})})
+ * @ORM\Table(name="ratings", indexes={
+ *     @ORM\Index(name="ratings_user_id_foreign", columns={"user_id"}),
+ *     @ORM\Index(name="ratings_contact_id_foreign", columns={"contact_id"})
+ * })
+ *
  * @ORM\Entity
  */
 class Rating
 {
     public const CONTACT = 'contact';
     public const USER = 'user';
+
     /**
      * @var int
      *
@@ -53,24 +58,24 @@ class Rating
     private $updatedAt;
 
     /**
-     * @var \Contacts
+     * @var Contact
      *
      * @ORM\ManyToOne(targetEntity="Contact", inversedBy="ratings", cascade={"persist"})
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="contact_id", referencedColumnName="id")
-     * })
-     */
-    private $contact;
-
-    /**
-     * @var \Users
      *
      * @ORM\ManyToOne(targetEntity="User")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="user_id", referencedColumnName="id")
-     * })
+     *
+     * @ORM\JoinColumn(name="contact_id", referencedColumnName="id")
      */
-    private $user;
+    private Contact $contact;
+
+    /**
+     * @var User
+     *
+     * @ORM\ManyToOne(targetEntity="User")
+     *
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     */
+    private User $user;
 
     /**
      * @param int $value value
@@ -94,7 +99,7 @@ class Rating
     public function getId(): int
     {
         return $this->id;
-    }    
+    }
 
     /**
      * @return int
@@ -110,7 +115,7 @@ class Rating
     public function getValueAsPercent(): int
     {
         return $this->value * 100 / 5;
-    }    
+    }
 
     /**
      * @return string
@@ -118,14 +123,14 @@ class Rating
     public function getComment(): string
     {
         return $this->comment;
-    }    
+    }
 
     /**
-     * @return string
+     * @return User
      */
-    public function getName(): string
+    public function getUser(): User
     {
-        return $this->user->getFirstname() . " " . $this->user->getLastname();
+        return $this->user;
     }
 
     /**
@@ -144,7 +149,7 @@ class Rating
     public function setRatingValue(int $value): void
     {
         $this->value = $value;
-    }    
+    }
 
     /**
      * @param string $comment
@@ -152,19 +157,19 @@ class Rating
     public function setComment(string $comment): void
     {
         $this->comment = $comment;
-    }   
-    
+    }
+
     /**
      * @param DateTime $updatedAt
      */
     public function setUpdatedAt(DateTime $updatedAt): void
     {
         $this->updatedAt = $updatedAt;
-    }         
+    }
 
-    // Function to find the difference 
+    // Function to find the difference
     // between two dates.
-    private function dateDiffInDays($date1, $date2) 
+    private function dateDiffInDays($date1, $date2)
     {
         $abs_diff = $date1->diff($date2)->format("%a"); //3
 

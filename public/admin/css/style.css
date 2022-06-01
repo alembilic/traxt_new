@@ -294,16 +294,16 @@ tbody {
     background-color: #FFF;
 }
 .known_backlinks_table th {
-	padding-right: 5px;
-	white-space: nowrap;
-	color: #777;
+    padding-right: 5px;
+    white-space: nowrap;
+    color: #777;
 }
 
 .touchgrey {background-color: #eaeaea;}
 .backlinks_table th {
-	text-align: center;
-	text-transform: uppercase;
-	color: #777;
+    text-align: center;
+    text-transform: uppercase;
+    color: #777;
 }
 .backlinks_table .fa, .backlinks_table .fas {
     font-size: 16px;

@@ -10,6 +10,7 @@ use App\Dto\Statistics\BaseStatisticsData;
 use App\Dto\Statistics\BaseStatisticsItem;
 use App\Dto\Statistics\StatisticsFilterDto;
 use App\Entities\BackLink;
+use App\Entities\User;
 use App\Enums\StatisticsGroupByValues;
 use App\Enums\StatisticsTypes;
 use App\Exceptions\DtoException;
@@ -83,6 +84,8 @@ class BackLinksStatisticsService implements IStatisticsService
             $criteria[] = $query->expr()->eq('bl.' . BackLink::CREATED_BY, $filterDto->user->getId());
         }
 
+        $items = collect();
+
         $rawItems = $query
             ->select([
                 'count(bl.' . BackLink::ID . ') as value',
@@ -92,7 +95,6 @@ class BackLinksStatisticsService implements IStatisticsService
             ->groupBy('key')
             ->getQuery();
 
-        $items = collect();
         foreach ($rawItems->getArrayResult() as $item) {
             $items->put($item['key'], new BaseStatisticsItem([
                 BaseStatisticsItem::KEY => (string)$item['key'],

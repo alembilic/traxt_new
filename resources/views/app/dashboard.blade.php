@@ -27,6 +27,8 @@
  * @var \App\Contracts\Statistics\IStatisticsItem $item
  */
 @endphp
+<script src="https://unpkg.com/@popperjs/core@2"></script>
+<script src="https://unpkg.com/tippy.js@6"></script>
 <div class="row cards">
     <div class="col col-12 col-lg-4">
         <div class="total-card total-card-blue">
@@ -51,27 +53,42 @@
             </div>
         </div>
     </div>
+
     <div class="col col-12 col-lg-4">
         <div class="total-card total-card-red">
+            @if($hasFinancialData)
             <div class="total-link">
                 <div class="icon">
-                    <img src="/assets-app/images/icon-total-red.svg" alt="icon-total-red">
+                    <img src="/assets-app/images/dollar-icon.svg" alt="icon-total-red">
                 </div>
                 <div>
-                    <h5>Your daily update</h5>
+                    <h5>Total Spending</h5>
                     <span class="total-number">
-                        {{ $backLinksDaily->getTotalCount() }}
+                        ${{ (int)$totalSpending[0]["totalSpending"] / 100 }}
                     </span>
                 </div>
             </div>
             <div class="total-card-footer">
-                @foreach ($backLinksDaily->toArray() as $item)
-                    <div class="card-item">
-                        <span>{{ $item->getTitle() }}</span>
-                        <a href="#" class="number">{{ $item->getCount() }}</a>
-                    </div>
-                @endforeach
+                <div class="card-item">
+                 <span><i class="fas fa-info-circle" id="info-tooltip-1" style="font-size: 0.9rem;"></i>  + Active backlink value</span>
+                    <a href="#" class="number" style="color: #0BDD53">${{ (int)$totalSpending[2] / 100}}</a>
+                </div>
+
+                <div class="card-item">
+                    <span><i class="fas fa-info-circle" id="info-tooltip-2" style="font-size: 0.9rem;"></i>  - Lost backlink value</span>
+                    <a href="#" class="number">${{ (int)$totalSpending[1]["lostSpending"] / 100 }}</a>
+                </div>
             </div>
+            @else
+                <div>
+          <div style="text-align: center;">
+              <a href={!! route('links') !!}><img src="/assets-app/images/financial-icon.svg" style="cursor: pointer" /></a>
+          </div>
+                    <div style="text-align: center; padding: 10px">
+                        <a href={!! route('links') !!}>Add prices</a> to your links to see financial data.
+                    </div>
+                </div>
+            @endif
         </div>
     </div>
     <div class="col col-12 col-lg-4">
@@ -170,7 +187,18 @@ for ($i = 7; $i >= 0; $i--) {
 }
 @endphp
 <script>
-    function startIntro(){
+
+      tippy('#info-tooltip-1', {
+          content: 'hover like glover',
+          placement: 'top'
+      })
+
+      tippy('#info-tooltip-2', {
+          content: 'hover like glover',
+          placement: 'bottom'
+      })
+
+      function startIntro(){
         var intro = introJs();
         intro.setOptions({
             steps: [

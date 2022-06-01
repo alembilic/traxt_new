@@ -143,7 +143,7 @@ class BackLink implements IHasUser, IEntity
     /**
      * @var int
      *
-     * @ORM\Column(name="rank", type="integer", length=3, nullable=false)
+     * @ORM\Column(name="`rank`", type="integer", length=3, nullable=false)
      */
     private int $rank = 0;
 

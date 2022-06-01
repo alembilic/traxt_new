@@ -56,10 +56,10 @@ class BlogPost
     private string $fullContent;
 
     /**
-    * @var string
-    *
-    * @ORM\Column(name="image", type="string", length=255, nullable=false)
-    */
+     * @var string
+     *
+     * @ORM\Column(name="image", type="string", length=255, nullable=false)
+     */
     private string $image;
 
     /**
@@ -103,8 +103,8 @@ class BlogPost
     }
 
     /**
-    * @return string
-    */
+     * @return string
+     */
     public function getImage(): string
     {
         return $this->image;

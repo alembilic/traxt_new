@@ -39,13 +39,15 @@
                                 </div>
                             </div>
                         </div>
-                    </div>       
+                    </div>
                 </div>
-            @endforeach        
+            @endforeach
         </div>
     </div>
 
     <script>
+
+
 
         const ratingTemplate = (rating) => {
             return `
@@ -61,15 +63,30 @@
 
         const getRatings = (contactId) => {
 
+            $.ajax({
+                url: "google.com",
+                type: 'get',
+                success: function(data){
+                    console.log(data)
+                }
+            })
             Api.makeRequest('rating', {
+
                 success: function (data) {
+
+                    console.log(data)
                     if (!data.data.length) {
+                        console.log('showing modals, but no review')
                         showModal(`<div>no reviews yet</div>`, contactId);
                     } else {
+                        console.log('showing ratings')
                         showModal(`${data.data.map(ratingTemplate).join("")}`, contactId);
                     }
                 },
-                
+                error: function(jwXHR, exception){
+                    console.error(exception)
+                }
+
             }, {contactId: contactId});
         }
 
@@ -86,8 +103,13 @@
 
             Api.makeRequest('createRating', {
                 data: {value: rating, comment: comment, contactId: contactId},
-                success: function () {
+                success: function (data) {
                     new swal('', 'Rating saved', 'success');
+                    //TODO make better implementation, that returns new data from the api
+                    setTimeout(() =>{
+                        window.location.reload()
+                    }, 500)
+
                 }
             }, {});
         }
@@ -108,23 +130,23 @@
                                 ${ratings}
                             </div>
                             <div class="review-add">
-                                <div class="rating"> 
+                                <div class="rating">
                                     <input type="radio" name="rating" value="5" id="5">
-                                    <label for="5"><i class="fa-solid fa-star"></i></label> 
+                                    <label for="5"><i class="fa-solid fa-star"></i></label>
                                     <input type="radio" name="rating" value="4" id="4">
-                                    <label for="4"><i class="fa-solid fa-star"></i></label> 
+                                    <label for="4"><i class="fa-solid fa-star"></i></label>
                                     <input type="radio" name="rating" value="3" id="3">
-                                    <label for="3"><i class="fa-solid fa-star"></i></label> 
+                                    <label for="3"><i class="fa-solid fa-star"></i></label>
                                     <input type="radio" name="rating" value="2" id="2">
-                                    <label for="2"><i class="fa-solid fa-star"></i></label> 
+                                    <label for="2"><i class="fa-solid fa-star"></i></label>
                                     <input type="radio" name="rating" value="1" id="1">
                                     <label for="1"><i class="fa-solid fa-star"></i></label>
                                 </div>
                                 <div>
                                     <textarea class="form-control rounded-0 textarea-contact" name="comment" id="comment" placeholder="Please, add your review here." rows="4"></textarea>
-                                    <input type="hidden" id="contactId" value="${contactId}"/>    
+                                    <input type="hidden" id="contactId" value="${contactId}"/>
                                     <p class="text-end font-14 black-color-25">0/100</p>
-                                </div>    
+                                </div>
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -143,6 +165,6 @@
             });
         }
 
-    </script>    
+    </script>
 
 @endsection

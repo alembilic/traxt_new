@@ -5,6 +5,7 @@
 /storage/proxies/*
 /vendor
 .env
+notes
 .env.backup
 .phpunit.result.cache
 docker-compose.override.yml

@@ -20,15 +20,15 @@ class CreateRatingsTable extends Migration
             $table->integer('value')->nullable(false);
             $table->string('comment', 500)->nullable(true);
             $table->foreign(['user_id'])
-            ->on('users')
-            ->references('id')
-            ->onDelete('CASCADE')
-            ->onUpdate('CASCADE');
+                ->on('users')
+                ->references('id')
+                ->onDelete('CASCADE')
+                ->onUpdate('CASCADE');
             $table->foreign(['contact_id'])
-            ->on('contacts')
-            ->references('id')
-            ->onDelete('CASCADE')
-            ->onUpdate('CASCADE');               
+                ->on('contacts')
+                ->references('id')
+                ->onDelete('CASCADE')
+                ->onUpdate('CASCADE');
             $table->timestamps();
         });
     }

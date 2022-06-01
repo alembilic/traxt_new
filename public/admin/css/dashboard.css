@@ -17,7 +17,6 @@
 
 .icon-darkorange {
     background-color: #ff9f40;
-	
 }
 
 .icon-orange {
@@ -32,137 +31,132 @@
     background-color: #6d6de3;
 }
 
-
 .panel .round-icon-bg {
     position: absolute;
     opacity: 0.8;
     left: 15px;
     top: 10px;
     font-size: 38px;
-	border-radius: 50%;
-	text-align: center;
-	padding-top:12px;
-	height:75px;
-	width:75px;
-	color: #ffffff;
+    border-radius: 50%;
+    text-align: center;
+    padding-top:12px;
+    height:75px;
+    width:75px;
+    color: #ffffff;
 }
 
 .panel .round-icon-small-bg {
     position: relative;
     opacity: 0.8;
     font-size: 12px;
-	border-radius: 50%;
-	text-align: center;
-	padding-top:2px;
-	height:20px;
-	width:20px;
-	color: #ffffff;
-	margin-right:5px;
-	margin-bottom:2px;
+    border-radius: 50%;
+    text-align: center;
+    padding-top:2px;
+    height:20px;
+    width:20px;
+    color: #ffffff;
+    margin-right:5px;
+    margin-bottom:2px;
 }
 
 .text-left-dashboard{
-	margin-left: 100px;
-	margin-top: 20px;
+    margin-left: 100px;
+    margin-top: 20px;
 }
 
 @media only screen and (min-width: 900px) {
-	.dashboard-domain{
-		float:left;
-		max-width:420px;
-		min-width:420px;
-		border: 1px solid #dbe1e8;
-		border-radius: 0px;
-		margin:15px;
-		padding:15px;
-	}
+    .dashboard-domain{
+        float:left;
+        max-width:420px;
+        min-width:420px;
+        border: 1px solid #dbe1e8;
+        border-radius: 0px;
+        margin:15px;
+        padding:15px;
+    }
 
-	.dashboard-thumbnail {
-		height: 100px;
-		width: auto;
-	}
+    .dashboard-thumbnail {
+        height: 100px;
+        width: auto;
+    }
 
-	.dashboard-graph {
-		
-	}
-	
-	.dashboard-header {
-		font-size: 20px;
-		font-weight: 300;
-		margin-top: 20px;
-		text-align:left;
-		margin-left: 95px;
-	}
+    .dashboard-graph {
+
+    }
+
+    .dashboard-header {
+        font-size: 20px;
+        font-weight: 300;
+        margin-top: 20px;
+        text-align:left;
+        margin-left: 95px;
+    }
 }
 @media only screen and (max-width: 900px) {
-	.dashboard-domain{
-		float:left;
-		max-width:285px;
-		min-width:285px;
-		border: 1px solid #dbe1e8;
-		border-radius: 0px;
-		margin:8px;
-		padding:8px;
-		overflow:hidden;
-		white-space: nowrap;
-	}
-	.dashboard-thumbnail {
-		height: 70px;
-		width: auto;
-	}
-	.dashboard-graph {
-		width:90%;
-		margin-top:30px;
-	}
+    .dashboard-domain{
+        float:left;
+        max-width:285px;
+        min-width:285px;
+        border: 1px solid #dbe1e8;
+        border-radius: 0px;
+        margin:8px;
+        padding:8px;
+        overflow:hidden;
+        white-space: nowrap;
+    }
+    .dashboard-thumbnail {
+        height: 70px;
+        width: auto;
+    }
+    .dashboard-graph {
+        width:90%;
+        margin-top:30px;
+    }
 
-	.dashboard-header {
-		font-size: 20px;
-		font-weight: 300;
-		margin-top: 20px;
-		text-align:left;
-		margin-left: 85px;
-	}
+    .dashboard-header {
+        font-size: 20px;
+        font-weight: 300;
+        margin-top: 20px;
+        text-align:left;
+        margin-left: 85px;
+    }
 }
 
 .dashboard-domain td{
-	vertical-align:top;
-	padding-left:10px
+    vertical-align:top;
+    padding-left:10px
 }
 
 .round-icon-bg a{
-	color: #fff;
+    color: #fff;
 }
 
 .dashboard-header a{
-	color: #000;
+    color: #000;
 }
 
 .Chart{
-	margin-top:20px;
-	display: block;
+    margin-top:20px;
+    display: block;
 }
 
 /* Canvas Graf */
 @media only screen and (min-width: 500px) {
-	.Chart{
-		width:600px;
-		margin-left:-100px;
-	}
+    .Chart{
+        width:600px;
+        margin-left:-100px;
+    }
 }
-
 
 @media only screen and (min-width: 900px) {
-	.Chart{
-		width:600px;
-	}
+    .Chart{
+        width:600px;
+    }
 }
 
-
-
-
 @media only screen and (min-width: 1500px) {
-	.Chart{
-		width:800px;
-		margin-left:-100px;
-	}
+    .Chart{
+        width:800px;
+        margin-left:-100px;
+    }
 }

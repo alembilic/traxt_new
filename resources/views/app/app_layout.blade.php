@@ -300,6 +300,24 @@
                             {{ trans('template.contacts') }}
                         </a>
                     </li>
+                    <li class="list-group-item{!! Route::is('rewards') ? ' active' : '' !!}">
+                        <a href="{!! route('rewards') !!}">
+                            <div class="icon-wrap">
+                                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <g clips-path="url(#clip0_360_22717)">
+                                        <path d="M12.75 3.8457H10.4438C10.6562 3.51133 10.7812 3.11445 10.7812 2.68945C10.7812 1.50039 9.81406 0.533203 8.625 0.533203C7.97813 0.533203 7.39531 0.820703 7 1.27383C6.60469 0.820703 6.02187 0.533203 5.375 0.533203C4.18594 0.533203 3.21875 1.50039 3.21875 2.68945C3.21875 3.11445 3.34219 3.51133 3.55625 3.8457H1.25C0.973437 3.8457 0.75 4.06914 0.75 4.3457V7.4707C0.75 7.53945 0.80625 7.5957 0.875 7.5957H1.5V12.9707C1.5 13.2473 1.72344 13.4707 2 13.4707H12C12.2766 13.4707 12.5 13.2473 12.5 12.9707V7.5957H13.125C13.1938 7.5957 13.25 7.53945 13.25 7.4707V4.3457C13.25 4.06914 13.0266 3.8457 12.75 3.8457ZM7.53125 2.68945C7.53125 2.08633 8.02187 1.5957 8.625 1.5957C9.22812 1.5957 9.71875 2.08633 9.71875 2.68945C9.71875 3.29258 9.22812 3.7832 8.625 3.7832H7.53125V2.68945ZM5.375 1.5957C5.97813 1.5957 6.46875 2.08633 6.46875 2.68945V3.7832H5.375C4.77187 3.7832 4.28125 3.29258 4.28125 2.68945C4.28125 2.08633 4.77187 1.5957 5.375 1.5957ZM1.8125 6.5332V4.9082H6.46875V6.5332H1.8125ZM2.5625 7.5957H6.46875V12.4082H2.5625V7.5957ZM11.4375 12.4082H7.53125V7.5957H11.4375V12.4082ZM12.1875 6.5332H7.53125V4.9082H12.1875V6.5332Z" fill="black" fill-opacity="0.85"/>
+                                    </g>
+                                    <defs>
+                                        <clipPath id="clip0_360_22717">
+                                            <rect width="14" height="14" fill="white"/>
+                                        </clipPath>
+                                    </defs>
+                                </svg>
+                            </div>
+                            <!-- TODO add translate php variable her -->
+                            {{trans('template.rewards')}}
+                        </a>
+                    </li>
                     <li class="list-group-item has-sub-menu{!! $isAccount ? ' active' : '' !!}">
                         <span>
                             <div class="icon-wrap">
@@ -311,7 +329,8 @@
                         </span>
                         <ul class="sub-menu">
                             <li{!! Route::has('myaccount') ? ' class="active"' : '' !!}>
-                                <a href="{!! route('myaccount') !!}">{{ trans('template.my_account') }}</a>
+                                <a href="{!! route('myaccount') !!}">
+                                </a>
                             </li>
                             <li{!! Route::has('invoices') ? ' class="active"' : '' !!}>
                                 <a href="{!! route('invoices') !!}">{{ trans('template.invoices') }}</a>

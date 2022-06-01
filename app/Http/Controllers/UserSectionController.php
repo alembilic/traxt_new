@@ -30,6 +30,7 @@ use App\Services\Statistics\StatisticsServicesFactory;
 use Carbon\Carbon;
 use DateTime;
 use Doctrine\Common\Collections\Criteria;
+use Doctrine\ORM\NonUniqueResultException;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -46,6 +47,43 @@ class UserSectionController extends BaseWebController
     use EntityManagerFresher;
 
     /**
+     * @param StatisticsFilterDto $filterDto
+     *
+     * @return array
+     *
+     * @throws BindingResolutionException
+     * @throws NonUniqueResultException
+     */
+    private function getTotalSpending(StatisticsFilterDto $filterDto): array
+    {
+        $user = $filterDto->user;
+        $totalBackLinksSpending = $this->getEntityManager()
+            ->getRepository(BackLink::class)
+            ->createQueryBuilder('bl')
+            ->andWhere('bl.createdBy = :user')
+            ->setParameter('user', $user)
+            ->select('SUM(bl.price) as totalSpending')
+            ->getQuery()
+            ->getOneOrNullResult();
+
+        $lostSpending = $this->getEntityManager()
+            ->getRepository(BackLink::class)
+            ->createQueryBuilder('bl')
+            ->andWhere('bl.createdBy = :user')
+            ->setParameter('user', $user)
+            ->andWhere('bl.lost = :bool')
+            ->setParameter('bool', true)
+            ->select('SUM(bl.price) as lostSpending')
+            ->getQuery()
+            ->getOneOrNullResult();
+
+        $activeSpending = $totalBackLinksSpending['totalSpending'] - $lostSpending['lostSpending'];
+
+        return [$totalBackLinksSpending, $lostSpending, $activeSpending];
+
+    }
+
+    /**
      * Dashboard page.
      *
      * @param StatisticsServicesFactory $statisticsServicesFactory Services Factory
@@ -59,6 +97,10 @@ class UserSectionController extends BaseWebController
     {
         /* @var User $user */
         $user = $this->user;
+
+        $totalBackLinksSpending = $this->getTotalSpending(new StatisticsFilterDto(['user' => $user]));
+
+        $hasFinancialData = $totalBackLinksSpending[0]['totalSpending'] !== null;
 
         $backLinksTotal = $statisticsServicesFactory->build(StatisticsTypes::BACKLINKS)
             ->getStatistics(new StatisticsFilterDto([
@@ -91,6 +133,8 @@ class UserSectionController extends BaseWebController
             'backLinksDaily' => $backLinksDaily,
             'backLinksDailyGraph' => $backLinksDailyGraph,
             'domains' => $domains,
+            'totalSpending' => $totalBackLinksSpending,
+            'hasFinancialData' => $hasFinancialData,
             'user' => $user,
         ]);
     }
@@ -160,16 +204,18 @@ class UserSectionController extends BaseWebController
     }
 
     /**
-    * Contacts page.
-    * 
-    * @return View
-    */
+     * Contacts page.
+     *
+     * @param Request $request Request
+     *
+     * @return View
+     */
     public function contacts(Request $request): View
     {
-        // TODO fix: SELECT * FROM `contacts` where find_in_set('rohdes.net',domains);  
-        
+        // TODO fix: SELECT * FROM `contacts` where find_in_set('rohdes.net',domains);
+
         $search = $request->get('search');
-        
+
         $repository = $this->getRepository(Contact::class);
         $criteria = Criteria::create();
 
@@ -349,7 +395,7 @@ class UserSectionController extends BaseWebController
     {
         $currentSubscription = $this->user->getSubscription();
 
-        return view('app.my_plan', [
+        return view('app.my_plan_new', [
             'plan' => $currentSubscription ? $currentSubscription->getProduct() : null,
             'subscription' => $currentSubscription,
             'user' => $this->user,

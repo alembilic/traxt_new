@@ -112,7 +112,6 @@ class GraphBackLinksStatisticsService implements IStatisticsService
                 ]));
             }
         }
-
         return $items->all();
     }
 }

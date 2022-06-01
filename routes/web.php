@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\PromoController;
+use App\Http\Controllers\RewardsController;
 use App\Http\Controllers\UserSectionController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -60,6 +61,7 @@ Route::group(['middleware' => ['auth:web', 'authorizedOnly', 'verifyPlan'], 'pre
     Route::get('plans/{mixId}/{type}', UserSectionController::class . '@changePlan');
     Route::get('subscription/pay', UserSectionController::class . '@paySubscription');
     Route::get('subscription/{subscription}/terminate', UserSectionController::class . '@terminateSubscription');
+    Route::get('rewards', RewardsController::class . '@index')->name('rewards');
 });
 
 Route::get('app', function () {
