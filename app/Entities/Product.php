@@ -8,6 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Product
  *
  * @ORM\Table(name="products")
+ *
  * @ORM\Entity
  */
 class Product
@@ -18,7 +19,9 @@ class Product
      * @var int
      *
      * @ORM\Column(name="id", type="integer", nullable=false)
+     *
      * @ORM\Id
+     *
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
@@ -114,6 +117,7 @@ class Product
      */
     private $responseCode = '0';
 
+
     /**
      * @var int|null
      *
@@ -141,6 +145,11 @@ class Product
      * @ORM\Column(name="bureau", type="integer", nullable=false)
      */
     private $bureau = '0';
+
+    /**
+     * @ORM\OneToMany(targetEntity="ProductFeature", mappedBy="product", cascade={"persist", "remove"})
+     **/
+      private $productFeatures;
 
     /**
      * @return int

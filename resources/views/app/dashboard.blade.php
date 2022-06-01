@@ -64,20 +64,19 @@
                 <div>
                     <h5>Total Spending</h5>
                     <span class="total-number">
-                        ${{ $totalSpending[0]["totalSpending"] }}
-
+                        ${{ (int)$totalSpending[0]["totalSpending"] / 100 }}
                     </span>
                 </div>
             </div>
             <div class="total-card-footer">
                 <div class="card-item">
                  <span><i class="fas fa-info-circle" id="info-tooltip-1" style="font-size: 0.9rem;"></i>  + Active backlink value</span>
-                    <a href="#" class="number">${{$totalSpending[2]}}</a>
+                    <a href="#" class="number" style="color: #0BDD53">${{ (int)$totalSpending[2] / 100}}</a>
                 </div>
 
                 <div class="card-item">
                     <span><i class="fas fa-info-circle" id="info-tooltip-2" style="font-size: 0.9rem;"></i>  - Lost backlink value</span>
-                    <a href="#" class="number">${{ $totalSpending[1]["lostSpending"] }}</a>
+                    <a href="#" class="number">${{ (int)$totalSpending[1]["lostSpending"] / 100 }}</a>
                 </div>
             </div>
             @else

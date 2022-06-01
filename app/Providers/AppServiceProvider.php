@@ -68,7 +68,7 @@ class AppServiceProvider extends ServiceProvider
             ->give(BackLinkTransformer::class);
         $this->app->when(RatingApiController::class)
             ->needs(TransformerAbstract::class)
-            ->give(RatingTransformer::class);            
+            ->give(RatingTransformer::class);
 
         if (!$this->app->environment('local')) {
             URL::forceScheme('https');

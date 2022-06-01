@@ -58,13 +58,13 @@
                                         {{ $availablePlan->getProductName() }}
                                     </div>
                                     <div class="card-domain-link">
-                                        <p><span>{{$availablePlan -> getDomains()}}</span>Domain</p>
-                                        <p><span>{{ $availablePlan -> getLinks() }}</span>Links</p>
+                                        <p><span>{{$availablePlan->getDomains()}}</span>Domain</p>
+                                        <p><span>{{ $availablePlan->getLinks() }}</span>Links</p>
                                     </div>
                                     <div class="domain-price">
-                                        <h2>{{ $availablePlan ->getPricePerMonth() > 0 ? "$" . number_format($availablePlan->getPricePerMonth() / 100, 0, '.', '') : 'Free'}}<sub>/year</sub></h2>
+                                        <h2>{{ $availablePlan->getPricePerMonth() > 0 ? "$" . number_format($availablePlan->getPricePerMonth() / 100, 0, '.', '') : 'Free'}}<sub>/year</sub></h2>
                                     </div>
-                                    @if($plan ->getProductName() == $availablePlan ->getProductName())
+                                    @if($plan->getProductName() === $availablePlan->getProductName())
                                         <div class="pich-the-plan">
                                             <a href="#" class="btn btn-primary disabled"
                                                data-bs-toggle="tooltip" data-bs-placement="bottom"
@@ -110,14 +110,13 @@
                                         </ul>
                                     </div>
                                         </div>
-                                    @if($plan ->getProductName() == $availablePlan ->getProductName())
+                                    @if($plan->getProductName() === $availablePlan->getProductName())
                                         <div class="card-footer">
                                             <p>Next renewal: 2099-05-01</p>
                                         </div>
                                     @endif
                                         </div>
                                     </div>
-
 
                             @endforeach
 
@@ -135,7 +134,7 @@
                                     <div class="plan-cards">
                                         <div class="card border-0 rounded-0">
                                             <div class="card-header border-0">
-                                                Free
+                                                Starter
                                             </div>
                                             <div class="card-body">
                                                 <div class="card-domain-link">
@@ -143,7 +142,7 @@
                                                     <p><span>25</span>Links</p>
                                                 </div>
                                                 <div class="domain-price">
-                                                    <h2>$0<sub>/year</sub></h2>
+                                                    <h2>$19<sub>/month</sub></h2>
                                                 </div>
                                                 <div class="pich-the-plan">
                                                     <a href="#" class="btn btn-primary disabled"
@@ -181,11 +180,13 @@
                                         </div>
                                     </div>
                                 </div>
+
+
                                 <div class="col-lg-3 col-md-6 mb-4 col-sm-12">
                                     <div class="plan-cards">
                                         <div class="card border-0 rounded-0">
                                             <div class="card-header border-0">
-                                                Starter
+                                                Business
                                             </div>
                                             <div class="card-body">
                                                 <div class="card-domain-link">
@@ -193,7 +194,7 @@
                                                     <p><span>100</span>Links</p>
                                                 </div>
                                                 <div class="domain-price">
-                                                    <h2>$19<sub>/month</sub></h2>
+                                                    <h2>$39<sub>/month</sub></h2>
                                                 </div>
                                                 <div class="pich-the-plan">
                                                     <form>
@@ -240,7 +241,7 @@
                                     <div class="plan-cards">
                                         <div class="card border-0 rounded-0">
                                             <div class="card-header border-0">
-                                                Business
+                                                Enterprise
                                             </div>
                                             <div class="card-body">
                                                 <div class="card-domain-link">
@@ -248,7 +249,7 @@
                                                     <p><span>1000</span>Links</p>
                                                 </div>
                                                 <div class="domain-price">
-                                                    <h2>$29<sub>/month</sub></h2>
+                                                    <h2>$59<sub>/month</sub></h2>
                                                 </div>
                                                 <div class="pich-the-plan">
                                                     <form>
@@ -297,29 +298,36 @@
                                     <div class="plan-cards">
                                         <div class="card border-0 rounded-0">
                                             <div class="card-header border-0">
-                                                Enterprise
+                                                Custom
                                             </div>
                                             <div class="card-body">
                                                 <div class="card-domain-link">
-                                                    <p><span>100</span>Domain</p>
-                                                    <p><span>10000</span>Links</p>
+                                                    <p><span>Unlimited</span>Domain</p>
+                                                    <p><span>Unlimited</span>Links</p>
                                                 </div>
                                                 <div class="domain-price">
-                                                    <h2>$39<sub>/month</sub></h2>
+                                                    <h2>Contact Sales<sub></sub></h2>
                                                 </div>
+
                                                 <div class="pich-the-plan">
-                                                    <form>
-                                                        <div class="plan-form">
-                                                            <label class="form-label">Enter refferal code and get
-                                                                <span>2 months free</span></label>
-                                                            <input type="text" class="form-control"
-                                                                   placeholder="Enter your code here">
-                                                        </div>
-                                                    </form>
+                                                    <div class="plan-form" style="padding: 2.2rem 0">
+                                                        <span>Contact our sales team to get a special quote, and get all the custom features you want.</span>
+                                                    </div>
+                                                    <!--
+                                            <form>
+                                                <div class="plan-form">
+                                                    <label class="form-label">Enter refferal code and get
+                                                        <span>2 months free</span></label>
+                                                    <input type="text" class="form-control"
+                                                           placeholder="Enter your code here">
+                                                </div>
+                                            </form>
+ -->
                                                     <a href="#" class="btn btn-primary" data-bs-toggle="tooltip"
                                                        data-bs-placement="bottom" title=""
-                                                       data-bs-original-title="Contact Sales">Contact Sales</a>
+                                                       data-bs-original-title="Contact Sales">Get custom quote</a>
                                                 </div>
+
                                                 <div class="pich-list">
                                                     <ul>
                                                         <li><span data-bs-toggle="tooltip"

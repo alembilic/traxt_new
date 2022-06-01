@@ -2,6 +2,8 @@
 
 namespace App\Entities;
 
+use DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -36,14 +38,14 @@ class Contact
      *
      * @ORM\Column(name="firstname", type="string", length=255, nullable=false)
      */
-    private $firstname;
+    private $firstName;
 
     /**
      * @var string
      *
      * @ORM\Column(name="lastname", type="string", length=255, nullable=false)
      */
-    private $lastname;
+    private $lastName;
 
     /**
      * @var string
@@ -58,61 +60,61 @@ class Contact
     private $ratings;
 
     /**
-     * @var \DateTime|null
+     * @var DateTime|null
      *
      * @ORM\Column(name="created_at", type="datetime", nullable=true)
      */
     private $createdAt;
 
     /**
-     * @var \DateTime|null
+     * @var DateTime|null
      *
      * @ORM\Column(name="updated_at", type="datetime", nullable=true)
      */
-    private $updatedAt;
+    private ?DateTime $updatedAt;
 
     public function __construct() {
         $this->ratings = new ArrayCollection();
     }
 
     /**
-    * @return string
-    */
-    public function getFirstname(): string
+     * @return string
+     */
+    public function getFirstName(): string
     {
-        return $this->firstname;
+        return $this->firstName;
     }
 
     /**
-    * @return int
-    */
+     * @return int
+     */
     public function getId(): int
     {
         return $this->id;
-    } 
-
-    /**
-     * @return string
-     */
-    public function getLastname(): string
-    {
-        return $this->firstname;
     }
 
     /**
      * @return string
      */
-    public function getFullname(): string
+    public function getLastName(): string
     {
-        return $this->firstname . " " . $this->lastname;
-    }    
+        return $this->firstName;
+    }
 
-     /**
+    /**
+     * @return string
+     */
+    public function getFullName(): string
+    {
+        return $this->firstName . ' ' . $this->lastName;
+    }
+
+    /**
      * @return float
      */
     public function getRating(): float
     {
-        if(count($this->ratings)==0){
+        if (!count($this->ratings)) {
             return 0;
         }
 
@@ -121,7 +123,7 @@ class Contact
             $total += $rating->getValue();
         }
 
-        return round(($total/count($this->ratings))*2)/2;
+        return round(($total / count($this->ratings)) * 2) / 2;
     }
 
     /**
@@ -137,9 +139,7 @@ class Contact
      */
     public function getDomains(): string
     {
-        $array = $this->domains ? explode(',', $this->domains) : []; 
-
-        return $array;
-    }    
+        return $this->domains ? explode(',', $this->domains) : [];
+    }
 
 }

@@ -30,6 +30,7 @@ use App\Services\Statistics\StatisticsServicesFactory;
 use Carbon\Carbon;
 use DateTime;
 use Doctrine\Common\Collections\Criteria;
+use Doctrine\ORM\NonUniqueResultException;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -45,31 +46,43 @@ class UserSectionController extends BaseWebController
 {
     use EntityManagerFresher;
 
+    /**
+     * @param StatisticsFilterDto $filterDto
+     *
+     * @return array
+     *
+     * @throws BindingResolutionException
+     * @throws NonUniqueResultException
+     */
+    private function getTotalSpending(StatisticsFilterDto $filterDto): array
+    {
+        $user = $filterDto->user;
+        $totalBackLinksSpending = $this->getEntityManager()
+            ->getRepository(BackLink::class)
+            ->createQueryBuilder('bl')
+            ->andWhere('bl.createdBy = :user')
+            ->setParameter('user', $user)
+            ->select('SUM(bl.price) as totalSpending')
+            ->getQuery()
+            ->getOneOrNullResult();
 
-    private function getTotalSpending(StatisticsFilterDto $filterDto): array {
+        $lostSpending = $this->getEntityManager()
+            ->getRepository(BackLink::class)
+            ->createQueryBuilder('bl')
+            ->andWhere('bl.createdBy = :user')
+            ->setParameter('user', $user)
+            ->andWhere('bl.lost = :bool')
+            ->setParameter('bool', true)
+            ->select('SUM(bl.price) as lostSpending')
+            ->getQuery()
+            ->getOneOrNullResult();
 
-        $user = $filterDto -> user;
-        $totalBackLinksSpending = $this-> getEntityManager() -> getRepository(BackLink::class) -> createQueryBuilder('bl')
-            -> andWhere('bl.createdBy = :user')
-            -> setParameter('user', $user)
-            -> select('SUM(bl.price) as totalSpending')
-            -> getQuery()
-            -> getOneOrNullResult();
-
-        $lostSpending = $this-> getEntityManager() -> getRepository(BackLink::class) -> createQueryBuilder('bl')
-            -> andWhere('bl.createdBy = :user')
-            -> setParameter('user', $user)
-            -> andWhere('bl.lost = :bool')
-            -> setParameter('bool', true)
-            -> select('SUM(bl.price) as lostSpending')
-            -> getQuery()
-            -> getOneOrNullResult();
-
-        $activeSpending = $totalBackLinksSpending["totalSpending"] - $lostSpending["lostSpending"];
+        $activeSpending = $totalBackLinksSpending['totalSpending'] - $lostSpending['lostSpending'];
 
         return [$totalBackLinksSpending, $lostSpending, $activeSpending];
 
     }
+
     /**
      * Dashboard page.
      *
@@ -85,10 +98,9 @@ class UserSectionController extends BaseWebController
         /* @var User $user */
         $user = $this->user;
 
+        $totalBackLinksSpending = $this->getTotalSpending(new StatisticsFilterDto(['user' => $user]));
 
-        $totalBackLinksSpending = $this ->getTotalSpending(new StatisticsFilterDto(['user' => $user]));
-
-        $hasFinancialData = $totalBackLinksSpending[0]["totalSpending"] !== null;
+        $hasFinancialData = $totalBackLinksSpending[0]['totalSpending'] !== null;
 
         $backLinksTotal = $statisticsServicesFactory->build(StatisticsTypes::BACKLINKS)
             ->getStatistics(new StatisticsFilterDto([
@@ -192,10 +204,12 @@ class UserSectionController extends BaseWebController
     }
 
     /**
-    * Contacts page.
-    *
-    * @return View
-    */
+     * Contacts page.
+     *
+     * @param Request $request Request
+     *
+     * @return View
+     */
     public function contacts(Request $request): View
     {
         // TODO fix: SELECT * FROM `contacts` where find_in_set('rohdes.net',domains);

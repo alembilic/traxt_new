@@ -11,6 +11,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Collections\Selectable;
 use Doctrine\ORM\Mapping as ORM;
+use Exception;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Facades\Hash;
@@ -32,6 +33,7 @@ class User extends Authenticatable implements INotifiable
 
     public const ID = 'id';
     public const ACTIVE_PLAN = 'activePlan';
+    public const REFERRAL_CODE_LENGTH = 10;
 
     /**
      * @var int
@@ -41,6 +43,15 @@ class User extends Authenticatable implements INotifiable
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="referral_code", type="string", unique=true)
+     *
+     * This field is generated when ever the user is created, and is used to grant discounts on the signup process.
+     */
+    private string $referralCode;
 
     /**
      * @var string
@@ -308,7 +319,8 @@ class User extends Authenticatable implements INotifiable
     private $subscriptions;
 
     /**
-     * @param array $attributes
+     * @param  array $attributes
+     * @throws Exception
      */
     public function __construct(array $attributes = [])
     {
@@ -330,6 +342,29 @@ class User extends Authenticatable implements INotifiable
         $this->plan = (string)$attributes['plan'];
         $this->password = Hash::make((string)$attributes['password']);
         $this->nextDueDate = new DateTime();
+        $this->referralCode = $this->generateReferralCodeString();
+    }
+
+    /**
+     * @throws Exception
+     */
+    private function generateReferralCodeString(): string
+    {
+        return Str::random(self::REFERRAL_CODE_LENGTH);
+    }
+
+    public function getReferralCode(): string
+    {
+        return $this->referralCode;
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function setReferralCode(): void
+    {
+        $referralCode = $this->generateReferralCodeString();
+        $this->referralCode = $referralCode;
     }
 
     /**
@@ -397,6 +432,14 @@ class User extends Authenticatable implements INotifiable
     public function setLastName(string $lastName): void
     {
         $this->lastName = $lastName;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFullName(): string
+    {
+        return $this->getFirstname() . ' ' . $this->getLastname();
     }
 
     /**
@@ -806,15 +849,20 @@ class User extends Authenticatable implements INotifiable
      */
     public function getSubscription(): ?Subscription
     {
-        $currentSubscriptions = collect($this->subscriptions->matching(Criteria::create()
-            ->where(Criteria::expr()->eq(Subscription::CREATED_BY, $this))
-            ->andWhere(Criteria::expr()->gt(Subscription::NEXT_DUE_DATE, (new DateTime())))
-            ->andWhere(Criteria::expr()->eq(Subscription::ACTIVE, true))
-            ->orderBy([
-                Subscription::CANCEL_DATE => 'asc',
-                Subscription::NEXT_DUE_DATE => 'desc',
-            ])
-        ));
+        $currentSubscriptions = collect(
+            $this->subscriptions->matching(
+                Criteria::create()
+                    ->where(Criteria::expr()->eq(Subscription::CREATED_BY, $this))
+                    ->andWhere(Criteria::expr()->gt(Subscription::NEXT_DUE_DATE, (new DateTime())))
+                    ->andWhere(Criteria::expr()->eq(Subscription::ACTIVE, true))
+                    ->orderBy(
+                        [
+                        Subscription::CANCEL_DATE => 'asc',
+                        Subscription::NEXT_DUE_DATE => 'desc',
+                        ]
+                    )
+            )
+        );
         $currentSubscription = $currentSubscriptions->first();
         if ($currentSubscription && $currentSubscription->getCancelDate()) {
             $currentSubscription = $currentSubscriptions->last();

@@ -15,4 +15,5 @@ return [
     'contacts' => 'Contacts',
     'home' => 'Home',
     'managers' => 'Managers',
+    'rewards' => 'Rewards',
 ];

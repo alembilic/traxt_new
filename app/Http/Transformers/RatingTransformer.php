@@ -20,7 +20,7 @@ class RatingTransformer extends TransformerAbstract
             'id' => $rating->getId(),
             'value' => $rating->getValue(),
             'comment' => $rating->getComment(),
-            'name' => $rating->getName(),
+            'name' => $rating->getUser()->getFullName(),
             'percent' => $rating->getValueAsPercent(),
             'created' => $rating->getCreated()
         ];
