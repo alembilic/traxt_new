@@ -16,12 +16,8 @@ class CreateProductFeaturesTable extends Migration
         Schema::create('product_features', function (Blueprint $table) {
             $table->id();
             $table->string('feature_name')->nullable(false);
-            $table->unsignedInteger('product_id')->nullable(false);
+            $table->integer('product_id')->nullable(false);
             $table->string('feature_description')->nullable(false);
-            $table->foreign(['product_id'])
-                ->on('products')
-                ->references('id')
-                ->onDelete('CASCADE');
             $table->timestamps();
         });
     }

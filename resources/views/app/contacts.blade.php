@@ -9,18 +9,76 @@
 
 @section('title-section')
     <h1>Contacts</h1>
-    <div class="contact-form">
+    <br />
+    <div>
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus alias eaque fuga, id in iusto nemo nobis non obcaecati omnis porro, quam quisquam quo quos reprehenderit sunt unde vel veniam.
+    </div>
+    <br />
+    <div style="display: flex; flex-direction: column;">
+    <div class="contact-form" >
+
         <form>
-            <div class="postion-relative d-flex">
+            <div class="postion-relative d-flex" style="width: 100%; justify-content: flex-start;">
                 <input type="text" class="form-control rounded-0 d-inline-block contact-input" name="search" id="search" placeholder="input search text" value="{{ $search }}">
                 <button type="submit" class="btn btn-primary d-inline-block rounded-0 search-btn">Search</button>
             </div>
+
         </form>
+
     </div>
+        <div class="postion-relative d-flex btn-lg" style="padding: 1rem 0" >
+        <button type="button" id="create-contact-button" class="btn btn-outline-primary text-nowrap" style="padding: 0.6rem" data-toggle="modal" data-target="#exampleModal" data-whatever="@getbootstrap">Create new contact</button>
+        </div>
+    </div>
+
+
 @endsection
 
 @section('content')
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">New message</h5>
+                    <button type="button" class="btn-close" id="dismiss-modal-btn" data-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="recipient-name" class="col-form-label">First name</label>
+                            <input type="text" class="form-control" id="recipient-name">
+                        </div>
+                        <div class="form-group">
+                            <label for="message-text" class="col-form-label">Last name</label>
+                            <input type="text" class="form-control" id="recipient-name">
+                        </div>
+                        <div class="form-group">
+                            <label for="message-text" class="col-form-label">Email</label>
+                            <input type="email" class="form-control" id="recipient-name">
+                        </div>
+                        <div class="form-group">
+                        <label for="message-text" class="col-form-label">Domain</label>
+
+
+                            <input type="text" class="form-control" placeholder="https://traxr.net">
+
+
+
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Create contact</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     <div class="contact-width">
+
         <div class="row cards">
             @foreach($contacts as $contact)
                 <div class="col col-md-4 col-sm-6 col-xl-3 col-12 mb-3">
@@ -45,8 +103,18 @@
         </div>
     </div>
 
+
     <script>
 
+        $('#create-contact-button').click(function (e){
+            e.preventDefault()
+            $('#exampleModal').modal('show')
+        })
+
+        $('#dismiss-modal-btn').click(function(e){
+            e.preventDefault()
+            $('#exampleModal').modal('hide')
+        })
 
 
         const ratingTemplate = (rating) => {
@@ -63,13 +131,6 @@
 
         const getRatings = (contactId) => {
 
-            $.ajax({
-                url: "google.com",
-                type: 'get',
-                success: function(data){
-                    console.log(data)
-                }
-            })
             Api.makeRequest('rating', {
 
                 success: function (data) {
