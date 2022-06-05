@@ -189,12 +189,12 @@ for ($i = 7; $i >= 0; $i--) {
 <script>
 
       tippy('#info-tooltip-1', {
-          content: 'Active backlink value, is the amount of money you have spent on backlinks that are currently active',
+          content: 'Active backlink value is the amount of money you have spent on backlinks that are currently active.',
           placement: 'top'
       })
 
       tippy('#info-tooltip-2', {
-          content: 'Lost backlink value, is the amount of money you have spent on backlinks that are inactive / lost',
+          content: 'Lost backlink value, is the amount of money you have spent on backlinks that are inactive/lost.',
           placement: 'bottom'
       })
 
