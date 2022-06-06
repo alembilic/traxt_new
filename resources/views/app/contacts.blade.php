@@ -36,43 +36,42 @@
 
 @section('content')
 
+        <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
+
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">New message</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Create new contact</h5>
                     <button type="button" class="btn-close" id="dismiss-modal-btn" data-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form>
+                    <form id="new-contact-form" method="POST">
                         <div class="form-group">
-                            <label for="recipient-name" class="col-form-label">First name</label>
-                            <input type="text" class="form-control" id="recipient-name">
+                            <label for="recipient-first-name" class="col-form-label">First name</label>
+                            <input type="text" class="form-control" name="firstName" id="first-name">
                         </div>
                         <div class="form-group">
-                            <label for="message-text" class="col-form-label">Last name</label>
-                            <input type="text" class="form-control" id="recipient-name">
+                            <label for="recipient-last-name" class="col-form-label">Last name</label>
+                            <input type="text" class="form-control" name="lastName" id="last-name">
                         </div>
                         <div class="form-group">
-                            <label for="message-text" class="col-form-label">Email</label>
-                            <input type="email" class="form-control" id="recipient-name">
+                            <label for="recipient-email" class="col-form-label">Email</label>
+                            <input type="email" name="email" class="form-control" id="email">
                         </div>
                         <div class="form-group">
                         <label for="message-text" class="col-form-label">Domain</label>
-
-
-                            <input type="text" class="form-control" placeholder="https://traxr.net">
-
-
-
+                            <input type="text" class="form-control" name="domain" id="domain" placeholder="https://traxr.net">
                         </div>
-                    </form>
-                </div>
+
+
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Create contact</button>
+                    <button type="submit" class="btn btn-primary">Create contact</button>
                 </div>
-            </div>
+
+
+            </form>
         </div>
     </div>
 
@@ -128,6 +127,44 @@
             </div>
         `;
         }
+
+        const submitContactForm = $('#new-contact-form')
+        console.log(submitContactForm)
+        submitContactForm.validate({
+           rules: {
+               'first-name': {
+                   required: false,
+                   minlength: 2
+        },
+               'last-name': {
+                   required: false,
+                   minlength: 2
+               },
+               'email': {
+                   email: true,
+                   required: true
+               },
+               'domain': {
+                   url: true,
+                   required: true
+               },
+
+           },
+            errorPlacement: function(error, element){
+                error.css('color', '#ff0000')
+                error.insertAfter(element);
+            },
+            messages: {
+               'first-name': "specify name",
+                'domain': {
+                   url: "Domain has to be a valid URL"
+                }
+            },
+            submitHandler: function(form, e){
+                const postData = $(form).serializeArray();
+                console.log(postData)
+            }
+       })
 
         const getRatings = (contactId) => {
 

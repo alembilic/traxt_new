@@ -15,6 +15,7 @@ body{
 .page-wrap{
     overflow: hidden;
 }
+
 a{
     text-decoration: none;
     transition: 0.4s;
