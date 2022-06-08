@@ -114,7 +114,17 @@
 <div class="row graphs">
     <div class="col col-12 col-xl-6">
         <div class="graph-box">
+
+            <div style="display: flex; flex-direction: row; justify-content: space-between">
             <h3>Page rank growth</h3>
+                <div style="justify-content: center">
+                <button class="btn btn-link" style="text-decoration: none;">Year</button>
+                <button class="btn btn-link" style="text-decoration: none;">Month</button>
+                <button class="btn btn-link" style="text-decoration: none;">Week</button>
+                <button class="btn btn-link" style="text-decoration: none;">All time</button>
+                </div>
+            </div>
+            <hr style="width: 100%; height: 0.01rem;" />
             <p>PageRank is one of the most vital indicators for determining the success of your backlinks</p>
             <div class="line-designation">
                 <div class="line-item">
@@ -126,7 +136,9 @@
                     Average growth of backlinks
                 </div>
             </div>
+
             <div class="chart">
+
                 <canvas id="chart1"></canvas>
             </div>
         </div>
