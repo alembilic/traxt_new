@@ -228,8 +228,8 @@ class UserSectionController extends BaseWebController
             $criteria->orWhere(Criteria::expr()->contains(Contact::DOMAINS, $search));
         }
 
-        $contacts = collect($repository->matching($criteria));
-
+        //$contacts = collect($repository->matching($criteria));
+        $contacts = $repository -> findAll();
         return view('app.contacts', [
             'contacts' => $contacts,
             'search' => $search
@@ -254,6 +254,7 @@ class UserSectionController extends BaseWebController
 
         $createdContact = $request -> getContent();
 
+        return $createdContact;
         }
 
 
