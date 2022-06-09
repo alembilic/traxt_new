@@ -9,18 +9,88 @@
 
 @section('title-section')
     <h1>Contacts</h1>
-    <div class="contact-form">
+    <br />
+    <div>
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus alias eaque fuga, id in iusto nemo nobis non obcaecati omnis porro, quam quisquam quo quos reprehenderit sunt unde vel veniam.
+    </div>
+    <br />
+    <div style="display: flex; flex-direction: column;">
+    <div class="contact-form" >
+
         <form>
-            <div class="postion-relative d-flex">
+            <div class="postion-relative d-flex" style="width: 100%; justify-content: flex-start;">
                 <input type="text" class="form-control rounded-0 d-inline-block contact-input" name="search" id="search" placeholder="input search text" value="{{ $search }}">
                 <button type="submit" class="btn btn-primary d-inline-block rounded-0 search-btn">Search</button>
             </div>
+
         </form>
+
     </div>
+        <div class="postion-relative d-flex btn-lg" style="padding: 1rem 0" >
+        <button type="button" id="create-contact-button" class="btn btn-outline-primary text-nowrap" style="padding: 0.6rem" data-toggle="modal" data-target="#exampleModal" data-whatever="@getbootstrap">Create new contact</button>
+        </div>
+    </div>
+
+
 @endsection
 
 @section('content')
+
+        <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Create new contact</h5>
+                    <button type="button" class="btn-close" id="dismiss-modal-btn" data-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="new-contact-form" method="POST">
+                        <div class="form-group row">
+                            <div class="col-sm-6">
+                            <label for="recipient-first-name" class="col-form-label">First name</label>
+                            <input type="text" class="form-control" placeholder="Enter name" name="firstName" id="first-name">
+                            </div>
+                            <div class="col-sm-6">
+                            <label for="recipient-last-name" class="col-form-label">Last name</label>
+                            <input type="text" class="form-control" placeholder="Enter last name" name="lastName" id="last-name">
+                            </div>
+                        </div>
+                        <br />
+                        <div class="form-group">
+                            <label for="recipient-email" class="col-form-label">Email</label>
+                            <input type="email" name="email" placeholder="info@traxr.net" class="form-control" id="email">
+                        </div>
+                        <br />
+                        <!-- TODO fix full length of input field -->
+                        <div class="form-group">
+                        <label for="message-text" class="col-form-label">Domain</label>
+                            <div class="input-group ">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1">https://</span>
+                            </div>
+
+                            <input type="text" class="form-control" name="domain" id="domain" placeholder="traxr.net" >
+                        </div>
+                        </div>
+
+                        <br />
+
+                <div class="modal-footer">
+
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Create contact</button>
+                </div>
+
+
+            </form>
+        </div>
+    </div>
+
+
     <div class="contact-width">
+
         <div class="row cards">
             @foreach($contacts as $contact)
                 <div class="col col-md-4 col-sm-6 col-xl-3 col-12 mb-3">
@@ -45,8 +115,28 @@
         </div>
     </div>
 
+
     <script>
 
+        $.validator.addMethod(
+            "regex",
+            function(value, element, regexp) {
+                console.log(regexp)
+                const re = new RegExp(regexp);
+                return re.test(value);
+            },
+            "Please center a valid URL"
+        );
+
+        $('#create-contact-button').click(function (e){
+            e.preventDefault()
+            $('#exampleModal').modal('show')
+        })
+
+        $('#dismiss-modal-btn').click(function(e){
+            e.preventDefault()
+            $('#exampleModal').modal('hide')
+        })
 
 
         const ratingTemplate = (rating) => {
@@ -61,15 +151,46 @@
         `;
         }
 
+        const submitContactForm = $('#new-contact-form')
+        console.log(submitContactForm)
+        submitContactForm.validate({
+           rules: {
+               'first-name': {
+                   required: false,
+                   minlength: 2
+        },
+               'last-name': {
+                   required: false,
+                   minlength: 2
+               },
+               'email': {
+                   email: true,
+                   required: true
+               },
+               'domain': {
+                   regex: '/((ftp|http|https):\/\/)?(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/',
+                   required: true
+               },
+
+           },
+            errorPlacement: function(error, element){
+                error.css('color', '#ff0000')
+                error.insertAfter(element);
+            },
+            messages: {
+               'first-name': "specify name",
+                'domain': {
+                   url: "Domain has to be a valid URL"
+                }
+            },
+            submitHandler: function(form, e){
+                const postData = $(form).serializeArray();
+                console.log(postData)
+            }
+       })
+
         const getRatings = (contactId) => {
 
-            $.ajax({
-                url: "google.com",
-                type: 'get',
-                success: function(data){
-                    console.log(data)
-                }
-            })
             Api.makeRequest('rating', {
 
                 success: function (data) {

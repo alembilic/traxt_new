@@ -206,10 +206,12 @@ class UserSectionController extends BaseWebController
     /**
      * Contacts page.
      *
+     * //TODO move to sepereate controller
      * @param Request $request Request
      *
      * @return View
      */
+
     public function contacts(Request $request): View
     {
         // TODO fix: SELECT * FROM `contacts` where find_in_set('rohdes.net',domains);
@@ -233,6 +235,32 @@ class UserSectionController extends BaseWebController
             'search' => $search
         ]);
     }
+
+    //TODO: move rules and endpoint to a seperate controller
+
+    private function createContactRules(){
+        return [
+            'firstName' => 'min:2|max:100',
+            'lastName' => 'min:2|max:100',
+            'email' => 'required|email|', //TODO make unique validation
+            'domain' => 'required|regex:/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/', //TODO make unique validation
+        ];
+    }
+
+
+    public function createContact(Request $request){
+
+
+
+        $createdContact = $request -> getContent();
+
+        }
+
+
+    /**
+     *
+     * End contacts page
+     */
 
     /**
      * Domains page.
