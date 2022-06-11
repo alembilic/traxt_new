@@ -35,6 +35,7 @@
     <script src="https://cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
     <!-- Charts JS -->
     <script src="/assets-app/js/chart.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-moment"></script>
     <!-- Main JS -->
     <script src="/assets-app/js/apis.js"></script>
     <script src="/assets-app/js/main.js"></script>
