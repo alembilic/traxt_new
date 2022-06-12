@@ -54,6 +54,10 @@ const routes = {
     getBacklinkAmountGraphData:{
         method: 'get',
         url: '/backlink-amount/{type}'
+    },
+    createContact: {
+        method: 'post',
+        url: '/contact/create'
     }
 };
 

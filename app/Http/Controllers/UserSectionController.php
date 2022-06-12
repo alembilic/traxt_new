@@ -30,6 +30,7 @@ use App\Services\Statistics\StatisticsServicesFactory;
 use Carbon\Carbon;
 use DateTime;
 use Doctrine\Common\Collections\Criteria;
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\ORM\NonUniqueResultException;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Http\RedirectResponse;
@@ -41,6 +42,7 @@ use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
 use Psr\SimpleCache\InvalidArgumentException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Illuminate\Support\Facades\Log;
 
 class UserSectionController extends BaseWebController
 {
@@ -223,13 +225,12 @@ class UserSectionController extends BaseWebController
 
         if ($search) {
             // search for email
-            $criteria->where(Criteria::expr()->eq(Contact::EMAIL, $search));
+            $criteria->where(Criteria::expr()->contains(Contact::EMAIL, $search));
             // search for domains
             $criteria->orWhere(Criteria::expr()->contains(Contact::DOMAINS, $search));
         }
 
-        //$contacts = collect($repository->matching($criteria));
-        $contacts = $repository -> findAll();
+        $contacts = collect($repository->matching($criteria));
         return view('app.contacts', [
             'contacts' => $contacts,
             'search' => $search
@@ -238,23 +239,48 @@ class UserSectionController extends BaseWebController
 
     //TODO: move rules and endpoint to a seperate controller
 
-    private function createContactRules(){
-        return [
-            'firstName' => 'min:2|max:100',
-            'lastName' => 'min:2|max:100',
-            'email' => 'required|email|', //TODO make unique validation
-            'domain' => 'required|regex:/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/', //TODO make unique validation
-        ];
-    }
 
-
+    /**
+     * @throws ValidationException
+     * @throws BindingResolutionException
+     */
     public function createContact(Request $request){
 
 
 
-        $createdContact = $request -> getContent();
+        $postData = (array)$request -> post();
 
-        return $createdContact;
+        error_log(implode(", ", $postData));
+        $validator = Validator::make($postData, [
+            'firstName' => 'min:2|max:100',
+            'lastName' => 'min:2|max:100',
+            'email' => 'required|email', //TODO make unique validation
+            'domain' => 'required|regex:/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/', //TODO make unique validation
+        ]);
+
+        if($validator -> fails()){
+            throw new ValidationException($validator);
+        }
+
+        try {
+            $createdContact = Contact::createFromPayload($postData["firstName"], $postData["lastName"], $postData["email"], $postData["domain"]);
+
+            $this->getEntityManager()->persist($createdContact);
+            $this->getEntityManager()->flush();
+        }catch(\Exception $error){
+            if($error instanceof UniqueConstraintViolationException){
+                return response() -> json(
+                    "User with that email already exists"
+                , 401);
+            }
+            throw $error;
+        }
+
+
+        return response() -> json([
+            $createdContact -> jsonSerialize(),
+            "message" => "Created contact successfully"
+        ], 201);
         }
 
 

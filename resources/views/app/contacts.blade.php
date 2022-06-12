@@ -66,7 +66,6 @@
                         <!-- TODO fix full length of input field -->
 
 
-
                         <div class="form-group">
                             <label for="recipient-email" class="col-form-label">Domain</label>
                             <input type="text" name="domain" class="form-control" id="domain" placeholder="https://traxr.net" aria-describedby="basic-addon3">
@@ -83,6 +82,8 @@
 
 
             </form>
+        </div>
+    </div>
         </div>
     </div>
 
@@ -150,7 +151,6 @@
         }
 
         const submitContactForm = $('#new-contact-form')
-        console.log(submitContactForm)
         submitContactForm.validate({
            rules: {
                'first-name': {
@@ -183,12 +183,32 @@
             },
             submitHandler: function(form, e){
                 const data = $(form).serializeArray();
-                Api.makeRequest('rating/create', {
-                    data,
+                console.log(data)
+                const serializedData = data.reduce((acc, curr) =>{
+                    return Object.assign(acc, { [curr.name]: curr.value})
+                }, {})
+                console.log(serializedData)
+                Api.makeRequest('createContact', {
+                    data: serializedData,
                     success: function(data){
-                        console.log(data)
+                        Swal.fire({
+                            icon: 'success',
+                            title:  "Created contact successfully",
+                            showConfirmButton: false,
+                            timer: 1000
+                        })
+                        $('#exampleModal').modal('hide')
+                        setTimeout(() =>window.location.reload(), 1000)
+
                     },
                     error: function(error){
+                        if(error.status === 401){
+                            console.log(error)
+                            Swal.fire({
+                                icon: 'error',
+                                title: JSON.parse(error.responseText)
+                            })
+                        }
                         console.error(error)
                     }
                 })
