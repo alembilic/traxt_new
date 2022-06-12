@@ -42,6 +42,18 @@ const routes = {
     createRating: {
         method: 'post',
         url: '/rating/create'
+    },
+    getPageRankGraphData:{
+        method: 'get',
+        url: '/page-rank/{type}'
+    },
+    getBacklinkSpendingGraphData:{
+        method: 'get',
+        url: '/backlink-spending/{type}'
+    },
+    getBacklinkAmountGraphData:{
+        method: 'get',
+        url: '/backlink-amount/{type}'
     }
 };
 
