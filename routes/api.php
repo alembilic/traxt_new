@@ -40,5 +40,8 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::put('backLinks/syncPrices', BackLinkSourceApiController::class . '@syncPrices');
     Route::get('rating', RatingApiController::class . '@getRatings');
     Route::post('rating/create', RatingApiController::class . '@createOrUpdate');
+    Route::get('page-rank/{type}', \App\Http\Controllers\Api\GraphDataController::class . '@pageRank');
+    Route::get('backlink-spending/{type}', \App\Http\Controllers\Api\GraphDataController::class . '@backlinkSpending');
+    Route::get('backlink-amount/{type}', \App\Http\Controllers\Api\GraphDataController::class . '@backlinkAmount');
 });
 Route::any('webhook/{type}', WebhookApiController::class . '@handle');
