@@ -17,10 +17,8 @@ class GraphDataController extends BaseApiController
 
         return BacklinkLog::select(
             DB::raw("DATE_FORMAT(created_at,'%Y-%m-%d') as x"),
-            DB::raw('SUM(rank) as y')
-        )->whereHas('backlink', function ($q) use ($user_id) {
-            $q->where('created_by', '=', $user_id);
-        })->where('is_lost', '=', 0)
+            DB::raw('SUM(`rank`) as y')
+        )
             ->orderBy('x', 'desc')
             ->groupBy('x')
             ->when($days, function ($q) use ($days) {
