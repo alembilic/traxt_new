@@ -84,63 +84,103 @@
     @endif
 </div>
 <script>
-    function createDomain(domainName) {
+    function createDomain() {
         Api.makeRequest('createDomain', {
-            data: {domain: domainName},
+            data: {domain: $('.new-url-item').val()},
             success: function () {
-                swal('', 'Domain Created', 'success');
-                setTimeout(function() {location.reload()}, 500);
+              Swal.fire({
+                icon: 'success',
+                title: 'Domain Created',
+                showConfirmButton: false,
+                timer: 1500
+              }).then(() => {
+                location.reload()
+              });
             }
         }, {});
     }
-    function deleteDomain(domainId) {
-        Api.makeRequest('deleteDomain', {
-            success: function () {
-                swal('', 'Domain Removed', 'success');
-                setTimeout(function() {location.reload()}, 500);
-            }
-        }, {'domain': domainId});
-    }
+
     $(function () {
         $('.add-domain').on('click', function () {
-            swal({
-                html: true,
-                title: 'Add Domain',
-                text: '<input class="form-input" name="domain" value="" />',
-                showConfirmButton: true,
-                showCancelButton: true,
-                confirmButtonText: 'Add',
-                confirmButtonColor: 'green',
-                cancelButtonText: 'Cancel',
-                closeOnConfirm: false,
-                showLoaderOnConfirm: true,
-                customClass: 'domain-popup'
-            }, function (confirm) {
-                if (confirm) {
-                    createDomain($('[name="domain"]').val());
-                }
-            });
+          var form = document.createElement("div");
+          form.innerHTML = `
+            <div class="new-url-modal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">
+                            Create a new Domain
+                        </h5>
+                    </div>
+                    <div class="modal-body">
+                        <h6 class="text-start">Enter URL</h6>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">https://</span>
+                            <input type="text" class="form-control new-url-item" placeholder="traxr.net/url">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary create-domain" onclick="createDomain()">Save</button>
+                    </div>
+                </div>
+            `;
+          Swal.fire({
+            html: form,
+            showCloseButton: true,
+            showConfirmButton: false,
+          });
+
+          // Swal.fire({
+          //       html: true,
+          //       title: 'Add Domain',
+          //       text: '<input class="form-input" name="domain" value="" />',
+          //       showConfirmButton: true,
+          //       showCancelButton: true,
+          //       confirmButtonText: 'Add',
+          //       confirmButtonColor: 'green',
+          //       cancelButtonText: 'Cancel',
+          //       closeOnConfirm: false,
+          //       showLoaderOnConfirm: true,
+          //       customClass: 'domain-popup'
+          //   }, function (confirm) {
+          //       if (confirm) {
+          //           createDomain($('[name="domain"]').val());
+          //       }
+          //   });
         });
         $('.remove-domain').on('click', function () {
-            var domainId = $(this).attr('data-id');
-            swal({
-                html: true,
-                title: 'Are you sure you want to remove domain?',
-                showConfirmButton: true,
-                showCancelButton: true,
-                confirmButtonText: 'Yes',
-                confirmButtonColor: 'green',
-                cancelButtonText: 'No',
-                closeOnConfirm: false,
-                showLoaderOnConfirm: true,
-                customClass: 'domain-popup'
-            }, function (confirm) {
-                if (confirm) {
-                    deleteDomain(domainId);
+          const id = $(this).data('id');
+          Swal.fire({
+            title: 'Are you sure?',
+            text: 'Do you want to delete this domain',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, delete it!',
+            showConfirmButton: true,
+            confirmButtonColor: 'green',
+            cancelButtonText: 'No',
+            closeOnConfirm: false,
+            showLoaderOnConfirm: true,
+            customClass: 'domain-popup'
+          }).then((result) => {
+            if (result.isConfirmed) {
+              Api.makeRequest('deleteDomain', {
+                complete: function (xhr) {
+                  if (xhr.status === 204) {
+                    Swal.fire({
+                      icon: 'success',
+                      title: 'Domain Removed',
+                      showConfirmButton: false,
+                      timer: 1500
+                    }).then(() => {
+                      location.reload()
+                    });
+                  }
                 }
-            });
+              }, {domain: id});
+            }
+          });
 
-            return false;
+          return false;
         });
     });
 </script>
