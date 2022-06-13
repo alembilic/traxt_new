@@ -12,7 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="contacts")
  * @ORM\Entity
  */
-class Contact
+class Contact implements \JsonSerializable
 {
     public const EMAIL = 'email';
     public const DOMAINS = 'domains';
@@ -29,7 +29,7 @@ class Contact
     /**
      * @var string
      *
-     * @ORM\Column(name="email", type="string", length=255, nullable=false)
+     * @ORM\Column(name="email", type="string", length=255, nullable=false, unique=true)
      */
     private $email;
 
@@ -72,6 +72,26 @@ class Contact
      * @ORM\Column(name="updated_at", type="datetime", nullable=true)
      */
     private ?DateTime $updatedAt;
+
+    public static function createFromPayload(string $fistName, string $lastName, string $email, string $domains ): Contact
+    {
+        $createdContact = new self();
+        $createdContact -> firstName = $fistName;
+        $createdContact -> lastName = $lastName;
+        $createdContact -> email = $email;
+        $createdContact -> domains = $domains;
+        return $createdContact;
+    }
+
+    public function jsonSerialize(): array
+    {
+        return array(
+            'firstName' => $this -> firstName,
+            'lastName' => $this -> lastName,
+            'email' => $this -> email,
+            'domain' => $this -> domains
+        );
+    }
 
     public function __construct() {
         $this->ratings = new ArrayCollection();

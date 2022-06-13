@@ -64,16 +64,13 @@
                         </div>
                         <br />
                         <!-- TODO fix full length of input field -->
-                        <div class="form-group">
-                        <label for="message-text" class="col-form-label">Domain</label>
-                            <div class="input-group ">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text" id="basic-addon1">https://</span>
-                            </div>
 
-                            <input type="text" class="form-control" name="domain" id="domain" placeholder="traxr.net" >
+
+                        <div class="form-group">
+                            <label for="recipient-email" class="col-form-label">Domain</label>
+                            <input type="text" name="domain" class="form-control" id="domain" placeholder="https://traxr.net" aria-describedby="basic-addon3">
                         </div>
-                        </div>
+
 
                         <br />
 
@@ -87,6 +84,8 @@
             </form>
         </div>
     </div>
+        </div>
+    </div>
 
 
     <div class="contact-width">
@@ -97,6 +96,7 @@
                     <div class="card h-100 contact-card">
                         <div class="card-body contact-card-body">
                             <p class="contact-name black-text font-16">{{ $contact->getFullname() }}</p>
+                            <p>PP</p>
                             <p class=""><a href="javascript:void(0)" class="font-14 secondary-color">{{ $contact->getEmail() }}</a></p>
                         </div>
                         <div class="card-footer card-footer-custom bg-white p-0">
@@ -121,9 +121,8 @@
         $.validator.addMethod(
             "regex",
             function(value, element, regexp) {
-                console.log(regexp)
                 const re = new RegExp(regexp);
-                return re.test(value);
+                return re.test(value)
             },
             "Please center a valid URL"
         );
@@ -152,7 +151,6 @@
         }
 
         const submitContactForm = $('#new-contact-form')
-        console.log(submitContactForm)
         submitContactForm.validate({
            rules: {
                'first-name': {
@@ -168,7 +166,7 @@
                    required: true
                },
                'domain': {
-                   regex: '/((ftp|http|https):\/\/)?(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/',
+                   regex: /^\s*(https\:\/\/)?([a-z\d\-]{1,63}\.)*[a-z\d\-]{1,255}\.[a-z]{2,6}\s*$/,
                    required: true
                },
 
@@ -184,8 +182,37 @@
                 }
             },
             submitHandler: function(form, e){
-                const postData = $(form).serializeArray();
-                console.log(postData)
+                const data = $(form).serializeArray();
+                console.log(data)
+                const serializedData = data.reduce((acc, curr) =>{
+                    return Object.assign(acc, { [curr.name]: curr.value})
+                }, {})
+                console.log(serializedData)
+                Api.makeRequest('createContact', {
+                    data: serializedData,
+                    success: function(data){
+                        Swal.fire({
+                            icon: 'success',
+                            title:  "Created contact successfully",
+                            showConfirmButton: false,
+                            timer: 1000
+                        })
+                        $('#exampleModal').modal('hide')
+                        setTimeout(() =>window.location.reload(), 1000)
+
+                    },
+                    error: function(error){
+                        if(error.status === 401){
+                            console.log(error)
+                            Swal.fire({
+                                icon: 'error',
+                                title: JSON.parse(error.responseText)
+                            })
+                        }
+                        console.error(error)
+                    }
+                })
+
             }
        })
 

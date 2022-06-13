@@ -3,6 +3,7 @@
 use App\Http\Controllers\BackLinkSourceApiController;
 use App\Http\Controllers\DomainApiController;
 use App\Http\Controllers\NotificationsApiController;
+use App\Http\Controllers\UserSectionController;
 use App\Http\Controllers\VatApiController;
 use App\Http\Controllers\WebhookApiController;
 use App\Http\Controllers\RatingApiController;
@@ -43,5 +44,6 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::get('page-rank/{type}', \App\Http\Controllers\Api\GraphDataController::class . '@pageRank');
     Route::get('backlink-spending/{type}', \App\Http\Controllers\Api\GraphDataController::class . '@backlinkSpending');
     Route::get('backlink-amount/{type}', \App\Http\Controllers\Api\GraphDataController::class . '@backlinkAmount');
+    Route::post('contact/create', UserSectionController::class . '@createContact');
 });
 Route::any('webhook/{type}', WebhookApiController::class . '@handle');

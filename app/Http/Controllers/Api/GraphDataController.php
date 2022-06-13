@@ -14,6 +14,7 @@ class GraphDataController extends BaseApiController
         $days = $this->getDays($type);
         $user_id = $this->user()->getId();
 
+
         return BacklinkLog::select(
             DB::raw("DATE_FORMAT(created_at,'%Y-%m-%d') as x"),
             DB::raw('SUM(rank) as y')
@@ -24,8 +25,8 @@ class GraphDataController extends BaseApiController
             ->groupBy('x')
             ->when($days, function ($q) use ($days) {
                 $q->take($days);
-            })
-            ->get();
+            }) -> get();
+
     }
 
     public function backlinkSpending($type)
