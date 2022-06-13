@@ -128,24 +128,6 @@
             showCloseButton: true,
             showConfirmButton: false,
           });
-
-          // Swal.fire({
-          //       html: true,
-          //       title: 'Add Domain',
-          //       text: '<input class="form-input" name="domain" value="" />',
-          //       showConfirmButton: true,
-          //       showCancelButton: true,
-          //       confirmButtonText: 'Add',
-          //       confirmButtonColor: 'green',
-          //       cancelButtonText: 'Cancel',
-          //       closeOnConfirm: false,
-          //       showLoaderOnConfirm: true,
-          //       customClass: 'domain-popup'
-          //   }, function (confirm) {
-          //       if (confirm) {
-          //           createDomain($('[name="domain"]').val());
-          //       }
-          //   });
         });
         $('.remove-domain').on('click', function () {
           const id = $(this).data('id');
