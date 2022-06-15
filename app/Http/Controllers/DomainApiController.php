@@ -161,7 +161,7 @@ class DomainApiController extends BaseApiController
     {
         $this->authorize(PolicyActions::DESTROY, $domain);
 
-        $this->entityManager->persist($domain);
+        $this->entityManager->remove($domain);
         $this->entityManager->flush();
 
         return response()->noContent();

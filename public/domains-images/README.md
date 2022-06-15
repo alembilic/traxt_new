@@ -1,0 +1,1 @@
+This file is added so domains-images directory can be committed 
