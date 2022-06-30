@@ -43,6 +43,7 @@ Route::group([], function () {
         Route::get('resetpassword', AuthController::class . '@resetPwdForm');
         Route::post('resetpassword', AuthController::class . '@resetPwd');
         Route::get('signup', AuthController::class . '@signupForm');
+        Route::get('signup-new', AuthController::class . '@signupFormNew');
         Route::post('signup', AuthController::class . '@signup');
     });
 });

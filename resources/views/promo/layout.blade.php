@@ -66,7 +66,10 @@
 <nav class="nav">
     <div class="container">
         <div class="nav-logo">
-            <a href="/" class="nav-logo-link"><img src="/img/traxr-logo-light.svg"></a>
+            @sectionMissing('traxr-logo')
+                <a href="/" class="nav-logo-link"><img src="/img/traxr-logo-light.svg"></a>
+            @endif
+            @hasSection('traxr-logo') @yield('traxr-logo') @endif
         </div>
         @php
             $page = str_replace('/', '', preg_replace('!(\?.*)!', '', $_SERVER['REQUEST_URI']));
@@ -90,6 +93,7 @@
 </nav>
 @yield('content')
 
+@sectionMissing('footer')
 <footer>
     <div class="container">
         <div class="row align-items-top pad-top-10 pad-bot-2">
@@ -154,7 +158,8 @@
         </div>
     </div>
 </footer>
-
+@endif
+@hasSection('footer') @yield('footer') @endif
 
 <!-- Bootstrap core JavaScript -->
 <script src="/assets/jquery/jquery.slim.min.js"></script>
